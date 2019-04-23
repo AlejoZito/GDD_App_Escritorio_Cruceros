@@ -3,6 +3,7 @@
 ################################################################################
 
 /.vs
+/FrbaCrucero/FrbaCrucero.v11.suo
 /FrbaCrucero/.vs/FrbaCrucero/v15/Server/sqlite3
 /FrbaCrucero/.vs/FrbaCrucero/v15
 /FrbaCrucero/bin/Debug
