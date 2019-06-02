@@ -33,7 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Repository.cs" />
     <Compile Include="UI\AbmCrucero\Form_Crucero_Edit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,8 +53,11 @@
     <Compile Include="UI\AbmCrucero\Form_Crucero_Index.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AbmCrucero\Form_Crucero_Index.Designer.cs">
-      <DependentUpon>Form_Crucero_Index.cs</DependentUpon>
+    <Compile Include="UI\Form_Base_Index.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Form_Base_Index.Designer.cs">
+      <DependentUpon>Form_Base_Index.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmPuerto\Form_Puerto_Index.cs">
       <SubType>Form</SubType>
@@ -82,11 +83,11 @@
     <Compile Include="UI\CompraReservaPasaje\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.cs">
+    <Compile Include="Form_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
+    <Compile Include="Form_Main.Designer.cs">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\GeneracionViaje\Form1.cs">
       <SubType>Form</SubType>
@@ -111,14 +112,14 @@
     <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Edit.resx">
       <DependentUpon>Form_Crucero_Edit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Index.resx">
-      <DependentUpon>Form_Crucero_Index.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Form_Base_Index.resx">
+      <DependentUpon>Form_Base_Index.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\Form_Puerto_Index.resx">
       <DependentUpon>Form_Puerto_Index.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Main.resx">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,9 +141,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="FrbaCrucero.BL\FrbaCrucero.BL.csproj">
+      <Project>{f6d77a6b-6fd8-4333-8f05-e5bb41dcd3aa}</Project>
+      <Name>FrbaCrucero.BL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

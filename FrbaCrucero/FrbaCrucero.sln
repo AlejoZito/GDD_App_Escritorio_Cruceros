@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCrucero", "FrbaCrucero.csproj", "{11BD0A38-F064-4794-9845-D4C99E7D45E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCrucero.DAL", "FrbaCrucero.DAL\FrbaCrucero.DAL.csproj", "{AF5F4899-4B43-4A21-99D2-67C8C0C45207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCrucero.BL", "FrbaCrucero.BL\FrbaCrucero.BL.csproj", "{F6D77A6B-6FD8-4333-8F05-E5BB41DCD3AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,14 @@ Global
 		{11BD0A38-F064-4794-9845-D4C99E7D45E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11BD0A38-F064-4794-9845-D4C99E7D45E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11BD0A38-F064-4794-9845-D4C99E7D45E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF5F4899-4B43-4A21-99D2-67C8C0C45207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF5F4899-4B43-4A21-99D2-67C8C0C45207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF5F4899-4B43-4A21-99D2-67C8C0C45207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF5F4899-4B43-4A21-99D2-67C8C0C45207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D77A6B-6FD8-4333-8F05-E5BB41DCD3AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D77A6B-6FD8-4333-8F05-E5BB41DCD3AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D77A6B-6FD8-4333-8F05-E5BB41DCD3AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D77A6B-6FD8-4333-8F05-E5BB41DCD3AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

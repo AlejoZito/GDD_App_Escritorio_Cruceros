@@ -8,7 +8,7 @@ namespace FrbaCrucero
 {
     static class Program
     {
-        public static Main Navigation;
+        public static Form_Main Navigation;
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
@@ -18,7 +18,7 @@ namespace FrbaCrucero
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Navigation = new Main();
+            Navigation = new Form_Main();
             Application.Run(Navigation);
         }
     }

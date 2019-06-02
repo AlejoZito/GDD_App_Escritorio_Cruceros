@@ -1,6 +1,6 @@
-﻿namespace FrbaCrucero.UI.AbmCrucero
+﻿namespace FrbaCrucero.UI
 {
-    partial class Form_Crucero_Edit
+    partial class Form_Base_Index<T>
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.button_edit = new System.Windows.Forms.Button();
-            this.textBox_nombreCrucero = new System.Windows.Forms.TextBox();
+            this.cruceroDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.cruceroDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button_edit
@@ -38,36 +39,38 @@
             this.button_edit.Name = "button_edit";
             this.button_edit.Size = new System.Drawing.Size(167, 41);
             this.button_edit.TabIndex = 1;
-            this.button_edit.Text = "button1";
+            this.button_edit.Text = "Edit";
             this.button_edit.UseVisualStyleBackColor = true;
             this.button_edit.Click += new System.EventHandler(this.button_edit_Click);
             // 
-            // textBox_nombreCrucero
+            // cruceroDataGridView
             // 
-            this.textBox_nombreCrucero.Location = new System.Drawing.Point(434, 205);
-            this.textBox_nombreCrucero.Name = "textBox_nombreCrucero";
-            this.textBox_nombreCrucero.Size = new System.Drawing.Size(363, 22);
-            this.textBox_nombreCrucero.TabIndex = 2;
+            this.cruceroDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.cruceroDataGridView.Location = new System.Drawing.Point(40, 160);
+            this.cruceroDataGridView.Name = "cruceroDataGridView";
+            this.cruceroDataGridView.RowTemplate.Height = 24;
+            this.cruceroDataGridView.Size = new System.Drawing.Size(1200, 526);
+            this.cruceroDataGridView.TabIndex = 2;
+            this.cruceroDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // Form_Crucero_Edit
+            // Form_Crucero_Index
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.textBox_nombreCrucero);
+            this.Controls.Add(this.cruceroDataGridView);
             this.Controls.Add(this.button_edit);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Form_Crucero_Edit";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "Form_Crucero_Index";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.cruceroDataGridView)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button button_edit;
-        private System.Windows.Forms.TextBox textBox_nombreCrucero;
+        private System.Windows.Forms.DataGridView cruceroDataGridView;
     }
 }
