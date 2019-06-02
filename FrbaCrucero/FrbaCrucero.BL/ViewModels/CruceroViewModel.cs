@@ -9,6 +9,15 @@ namespace FrbaCrucero.BL.ViewModels
 {
     public class CruceroViewModel : ViewModel
     {
+        public CruceroViewModel(int idCrucero, string nombreCrucero, string abc, string def, bool habilitado)
+        {
+            IdCrucero = IdCrucero;
+            NombreCrucero = nombreCrucero;
+            Abc = abc;
+            Def = def;
+            Habilitado = habilitado;
+        }
+
         [Listable(description: "ID")]
         public int IdCrucero { get; set; }
 
@@ -18,7 +27,7 @@ namespace FrbaCrucero.BL.ViewModels
         [Listable(description: "Test 1")]
         public string Abc { get; set; }
 
-        [Listable(description: "Test 2")]
+        //Prueba de propiedad que no deberia mostrarse en la tabla, sin atributo listable
         public string Def { get; set; }
 
         [Listable(description: "Habilitado")]

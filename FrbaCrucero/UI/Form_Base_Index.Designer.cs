@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.button_edit = new System.Windows.Forms.Button();
-            this.cruceroDataGridView = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.cruceroDataGridView)).BeginInit();
+            this.indexDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button_edit
@@ -43,27 +43,30 @@
             this.button_edit.UseVisualStyleBackColor = true;
             this.button_edit.Click += new System.EventHandler(this.button_edit_Click);
             // 
-            // cruceroDataGridView
+            // indexDataGridView
             // 
-            this.cruceroDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.cruceroDataGridView.Location = new System.Drawing.Point(40, 160);
-            this.cruceroDataGridView.Name = "cruceroDataGridView";
-            this.cruceroDataGridView.RowTemplate.Height = 24;
-            this.cruceroDataGridView.Size = new System.Drawing.Size(1200, 526);
-            this.cruceroDataGridView.TabIndex = 2;
-            this.cruceroDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.indexDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.indexDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.indexDataGridView.Location = new System.Drawing.Point(40, 160);
+            this.indexDataGridView.Name = "indexDataGridView";
+            this.indexDataGridView.RowTemplate.Height = 24;
+            this.indexDataGridView.Size = new System.Drawing.Size(1200, 526);
+            this.indexDataGridView.TabIndex = 2;
+            this.indexDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // Form_Crucero_Index
+            // Form_Base_Index
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.cruceroDataGridView);
+            this.Controls.Add(this.indexDataGridView);
             this.Controls.Add(this.button_edit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form_Crucero_Index";
+            this.Name = "Form_Base_Index";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.cruceroDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -71,6 +74,6 @@
         #endregion
 
         private System.Windows.Forms.Button button_edit;
-        private System.Windows.Forms.DataGridView cruceroDataGridView;
+        private System.Windows.Forms.DataGridView indexDataGridView;
     }
 }
