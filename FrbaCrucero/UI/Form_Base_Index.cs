@@ -13,19 +13,13 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI
 {
-    public abstract partial class Form_Base_Index<T> : Form
+    public partial class Form_Base_Index<T> : Form
         where T : ViewModel
     {
-        /// <summary>
-        /// Componente para mostrar la tabla
-        /// </summary>
-        protected DataGridView _DataGrid;
 
         public Form_Base_Index()
         {
             InitializeComponent();
-
-            _DataGrid = indexDataGridView;
 
             SetupDataGridView<T>();
             PopulateDataGridView();
@@ -35,10 +29,10 @@ namespace FrbaCrucero.UI
         /// Metodo para obtener los datos en cada vista Index
         /// </summary>
         /// <returns></returns>
-        protected abstract List<T> GetData();
+        protected virtual List<T> GetData(){return null;}
 
         /// <summary>
-        /// Metodo para obtener datos y guardarlos en <see cref="_DataList"/>
+        /// Metodo para obtener datos y llenar la tabla
         /// </summary>
         protected void PopulateDataGridView()
         {
@@ -57,6 +51,8 @@ namespace FrbaCrucero.UI
                 }
                 indexDataGridView.Rows.Add(dataGridRow);
             }
+
+            indexDataGridView.AutoResizeColumns();
             //cruceroDataGridView.Columns[0].DisplayIndex = 3;
             //cruceroDataGridView.Columns[1].DisplayIndex = 4;
             //cruceroDataGridView.Columns[2].DisplayIndex = 0;
@@ -112,8 +108,10 @@ namespace FrbaCrucero.UI
 
             indexDataGridView.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
+            indexDataGridView.AutoSize = true;
+            indexDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             indexDataGridView.MultiSelect = false;
-            indexDataGridView.Dock = DockStyle.Fill;
+            //indexDataGridView.Dock = DockStyle.Fill;
 
             indexDataGridView.CellFormatting += new
                 DataGridViewCellFormattingEventHandler(
@@ -159,6 +157,21 @@ namespace FrbaCrucero.UI
                     }
                 }
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
