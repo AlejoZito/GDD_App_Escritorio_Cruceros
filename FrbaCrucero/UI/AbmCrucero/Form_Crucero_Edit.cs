@@ -35,7 +35,7 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void button_edit_Click(object sender, EventArgs e)
         {
-            Program.Navigation.GoToPage(new Form_Crucero_Index());
+            Program.MainMenu.GoToPage(new Form_Crucero_Index());
         }
     }
 }

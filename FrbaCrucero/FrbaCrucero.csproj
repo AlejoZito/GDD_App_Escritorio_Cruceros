@@ -101,6 +101,18 @@
     <Compile Include="UI\ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Login\LoginAdministrador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Login\LoginAdministrador.Designer.cs">
+      <DependentUpon>LoginAdministrador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Login\LoginGeneral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Login\LoginGeneral.Designer.cs">
+      <DependentUpon>LoginGeneral.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\PagoReserva\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +142,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\Login\LoginAdministrador.resx">
+      <DependentUpon>LoginAdministrador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Login\LoginGeneral.resx">
+      <DependentUpon>LoginGeneral.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

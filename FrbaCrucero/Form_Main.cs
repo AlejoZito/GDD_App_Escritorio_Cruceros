@@ -59,5 +59,11 @@ namespace FrbaCrucero
         {
             GoToPage(new UI.AbmCrucero.Form_Crucero_Index());
         }
+
+        private void button_CerrarSesion_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Program.Navigation.Show();
+        }
     }
 }

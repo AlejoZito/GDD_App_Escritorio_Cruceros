@@ -9,3 +9,8 @@
 /FrbaCrucero/bin/Debug
 /FrbaCrucero/obj/Debug
 *.suo
+FrbaCrucero/FrbaCrucero.BL/bin/Debug/
+*.cache
+FrbaCrucero/FrbaCrucero.BL/obj/Debug/
+FrbaCrucero/FrbaCrucero.DAL/obj/Debug/
+FrbaCrucero/FrbaCrucero.v11.suo
