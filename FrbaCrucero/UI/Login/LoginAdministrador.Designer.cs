@@ -30,8 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.UsuarioTextBox = new System.Windows.Forms.TextBox();
+            this.PasswordTextBox = new System.Windows.Forms.TextBox();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -59,21 +59,22 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Contraseña:";
             // 
-            // textBox1
+            // UsuarioTextBox
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(125, 59);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(151, 20);
-            this.textBox1.TabIndex = 2;
+            this.UsuarioTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.UsuarioTextBox.Location = new System.Drawing.Point(125, 59);
+            this.UsuarioTextBox.Name = "UsuarioTextBox";
+            this.UsuarioTextBox.Size = new System.Drawing.Size(151, 20);
+            this.UsuarioTextBox.TabIndex = 2;
             // 
-            // textBox2
+            // PasswordTextBox
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(125, 101);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(151, 20);
-            this.textBox2.TabIndex = 3;
+            this.PasswordTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.PasswordTextBox.Location = new System.Drawing.Point(125, 101);
+            this.PasswordTextBox.Name = "PasswordTextBox";
+            this.PasswordTextBox.PasswordChar = '*';
+            this.PasswordTextBox.Size = new System.Drawing.Size(151, 20);
+            this.PasswordTextBox.TabIndex = 3;
             // 
             // btnIngresar
             // 
@@ -104,8 +105,8 @@
             this.ClientSize = new System.Drawing.Size(288, 271);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnIngresar);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.PasswordTextBox);
+            this.Controls.Add(this.UsuarioTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "LoginAdministrador";
@@ -119,8 +120,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox UsuarioTextBox;
+        private System.Windows.Forms.TextBox PasswordTextBox;
         private System.Windows.Forms.Button btnIngresar;
         private System.Windows.Forms.Button btnVolver;
     }

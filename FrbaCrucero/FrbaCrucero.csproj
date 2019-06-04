@@ -192,6 +192,10 @@
       <Project>{f6d77a6b-6fd8-4333-8f05-e5bb41dcd3aa}</Project>
       <Name>FrbaCrucero.BL</Name>
     </ProjectReference>
+    <ProjectReference Include="FrbaCrucero.DAL\FrbaCrucero.DAL.csproj">
+      <Project>{af5f4899-4b43-4a21-99d2-67c8c0c45207}</Project>
+      <Name>FrbaCrucero.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

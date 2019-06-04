@@ -63,7 +63,13 @@ namespace FrbaCrucero
 
         private void button_CerrarSesion_Click(object sender, EventArgs e)
         {
+            Program.UsuarioLoggeado = new DAL.Domain.Usuario();
             Program.Navigation.GoToPage(new LoginGeneral());
+        }
+
+        private void MenuPrincipal_Shown(object sender, EventArgs e)
+        {
+            this.UsernameLabel.Text = String.IsNullOrEmpty(Program.UsuarioLoggeado.Username) ? "Cliente" : Program.UsuarioLoggeado.Username;
         }
     }
 }

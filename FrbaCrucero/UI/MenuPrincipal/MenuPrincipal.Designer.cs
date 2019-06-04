@@ -1,4 +1,5 @@
-﻿namespace FrbaCrucero
+﻿using System;
+namespace FrbaCrucero
 {
     partial class MenuPrincipal
     {
@@ -30,6 +31,8 @@
         {
             this.button_AbmPuerto = new System.Windows.Forms.Button();
             this.Nav_Panel = new System.Windows.Forms.Panel();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.welcomeLabel = new System.Windows.Forms.Label();
             this.button_CerrarSesion = new System.Windows.Forms.Button();
             this.button_AbmCruceros = new System.Windows.Forms.Button();
             this.Content = new System.Windows.Forms.Panel();
@@ -50,6 +53,8 @@
             // Nav_Panel
             // 
             this.Nav_Panel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Nav_Panel.Controls.Add(this.UsernameLabel);
+            this.Nav_Panel.Controls.Add(this.welcomeLabel);
             this.Nav_Panel.Controls.Add(this.button_CerrarSesion);
             this.Nav_Panel.Controls.Add(this.button_AbmCruceros);
             this.Nav_Panel.Controls.Add(this.button_AbmPuerto);
@@ -59,6 +64,27 @@
             this.Nav_Panel.Name = "Nav_Panel";
             this.Nav_Panel.Size = new System.Drawing.Size(946, 44);
             this.Nav_Panel.TabIndex = 1;
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UsernameLabel.ForeColor = System.Drawing.SystemColors.Control;
+            this.UsernameLabel.Location = new System.Drawing.Point(720, 11);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(0, 18);
+            this.UsernameLabel.TabIndex = 4;
+            // 
+            // welcomeLabel
+            // 
+            this.welcomeLabel.AutoSize = true;
+            this.welcomeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.welcomeLabel.ForeColor = System.Drawing.SystemColors.Control;
+            this.welcomeLabel.Location = new System.Drawing.Point(643, 11);
+            this.welcomeLabel.Name = "welcomeLabel";
+            this.welcomeLabel.Size = new System.Drawing.Size(80, 18);
+            this.welcomeLabel.TabIndex = 3;
+            this.welcomeLabel.Text = "Bienvenido";
             // 
             // button_CerrarSesion
             // 
@@ -91,7 +117,7 @@
             this.Content.Size = new System.Drawing.Size(946, 503);
             this.Content.TabIndex = 2;
             // 
-            // Form_Main
+            // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -99,9 +125,11 @@
             this.Controls.Add(this.Content);
             this.Controls.Add(this.Nav_Panel);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form_Main";
+            this.Name = "MenuPrincipal";
             this.Text = "Menu Principal";
+            this.Shown += new System.EventHandler(this.MenuPrincipal_Shown);
             this.Nav_Panel.ResumeLayout(false);
+            this.Nav_Panel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -113,6 +141,8 @@
         private System.Windows.Forms.Panel Content;
         private System.Windows.Forms.Button button_AbmCruceros;
         private System.Windows.Forms.Button button_CerrarSesion;
+        private System.Windows.Forms.Label UsernameLabel;
+        private System.Windows.Forms.Label welcomeLabel;
     }
 }
 

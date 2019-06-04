@@ -1,4 +1,5 @@
-﻿using FrbaCrucero.UI.Login;
+﻿using FrbaCrucero.DAL.Domain;
+using FrbaCrucero.UI.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace FrbaCrucero
     {
         public static Form_Main Navigation;
         public static MenuPrincipal MainMenu;
+        public static Usuario UsuarioLoggeado;
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
@@ -19,7 +21,8 @@ namespace FrbaCrucero
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
+            UsuarioLoggeado = new Usuario();
             Navigation = new Form_Main();
             Application.Run(Navigation);
         }

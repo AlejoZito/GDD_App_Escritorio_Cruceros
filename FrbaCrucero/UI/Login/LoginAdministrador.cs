@@ -25,9 +25,22 @@ namespace FrbaCrucero.UI.Login
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             //aca van las validaciones y salio todo ok viene esto
-            this.Close();
-            MenuPrincipal menu = new MenuPrincipal();
-            Program.Navigation.GoToPage(menu);
+            if (String.IsNullOrEmpty(UsuarioTextBox.Text.Trim())|| String.IsNullOrEmpty(PasswordTextBox.Text.Trim()))
+            {
+                MessageBox.Show("Debes ingresar usuario y contraseña");
+            }
+            else 
+            {
+                //check a base de datos para ver si existe el usuario
+                this.Close();
+                Program.UsuarioLoggeado = new DAL.Domain.Usuario 
+                {
+                    Username = UsuarioTextBox.Text
+                };
+
+                MenuPrincipal menu = new MenuPrincipal();
+                Program.Navigation.GoToPage(menu, false);
+            }
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
