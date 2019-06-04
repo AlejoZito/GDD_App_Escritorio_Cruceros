@@ -59,6 +59,12 @@
     <Compile Include="UI\AbmCrucero\Form_Crucero_Index.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\AbmPuerto\AltaPuerto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmPuerto\AltaPuerto.Designer.cs">
+      <DependentUpon>AltaPuerto.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Components\InputTextControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Edit.resx">
       <DependentUpon>Form_Crucero_Edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
+      <DependentUpon>AltaPuerto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Form_Base_Add.resx">
       <DependentUpon>Form_Base_Add.cs</DependentUpon>

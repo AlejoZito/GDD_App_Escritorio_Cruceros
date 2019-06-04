@@ -10,16 +10,21 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmPuerto
 {
-    public partial class Form_Puerto_Index : Form
+    public partial class AltaPuerto : Form
     {
-        public Form_Puerto_Index()
+        public AltaPuerto()
         {
             InitializeComponent();
         }
 
-        private void CrearButton_Click(object sender, EventArgs e)
+        private void CancelarButton_Click(object sender, EventArgs e)
         {
-            Program.Navigation.PopUpPage(new AltaPuerto());
+            this.Close();
+        }
+
+        private void GuardarButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
