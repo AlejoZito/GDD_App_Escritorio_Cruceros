@@ -26,14 +26,12 @@ namespace FrbaCrucero.UI.Login
         {
             //aca van las validaciones y salio todo ok viene esto
             this.Close();
-            Form_Main menu = new Form_Main();
-            Program.MainMenu = menu;
-            menu.Show();
+            MenuPrincipal menu = new MenuPrincipal();
+            Program.Navigation.GoToPage(menu);
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            Program.Navigation.Show();
             this.Close();
         }
     }

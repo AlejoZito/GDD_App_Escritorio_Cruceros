@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero
 {
-    public partial class Form_Main : Form
+    public partial class MenuPrincipal : Form
     {
         private readonly List<KeyValuePair<string, Form>> _PageCache;
 
-        public Form_Main()
+        public MenuPrincipal()
         {
             _PageCache = new List<KeyValuePair<string, Form>>();
             InitializeComponent();
@@ -38,30 +38,32 @@ namespace FrbaCrucero
                 {
                     _PageCache.Add(newPage);
                 }
-            }
+            }            
 
             newPage.Value.TopLevel = false;
             Content.Controls.Clear();
-            newPage.Value.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            newPage.Value.Dock = DockStyle.Fill;
             Content.Controls.Add(newPage.Value);
             newPage.Value.Show();
         }
 
         public void PopUpPage(Form page)
         {
-            page.StartPosition = FormStartPosition.CenterParent;
             page.ShowDialog();
         }
 
-        private void Form_Main_Load(object sender, EventArgs e)
+        private void button_AbmPuerto_Click(object sender, EventArgs e)
         {
-            LoginGeneral loginGeneral = new LoginGeneral();
-            loginGeneral.TopLevel = false;
-            Content.Controls.Add(loginGeneral);
-            loginGeneral.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            loginGeneral.Dock = DockStyle.Fill;
-            loginGeneral.Show();
+            GoToPage(new UI.AbmPuerto.Form_Puerto_Index());
+        }
+
+        private void button_AbmCruceros_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.AbmCrucero.Form_Crucero_Index());
+        }
+
+        private void button_CerrarSesion_Click(object sender, EventArgs e)
+        {
+            Program.Navigation.GoToPage(new LoginGeneral());
         }
     }
 }

@@ -25,19 +25,13 @@ namespace FrbaCrucero.UI.Login
         private void btnAdmin_Click(object sender, EventArgs e)
         {
             LoginAdministrador admForm = new LoginAdministrador();
-            this.Hide();
-            admForm.Show();
+            admForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Program.Navigation.PopUpPage(admForm);
         }
 
         private void btnCliente_Click(object sender, EventArgs e)
         {
-            if (Program.MainMenu == null)
-            {
-                Program.MainMenu = new Form_Main();
-            }
-
-            this.Hide();
-            Program.MainMenu.Show();
+            Program.Navigation.GoToPage(new MenuPrincipal());
         }
     }
 }

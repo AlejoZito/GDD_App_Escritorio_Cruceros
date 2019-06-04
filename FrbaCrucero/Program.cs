@@ -9,8 +9,8 @@ namespace FrbaCrucero
 {
     static class Program
     {
-        public static LoginGeneral Navigation;
-        public static Form_Main MainMenu;
+        public static Form_Main Navigation;
+        public static MenuPrincipal MainMenu;
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
@@ -20,7 +20,7 @@ namespace FrbaCrucero
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Navigation = new LoginGeneral();
+            Navigation = new Form_Main();
             Application.Run(Navigation);
         }
     }
