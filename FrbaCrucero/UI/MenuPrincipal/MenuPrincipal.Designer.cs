@@ -52,17 +52,17 @@ namespace FrbaCrucero
             // 
             // Nav_Panel
             // 
+            this.Nav_Panel.AutoSize = true;
             this.Nav_Panel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Nav_Panel.Controls.Add(this.UsernameLabel);
             this.Nav_Panel.Controls.Add(this.welcomeLabel);
             this.Nav_Panel.Controls.Add(this.button_CerrarSesion);
             this.Nav_Panel.Controls.Add(this.button_AbmCruceros);
             this.Nav_Panel.Controls.Add(this.button_AbmPuerto);
-            this.Nav_Panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.Nav_Panel.Location = new System.Drawing.Point(0, 0);
             this.Nav_Panel.Margin = new System.Windows.Forms.Padding(2);
             this.Nav_Panel.Name = "Nav_Panel";
-            this.Nav_Panel.Size = new System.Drawing.Size(946, 44);
+            this.Nav_Panel.Size = new System.Drawing.Size(961, 48);
             this.Nav_Panel.TabIndex = 1;
             // 
             // UsernameLabel
@@ -109,19 +109,19 @@ namespace FrbaCrucero
             // 
             // Content
             // 
+            this.Content.AutoSize = true;
             this.Content.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.Content.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Content.Location = new System.Drawing.Point(0, 44);
             this.Content.Margin = new System.Windows.Forms.Padding(2);
             this.Content.Name = "Content";
-            this.Content.Size = new System.Drawing.Size(946, 503);
+            this.Content.Size = new System.Drawing.Size(961, 556);
             this.Content.TabIndex = 2;
             // 
             // MenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(946, 547);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(963, 598);
             this.Controls.Add(this.Content);
             this.Controls.Add(this.Nav_Panel);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -131,6 +131,7 @@ namespace FrbaCrucero
             this.Nav_Panel.ResumeLayout(false);
             this.Nav_Panel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
