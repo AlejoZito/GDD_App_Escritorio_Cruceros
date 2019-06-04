@@ -1,6 +1,7 @@
 ﻿using FrbaCrucero.BL.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,5 +31,24 @@ namespace FrbaCrucero.BL.ViewModels
 
             return columnsAndValues;
         }
+
+        #region Implementation of INotifyPropertyChanged
+        
+        /// <summary>
+        /// Evento que se dispara cuando el valor de la propiedad cambia
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Llamar desde el setter de una propiedad para disparar el evento <see cref="PropertyChanged"/>
+        /// </summary>
+        /// <param name="e"></param>
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, e);
+        }
+
+        #endregion
     }
 }

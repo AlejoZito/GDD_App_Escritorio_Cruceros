@@ -173,5 +173,10 @@ namespace FrbaCrucero.UI
         {
 
         }
+
+        private void Agregar_Click(object sender, EventArgs e)
+        {
+            Program.MainMenu.GoToPage(new Form_Base_Add<T>());
+        }
     }
 }
