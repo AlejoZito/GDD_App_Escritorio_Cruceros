@@ -61,7 +61,6 @@ namespace FrbaCrucero.DAL.DAO
 
                 puerto.Nombre = puerto.Nombre.Trim().ToUpper();
                 comando.Parameters.AddWithValue("@nombre", puerto.Nombre);
-                puerto.Activo = true;
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = puerto.Activo;
                 comando.Parameters.Add("@cod_puerto", SqlDbType.Int);
