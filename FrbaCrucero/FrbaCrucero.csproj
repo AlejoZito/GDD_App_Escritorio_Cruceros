@@ -194,7 +194,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
+    <Folder Include="FrbaCrucero.DAL\DAO\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FrbaCrucero.BL\FrbaCrucero.BL.csproj">
@@ -205,6 +205,10 @@
       <Project>{af5f4899-4b43-4a21-99d2-67c8c0c45207}</Project>
       <Name>FrbaCrucero.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\appIcon.ico" />
+    <Content Include="Resources\Logo_Crucero.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

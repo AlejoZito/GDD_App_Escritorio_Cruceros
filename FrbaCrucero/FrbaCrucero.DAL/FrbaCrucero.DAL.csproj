@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,9 +41,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DAO\PuertoDAO.cs" />
+    <Compile Include="DAO\Repository.cs" />
+    <Compile Include="Domain\Cabina.cs" />
+    <Compile Include="Domain\Cliente.cs" />
+    <Compile Include="Domain\Crucero.cs" />
+    <Compile Include="Domain\EstadoPasaje.cs" />
+    <Compile Include="Domain\EstadoReserva.cs" />
+    <Compile Include="Domain\Fabricante.cs" />
+    <Compile Include="Domain\Mantenimiento.cs" />
+    <Compile Include="Domain\MedioDePago.cs" />
+    <Compile Include="Domain\ModeloCrucero.cs" />
+    <Compile Include="Domain\Pago.cs" />
+    <Compile Include="Domain\Pasaje.cs" />
+    <Compile Include="Domain\Permiso.cs" />
+    <Compile Include="Domain\Puerto.cs" />
+    <Compile Include="Domain\Recorrido.cs" />
+    <Compile Include="Domain\Reserva.cs" />
+    <Compile Include="Domain\Rol.cs" />
+    <Compile Include="Domain\RutaDeViaje.cs" />
+    <Compile Include="Domain\TipoCabina.cs" />
+    <Compile Include="Domain\Tramo.cs" />
     <Compile Include="Domain\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

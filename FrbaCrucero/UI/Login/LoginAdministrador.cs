@@ -27,7 +27,7 @@ namespace FrbaCrucero.UI.Login
             //aca van las validaciones y salio todo ok viene esto
             if (String.IsNullOrEmpty(UsuarioTextBox.Text.Trim())|| String.IsNullOrEmpty(PasswordTextBox.Text.Trim()))
             {
-                MessageBox.Show("Debes ingresar usuario y contraseña");
+                MessageBox.Show("Debes ingresar usuario y contraseña", "Error al Ingresar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else 
             {
