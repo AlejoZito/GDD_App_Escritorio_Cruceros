@@ -23,7 +23,7 @@ namespace FrbaCrucero.DAL.DAO
             try
             {
                 var conn = repositorio.GetConnection();
-                SqlCommand comando = new SqlCommand("INSERT INTO TIRANDO_QUERIES.Puerto(nombre, activo) values(@nombre, @activo)", conn);
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Puerto(nombre, activo) values(@nombre, @activo)", conn);
 
                 puerto.Nombre = puerto.Nombre.Trim().ToUpper();
                 comando.Parameters.AddWithValue("@nombre", puerto.Nombre);
@@ -57,7 +57,7 @@ namespace FrbaCrucero.DAL.DAO
             try
             {
                 var conn = repositorio.GetConnection();
-                SqlCommand comando = new SqlCommand("UPDATE TIRANDO_QUERIES.Puerto SET nombre=@nombre, activo=@activo WHERE cod_puerto=@cod_puerto", conn);
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Puerto SET nombre=@nombre, activo=@activo WHERE cod_puerto=@cod_puerto", conn);
 
                 puerto.Nombre = puerto.Nombre.Trim().ToUpper();
                 comando.Parameters.AddWithValue("@nombre", puerto.Nombre);

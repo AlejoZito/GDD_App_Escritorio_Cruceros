@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DAO\PuertoDAO.cs" />
+    <Compile Include="DAO\RecorridoDAO.cs" />
     <Compile Include="DAO\Repository.cs" />
     <Compile Include="Domain\Cabina.cs" />
     <Compile Include="Domain\Cliente.cs" />
