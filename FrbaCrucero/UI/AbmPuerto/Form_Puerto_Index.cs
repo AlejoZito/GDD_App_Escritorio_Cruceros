@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FrbaCrucero.DAL.DAO;
+using FrbaCrucero.DAL.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +22,19 @@ namespace FrbaCrucero.UI.AbmPuerto
         private void CrearButton_Click(object sender, EventArgs e)
         {
             Program.Navigation.PopUpPage(new AltaPuerto());
+        }
+
+        private void Form_Puerto_Index_Load(object sender, EventArgs e)
+        {
+            IList<Puerto> puertos = this.GetData();
+        }
+
+        private IList<Puerto> GetData()
+        {
+            PuertoDAO puertoDAO = new PuertoDAO();
+            var puertos = puertoDAO.ListarPuertos();
+
+            return puertos;
         }
     }
 }

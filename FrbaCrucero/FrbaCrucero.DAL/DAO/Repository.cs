@@ -11,6 +11,7 @@ namespace FrbaCrucero.DAL.DAO
         {
             var connectionString = ConfigurationManager.ConnectionStrings["GD1C2019"].ConnectionString;
             SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
             return connection;
         }
     }

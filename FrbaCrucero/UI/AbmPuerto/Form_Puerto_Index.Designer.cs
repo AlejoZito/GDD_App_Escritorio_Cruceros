@@ -43,8 +43,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.indexDataGridView = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.BajaButton = new System.Windows.Forms.Button();
             this.ModificarButton = new System.Windows.Forms.Button();
+            this.BajaButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -213,16 +213,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Acciones";
             // 
-            // BajaButton
-            // 
-            this.BajaButton.Location = new System.Drawing.Point(209, 22);
-            this.BajaButton.Margin = new System.Windows.Forms.Padding(2);
-            this.BajaButton.Name = "BajaButton";
-            this.BajaButton.Size = new System.Drawing.Size(103, 21);
-            this.BajaButton.TabIndex = 12;
-            this.BajaButton.Text = "Baja de Puerto";
-            this.BajaButton.UseVisualStyleBackColor = true;
-            // 
             // ModificarButton
             // 
             this.ModificarButton.Location = new System.Drawing.Point(42, 55);
@@ -232,6 +222,16 @@
             this.ModificarButton.TabIndex = 13;
             this.ModificarButton.Text = "Modificar Puerto";
             this.ModificarButton.UseVisualStyleBackColor = true;
+            // 
+            // BajaButton
+            // 
+            this.BajaButton.Location = new System.Drawing.Point(209, 22);
+            this.BajaButton.Margin = new System.Windows.Forms.Padding(2);
+            this.BajaButton.Name = "BajaButton";
+            this.BajaButton.Size = new System.Drawing.Size(103, 21);
+            this.BajaButton.TabIndex = 12;
+            this.BajaButton.Text = "Baja de Puerto";
+            this.BajaButton.UseVisualStyleBackColor = true;
             // 
             // Form_Puerto_Index
             // 
@@ -247,6 +247,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form_Puerto_Index";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form_Puerto_Index_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).EndInit();

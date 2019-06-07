@@ -35,7 +35,7 @@ namespace FrbaCrucero.DAL.DAO
                 var conn = repositorio.GetConnection();
                 
                 //Inserto el recorrido y obtengo el id
-                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(activo) VALUES(@activo)", conn);
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(reco_activo) VALUES(@activo)", conn);
                 recorrido.Activo = true;
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = recorrido.Activo;
@@ -44,7 +44,7 @@ namespace FrbaCrucero.DAL.DAO
                 //Inserto los tramos en base con el id de recorrido
                 foreach (Tramo tramo in recorrido.Tramos)
                 {
-                    comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Tramo(cod_recorrido, cod_puerto_desde, cod_puerto_hasta, precio, orden) VALUES(@cod_recorrido, @cod_puerto_desde, @cod_puerto_hasta, @precio, @orden)", conn);
+                    comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Tramo(tram_recorrido, tram_puerto_desde, tram_puerto_hasta, tram_precio, tram_orden) VALUES(@cod_recorrido, @cod_puerto_desde, @cod_puerto_hasta, @precio, @orden)", conn);
 
                 }
 
