@@ -42,13 +42,21 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void ModificarPuerto(Puerto puerto, string nombreSinModificar) 
+        public void ModificarPuerto(Puerto puerto) 
         {
             puerto.Nombre = puerto.Nombre.Trim().ToUpper();
+            
+            var conn = repositorio.GetConnection();
+            string select = string.Format(@"SELECT puer_nombre FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", puerto.Cod_Puerto);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(select, conn);
+            DataTable dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
+            var filaSinModificar = dataTable.Rows[0];
+            var nombreSinModificar = filaSinModificar["puer_nombre"].ToString();
 
-            if (!string.Equals(puerto.Nombre, nombreSinModificar)) 
+            if (!string.Equals(puerto.Nombre, nombreSinModificar))
             {
-                if (ValidarPuerto(puerto.Nombre)) 
+                if (ValidarPuerto(puerto.Nombre))
                 {
                     throw new Exception("El nuevo nombre ingresado corresponde a un puerto ya existente");
                 };
@@ -56,10 +64,8 @@ namespace FrbaCrucero.DAL.DAO
 
             try
             {
-                var conn = repositorio.GetConnection();
                 SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Puerto SET puer_nombre=@nombre, puer_activo=@activo WHERE puer_codigo=@cod_puerto", conn);
 
-                puerto.Nombre = puerto.Nombre.Trim().ToUpper();
                 comando.Parameters.AddWithValue("@nombre", puerto.Nombre);
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = puerto.Activo;
