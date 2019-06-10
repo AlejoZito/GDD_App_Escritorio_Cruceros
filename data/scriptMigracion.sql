@@ -1,4 +1,4 @@
-USE [GD1C2015]
+USE [GD1C2019]
 GO
 
 --*************************************************************************************************************
@@ -66,6 +66,7 @@ IF OBJECT_ID('[NUEVO_SCHEMA].[Permiso]','U') IS NOT NULL DROP TABLE [NUEVO_SCHEM
 --*************************************************************************************************************
 
 //TODO
+//Cuando inhabilitas un rol (baja lógica), se lo tenés que quitar al usuario que lo tenga (delete rol_permiso)
 
 
 
@@ -118,7 +119,7 @@ CREATE TABLE [NUEVO_SCHEMA].[Crucero] (
 	[cruc_identificador] NOT NULL,
 	[cruc_fabricante] [NUMERIC] NOT NULL,
 	[cruc_modelo] [NUMERIC] NOT NULL,
-	[cruc_activo] INT,
+	[cruc_activo] BIT,
 	FOREIGN KEY (cruc_fabricante) REFERENCES Fabricante(fabr_codigo),
 	FOREIGN KEY (cruc_modelo) REFERENCES Modelo(mode_codigo)
 )
@@ -173,7 +174,7 @@ CREATE TABLE [NUEVO_SCHEMA].[Estado_Reserva] (
 CREATE TABLE [NUEVO_SCHEMA].[Puerto] (
 	[puer_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[puer_nombre] [NVARCHAR](255) NOT NULL,
-	[puer_activo] INT
+	[puer_activo] BIT
 )
 
 --*************************************************************************************************************
@@ -182,7 +183,7 @@ CREATE TABLE [NUEVO_SCHEMA].[Puerto] (
 
 CREATE TABLE [NUEVO_SCHEMA].[Recorrido] (
 	[reco_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[reco_activo] INT
+	[reco_activo] BIT
 )
 
 --*************************************************************************************************************
@@ -301,8 +302,8 @@ CREATE TABLE [NUEVO_SCHEMA].[Usuario] (
 
 CREATE TABLE [NUEVO_SCHEMA].[Rol] (
 	[rol_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[rol_nombre] [NVARCHAR](255) NOT NULL,
-	[rol_activo] INT,
+	[rol_nombre] [NVARCHAR](255) NOT NULL UNIQUE,
+	[rol_activo] [BIT] NOT NULL DEFAULT 1,
 )
 
 --*************************************************************************************************************
@@ -319,8 +320,8 @@ CREATE TABLE [NUEVO_SCHEMA].[Permiso] (
 --*************************************************************************************************************
 
 CREATE TABLE [NUEVO_SCHEMA].[Rol_Usuario] (
-	[ru_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[ru_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[ru_usua_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[ru_rol_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 )
 
 --*************************************************************************************************************
@@ -328,9 +329,10 @@ CREATE TABLE [NUEVO_SCHEMA].[Rol_Usuario] (
 --*************************************************************************************************************
 
 CREATE TABLE [NUEVO_SCHEMA].[Permiso_Rol] (
-	[pr_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[pr_codigo] [NUMERIC] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[pr_rol_codigo] [NUMERIC] NOT NULL PRIMARY KEY,
+	[pr_perm_codigo] [NUMERIC] NOT NULL PRIMARY KEY,
 )
+
 
 
 --*************************************************************************************************************
@@ -338,6 +340,121 @@ CREATE TABLE [NUEVO_SCHEMA].[Permiso_Rol] (
 -- MIGRACION DE DATOS
 --*************************************************************************************************************
 --*************************************************************************************************************
+
+--*************************************************************************************************************
+-- TABLE PERMISO
+--*************************************************************************************************************
+
+INSERT INTO [NUEVO_SCHEMA].Permiso(perm_nombre)
+VALUES ('ABM_ROL'),('ABM_PUERTO'),('ABM_RECORRIDO'),('ABM_CRUCERO'),('GENERAR_VIAJE'),('COMPRAR_PASAJE'),('RESERVA_PASAJE'),('PAGO_RESERVA'),('LISTADO_ESTADISTICO')
+GO
+
+--*************************************************************************************************************
+-- TABLE ROL + PERMISO_ROL
+--*************************************************************************************************************
+
+-- DEFINO EL ROL ADMINISTRATIVO
+
+INSERT INTO [NUEVO_SCHEMA].Rol(rol_nombre)
+VALUES ('Administrativo')
+GO
+
+-- El rol de administrador tiene todos los permisos asignados
+INSERT INTO [NUEVO_SCHEMA].Permiso_Rol(pr_rol_codigo,pr_perm_codigo)
+SELECT DISTINCT SCOPE_IDENTITY(), perm_codigo FROM [NUEVO_SCHEMA].Permiso
+GO
+
+
+-- DEFINO EL ROL CLIENTE
+
+INSERT INTO [NUEVO_SCHEMA].Rol(rol_nombre)
+VALUES ('Cliente')
+GO
+
+-- El rol de cliente tiene los siguientes permisos asignados: COMPRAR_PASAJE,RESERVA_PASAJE,PAGO_RESERVA,LISTADO_ESTADISTICO
+INSERT INTO [NUEVO_SCHEMA].Permiso_Rol(pr_rol_codigo,pr_perm_codigo)
+SELECT DISTINCT SCOPE_IDENTITY(), perm_codigo FROM [NUEVO_SCHEMA].Permiso
+WHERE perm_nombre IN ('COMPRAR_PASAJE','RESERVA_PASAJE','PAGO_RESERVA','LISTADO_ESTADISTICO')
+GO
+
+--*************************************************************************************************************
+-- TABLE USUARIO + ROL_USUARIO
+-- Declaro un usuario y le asigno el rol correspondiente
+--*************************************************************************************************************
+
+DECLARE @password [nvarchar](255)
+DECLARE @codigo_rol_administrativo [NUMERIC]
+DECLARE @codigo_rol_cliente [NUMERIC]
+
+SET @password = 'w23e'
+SET @codigo_rol_administrativo = SELECT rol_codigo FROM [NUEVO_SCHEMA].Rol WHERE rol_nombre = 'Administrativo'
+SET @codigo_rol_cliente = SELECT rol_codigo FROM [NUEVO_SCHEMA].Rol WHERE rol_nombre = 'Cliente'
+
+-- Nuevo usuario administrativo
+
+INSERT INTO [NUEVO_SCHEMA].Usuario(usua_username,usua_password)
+VALUES ('admin', HASHBYTES('SHA2_256', @password))
+GO
+
+INSERT INTO [NUEVO_SCHEMA].Rol_Usuario(ru_codigo,ru_)
+VALUES (SCOPE_IDENTITY(),@codigo_rol_administrativo)
+GO
+
+-- Nuevo usuario administrativo
+
+INSERT INTO [NUEVO_SCHEMA].Usuario(usua_username,usua_password)
+VALUES ('admin2', HASHBYTES('SHA2_256', @password))
+GO
+
+INSERT INTO [NUEVO_SCHEMA].Rol_Usuario(ru_codigo,ru_)
+VALUES (SCOPE_IDENTITY(),@codigo_rol_administrativo)
+GO
+
+SET @password = 'clie'
+
+-- Nuevo usuario cliente
+
+INSERT INTO [NUEVO_SCHEMA].Usuario(usua_username,usua_password)
+VALUES ('clie1', HASHBYTES('SHA2_256', @password))
+GO
+
+INSERT INTO [NUEVO_SCHEMA].Rol_Usuario(ru_codigo,ru_)
+VALUES (SCOPE_IDENTITY(),@codigo_rol_cliente)
+GO
+
+-- Nuevo usuario cliente
+
+INSERT INTO [NUEVO_SCHEMA].Usuario(usua_username,usua_password)
+VALUES ('clie2', HASHBYTES('SHA2_256', @password))
+GO
+
+INSERT INTO [NUEVO_SCHEMA].Rol_Usuario(ru_codigo,ru_)
+VALUES (SCOPE_IDENTITY(),@codigo_rol_cliente)
+GO
+
+--*************************************************************************************************************
+-- TABLE CLIENTE
+--*************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
