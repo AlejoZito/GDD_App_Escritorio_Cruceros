@@ -13,21 +13,18 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmCrucero
 {
-    public partial class Form_Crucero_Edit : Form
+    public partial class Form_Crucero_Add : Form
     {
-        OnEditSuccessDelegate<CruceroViewModel> _OnEditSuccess;
+        OnAddSuccessDelegate<CruceroViewModel> _OnAddSuccess;
         CruceroViewModel _ViewModel;
 
-        public Form_Crucero_Edit(OnEditSuccessDelegate<CruceroViewModel> onEditSuccess, int idCrucero)
+        public Form_Crucero_Add(OnAddSuccessDelegate<CruceroViewModel> onAddSuccess)
         {            
             InitializeComponent();
             LoadDropdowns();
 
-            _OnEditSuccess = onEditSuccess;
+            _OnAddSuccess = onAddSuccess;
             _ViewModel = new CruceroViewModel();
-            //Obtengo object de la base y lo mapeo al viewmodel
-            _ViewModel.MapFromDomainObject((new DAL.DAO.CruceroDAO()).GetByID(idCrucero));
-            //Bindeo el viewmodel a los inputs
             BindViewModel();
         }
 
@@ -36,6 +33,7 @@ namespace FrbaCrucero.UI.AbmCrucero
             dropdownFabricante.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdFabricante", true, DataSourceUpdateMode.OnPropertyChanged);
             dropdownModelo.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdModelo", true, DataSourceUpdateMode.OnPropertyChanged);
             listviewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
+            
         }
 
         private void LoadDropdowns()
@@ -49,10 +47,10 @@ namespace FrbaCrucero.UI.AbmCrucero
             dropdownModelo.Input.ValueMember = "Cod_Modelo";
         }
 
-        private void btnCrucerEdit_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            (new CruceroDAO()).Edit(_ViewModel.MapToDomainObject());
-            _OnEditSuccess(_ViewModel);
+            (new CruceroDAO()).Add(_ViewModel.MapToDomainObject());
+            _OnAddSuccess(_ViewModel);
             this.Close();
         }
 

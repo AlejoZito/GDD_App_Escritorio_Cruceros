@@ -14,10 +14,12 @@ namespace FrbaCrucero
     public partial class Form_Main : Form
     {
         private readonly List<KeyValuePair<string, Form>> _PageCache;
+        private readonly List<KeyValuePair<string, Form>> _NavigationStack;
 
         public Form_Main()
         {
             _PageCache = new List<KeyValuePair<string, Form>>();
+            _NavigationStack = new List<KeyValuePair<string, Form>>();
             InitializeComponent();
         }
 
@@ -41,17 +43,44 @@ namespace FrbaCrucero
             }
 
             newPage.Value.TopLevel = false;
-            Content.Controls.Clear();
-            newPage.Value.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            newPage.Value.Dock = DockStyle.Fill;
-            Content.Controls.Add(newPage.Value);
+            SetPageInContainer(newPage);
+            
+            //add item to navigation stack (used when going to previous page)
+            _NavigationStack.Add(newPage);
+
             newPage.Value.Show();
+        }
+
+        public void GoToPreviousPage()
+        {
+            if(_NavigationStack.Count >= 2){            
+                _NavigationStack.LastOrDefault().Value.Close();
+                
+                //Assign previous page to form;
+                SetPageInContainer(_NavigationStack[_NavigationStack.Count - 2]);
+
+                //Remove page from stack
+                _NavigationStack.RemoveAt(_NavigationStack.Count - 1);
+                
+                //Remove from cache                
+                //ToDo
+            }
         }
 
         public void PopUpPage(Form page)
         {
             page.StartPosition = FormStartPosition.CenterParent;
             page.ShowDialog();
+        }
+
+
+
+        private void SetPageInContainer(KeyValuePair<string, Form> newPage)
+        {
+            Content.Controls.Clear();
+            newPage.Value.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            newPage.Value.Dock = DockStyle.Fill;
+            Content.Controls.Add(newPage.Value);
         }
 
         private void Form_Main_Load(object sender, EventArgs e)

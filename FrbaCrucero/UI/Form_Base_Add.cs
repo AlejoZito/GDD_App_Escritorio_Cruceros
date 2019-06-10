@@ -19,7 +19,7 @@ namespace FrbaCrucero.UI
         public Form_Base_Add()
         {
             InitializeComponent();
-            _ViewModel = new CruceroViewModel(1, "t", "a", "b", true);
+            //_ViewModel = new CruceroViewModel(1, "t", "a", "b", true);
         }
 
         protected void AddControl(Control control)
@@ -32,26 +32,26 @@ namespace FrbaCrucero.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var inputIdCrucero = new InputTextControl(
-                "IdCrucero",
-                "Ingrese un ID");
-            inputIdCrucero.TextBox.DataBindings.Add("Text", _ViewModel, "IdCrucero");
+            //var inputIdCrucero = new InputTextControl(
+            //    "IdCrucero",
+            //    "Ingrese un ID");
+            //inputIdCrucero.TextBox.DataBindings.Add("Text", _ViewModel, "IdCrucero");
 
-            AddControl(inputIdCrucero);
+            //AddControl(inputIdCrucero);
 
-            var inputNombreCrucero = new InputTextControl(
-                "Nombre Crucero",
-                "Ingrese un valor");
-            inputNombreCrucero.TextBox.DataBindings.Add("Text", _ViewModel, "NombreCrucero");
+            //var inputNombreCrucero = new InputTextControl(
+            //    "Nombre Crucero",
+            //    "Ingrese un valor");
+            //inputNombreCrucero.TextBox.DataBindings.Add("Text", _ViewModel, "NombreCrucero");
 
-            AddControl(inputNombreCrucero);
+            //AddControl(inputNombreCrucero);
 
-            var inputABC = new InputTextControl(
-                "ABC",
-                "Ingrese un valor");
-            inputABC.TextBox.DataBindings.Add("Text", _ViewModel, "Abc");
+            //var inputABC = new InputTextControl(
+            //    "ABC",
+            //    "Ingrese un valor");
+            //inputABC.TextBox.DataBindings.Add("Text", _ViewModel, "Abc");
 
-            AddControl(inputABC);
+            //AddControl(inputABC);
             //var bindingSource = new BindingSource();
 
             ////bindingSource.DataSource = viewModel;
@@ -85,7 +85,7 @@ namespace FrbaCrucero.UI
         private void button2_Click(object sender, EventArgs e)
         {
             //Prueba del bindeo del form
-            label1.Text = _ViewModel.IdCrucero + " - " + _ViewModel.NombreCrucero + " - " + _ViewModel.Abc;
+            //label1.Text = _ViewModel.IdCrucero + " - " + _ViewModel.NombreCrucero + " - " + _ViewModel.Abc;
         }
     }
 }

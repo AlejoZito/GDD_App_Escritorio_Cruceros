@@ -1,6 +1,6 @@
 ﻿namespace FrbaCrucero.UI
 {
-    partial class Form_Base_Index<T>
+    partial class Form_Base_Index<T, C>
     {
         /// <summary>
         /// Required designer variable.
@@ -76,7 +76,6 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // button1
             // 
@@ -130,7 +129,6 @@
             this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Filtro exacto";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // textBox2
             // 
@@ -148,7 +146,6 @@
             this.label_filtroLibre.Size = new System.Drawing.Size(70, 17);
             this.label_filtroLibre.TabIndex = 1;
             this.label_filtroLibre.Text = "Filtro libre";
-            this.label_filtroLibre.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox1
             // 
@@ -160,7 +157,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(505, 160);
+            this.button2.Location = new System.Drawing.Point(482, 159);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(152, 36);
             this.button2.TabIndex = 4;

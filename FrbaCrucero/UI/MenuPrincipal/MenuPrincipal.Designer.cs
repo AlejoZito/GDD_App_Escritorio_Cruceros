@@ -36,6 +36,7 @@ namespace FrbaCrucero
             this.button_CerrarSesion = new System.Windows.Forms.Button();
             this.button_AbmCruceros = new System.Windows.Forms.Button();
             this.Content = new System.Windows.Forms.Panel();
+            this.button_AbmRecorridos = new System.Windows.Forms.Button();
             this.Nav_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@ namespace FrbaCrucero
             // 
             this.Nav_Panel.AutoSize = true;
             this.Nav_Panel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Nav_Panel.Controls.Add(this.button_AbmRecorridos);
             this.Nav_Panel.Controls.Add(this.UsernameLabel);
             this.Nav_Panel.Controls.Add(this.welcomeLabel);
             this.Nav_Panel.Controls.Add(this.button_CerrarSesion);
@@ -72,7 +74,7 @@ namespace FrbaCrucero
             this.UsernameLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.UsernameLabel.Location = new System.Drawing.Point(720, 11);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(0, 18);
+            this.UsernameLabel.Size = new System.Drawing.Size(0, 24);
             this.UsernameLabel.TabIndex = 4;
             // 
             // welcomeLabel
@@ -82,7 +84,7 @@ namespace FrbaCrucero
             this.welcomeLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.welcomeLabel.Location = new System.Drawing.Point(643, 11);
             this.welcomeLabel.Name = "welcomeLabel";
-            this.welcomeLabel.Size = new System.Drawing.Size(80, 18);
+            this.welcomeLabel.Size = new System.Drawing.Size(105, 24);
             this.welcomeLabel.TabIndex = 3;
             this.welcomeLabel.Text = "Bienvenido";
             // 
@@ -117,6 +119,17 @@ namespace FrbaCrucero
             this.Content.Size = new System.Drawing.Size(961, 556);
             this.Content.TabIndex = 2;
             // 
+            // button_AbmRecorridos
+            // 
+            this.button_AbmRecorridos.Location = new System.Drawing.Point(241, 5);
+            this.button_AbmRecorridos.Margin = new System.Windows.Forms.Padding(2);
+            this.button_AbmRecorridos.Name = "button_AbmRecorridos";
+            this.button_AbmRecorridos.Size = new System.Drawing.Size(126, 33);
+            this.button_AbmRecorridos.TabIndex = 5;
+            this.button_AbmRecorridos.Text = "ABM Recorridos";
+            this.button_AbmRecorridos.UseVisualStyleBackColor = true;
+            this.button_AbmRecorridos.Click += new System.EventHandler(this.button_AbmRecorridos_Click);
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -144,6 +157,7 @@ namespace FrbaCrucero
         private System.Windows.Forms.Button button_CerrarSesion;
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.Label welcomeLabel;
+        private System.Windows.Forms.Button button_AbmRecorridos;
     }
 }
 

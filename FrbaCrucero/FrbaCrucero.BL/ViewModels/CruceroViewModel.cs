@@ -1,4 +1,5 @@
 ﻿using FrbaCrucero.BL.Attributes;
+using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.BL.ViewModels
 {
-    public class CruceroViewModel : ViewModel
+    public class CruceroViewModel : ViewModel <Crucero>
     {
-        public CruceroViewModel(int idCrucero, string nombreCrucero, string abc, string def, bool habilitado)
+        public CruceroViewModel()
         {
-            IdCrucero = IdCrucero;
-            NombreCrucero = nombreCrucero;
-            _Abc = abc;
-            Def = def;
-            Habilitado = habilitado;
+            Cabinas = new BindingList<CabinaViewModel>();
+        }
+
+        public CruceroViewModel(Crucero c)
+        {
+            this.MapFromDomainObject(c);
         }
 
         private int _IdCrucero;
@@ -27,40 +29,71 @@ namespace FrbaCrucero.BL.ViewModels
             get { return _IdCrucero; }
             set
             {
-                _IdCrucero = value; 
+                _IdCrucero = value;
                 InvokePropertyChanged(new PropertyChangedEventArgs("IdCrucero"));
             }
         }
 
-        private string _NombreCrucero;
-
-        [Listable(description: "Nombre crucero")]
-        public string NombreCrucero { 
-            get { return _NombreCrucero; } 
-            set
-            {
-                _NombreCrucero = value;
-                InvokePropertyChanged(new PropertyChangedEventArgs("NombreCrucero"));
-            }
-        }
-
-        private string _Abc;
-
-        [Listable(description: "Test 1")]
-        public string Abc
+        private int _IdModelo;
+        public int IdModelo
         {
-            get { return _Abc; }
+            get { return _IdModelo; }
             set
             {
-                _Abc = value;
-                InvokePropertyChanged(new PropertyChangedEventArgs("Abc"));
+                _IdModelo = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("IdModelo"));
             }
         }
 
-        //Prueba de propiedad que no deberia mostrarse en la tabla, sin atributo listable
-        public string Def { get; set; }
+        [Listable(description: "Modelo")]
+        public string Modelo { get; set; }
 
-        [Listable(description: "Habilitado")]
-        public bool Habilitado { get; set; }
+        private int _IdFabricante;
+        public int IdFabricante
+        {
+            get { return _IdFabricante; }
+            set
+            {
+                _IdFabricante = value;
+                InvokePropertyChanged(new PropertyChangedEventArgs("IdFabricante"));
+            }
+        }
+
+        [Listable(description: "Fabricante")]
+        public string Fabricante { get; set; }
+
+        [Listable(description: "Activo")]
+        public bool Activo { get; set; }
+
+        public BindingList<CabinaViewModel> Cabinas { get; set; }
+
+        public override Crucero MapToDomainObject()
+        {
+            return new Crucero()
+            {
+                Cod_Crucero = this.IdCrucero,
+                Fabricante = new Fabricante() { Cod_Fabricante = this.IdFabricante },
+                Modelo_Crucero = new ModeloCrucero() { Cod_Modelo = this.IdModelo },
+                Identificador = this.IdCrucero.ToString(), //ToDo: revisar si identificador no es el cod crucero
+                Activo = this.Activo,
+                Cabinas = this.Cabinas.Select(x=>(Cabina)x.MapToDomainObject()).ToList()
+            };
+        }
+        public override void MapFromDomainObject(Crucero c)
+        {
+            this.IdCrucero = c.Cod_Crucero;
+            this.IdFabricante = c.Fabricante.Cod_Fabricante;
+            this.Fabricante = c.Fabricante.Detalle;
+            this.IdModelo = c.Modelo_Crucero.Cod_Modelo;
+            this.Modelo = c.Modelo_Crucero.Detalle;
+            this.Activo = c.Activo;
+            this.Cabinas = new BindingList<CabinaViewModel>();
+            foreach (var cab in c.Cabinas)
+            {
+                CabinaViewModel cv = new CabinaViewModel();
+                cv.MapFromDomainObject(cab);
+                Cabinas.Add(cv);
+            }
+        }
     }
 }

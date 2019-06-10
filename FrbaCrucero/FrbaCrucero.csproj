@@ -56,6 +56,18 @@
     <Compile Include="UI\AbmCrucero\Form_Crucero_Edit.Designer.cs">
       <DependentUpon>Form_Crucero_Edit.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AbmCrucero\Form_Cabina_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_Cabina_Add.Designer.cs">
+      <DependentUpon>Form_Cabina_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_Crucero_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_Crucero_Add.Designer.cs">
+      <DependentUpon>Form_Crucero_Add.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmCrucero\Form_Crucero_Index.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,8 +77,41 @@
     <Compile Include="UI\AbmPuerto\AltaPuerto.Designer.cs">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Components\InputTextControl.cs">
+    <Compile Include="UI\AbmRecorrido\Form_Recorrido_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Recorrido_Edit.Designer.cs">
+      <DependentUpon>Form_Recorrido_Edit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Recorrido_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Recorrido_Add.Designer.cs">
+      <DependentUpon>Form_Recorrido_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Recorrido_Index.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Tramo_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRecorrido\Form_Tramo_Add.Designer.cs">
+      <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\_Components\DataListViewControl.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\_Components\DropdownControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\_Components\DropdownControl.Designer.cs">
+      <DependentUpon>DropdownControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\_Components\InputTextControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\_Components\InputTextControl.Designer.cs">
+      <DependentUpon>InputTextControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Form_Base_Add.cs">
       <SubType>Form</SubType>
@@ -85,12 +130,6 @@
     </Compile>
     <Compile Include="UI\AbmPuerto\Form_Puerto_Index.Designer.cs">
       <DependentUpon>Form_Puerto_Index.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\AbmRecorrido\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\AbmRecorrido\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmRol\Form1.cs">
       <SubType>Form</SubType>
@@ -148,8 +187,29 @@
     <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Edit.resx">
       <DependentUpon>Form_Crucero_Edit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_Cabina_Add.resx">
+      <DependentUpon>Form_Cabina_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Add.resx">
+      <DependentUpon>Form_Crucero_Add.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRecorrido\Form_Recorrido_Edit.resx">
+      <DependentUpon>Form_Recorrido_Edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRecorrido\Form_Recorrido_Add.resx">
+      <DependentUpon>Form_Recorrido_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRecorrido\Form_Tramo_Add.resx">
+      <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\_Components\DropdownControl.resx">
+      <DependentUpon>DropdownControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\_Components\InputTextControl.resx">
+      <DependentUpon>InputTextControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Form_Base_Add.resx">
       <DependentUpon>Form_Base_Add.cs</DependentUpon>
@@ -193,9 +253,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FrbaCrucero.DAL\DAO\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="FrbaCrucero.BL\FrbaCrucero.BL.csproj">
       <Project>{f6d77a6b-6fd8-4333-8f05-e5bb41dcd3aa}</Project>

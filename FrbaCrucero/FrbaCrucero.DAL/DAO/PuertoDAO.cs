@@ -15,7 +15,7 @@ namespace FrbaCrucero.DAL.DAO
 
         public void NuevoPuerto(Puerto puerto)
         {
-            if (ValidarPuerto(puerto.Nombre)) 
+            if (ValidarPuerto(puerto.Nombre))
             {
                 throw new Exception("El puerto ya existe");
             }
@@ -36,16 +36,16 @@ namespace FrbaCrucero.DAL.DAO
                 conn.Close();
                 conn.Dispose();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar crear el puerto", ex);
             }
         }
 
-        public void ModificarPuerto(Puerto puerto) 
+        public void ModificarPuerto(Puerto puerto)
         {
             puerto.Nombre = puerto.Nombre.Trim().ToUpper();
-            
+
             var conn = repositorio.GetConnection();
             string select = string.Format(@"SELECT puer_nombre FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", puerto.Cod_Puerto);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(select, conn);
@@ -83,44 +83,65 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public IList<Puerto> ListarPuertos() 
+        public IList<Puerto> ListarPuertos()
         {
-            DataTable dataTable;
-            SqlDataAdapter dataAdapter;
-
-            SqlConnection conn = repositorio.GetConnection();
-            string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto";
-
-            try
-            {
-                dataAdapter = new SqlDataAdapter(comando, conn);
-                dataTable = new DataTable();
-
-                dataAdapter.Fill(dataTable);
-                IList<Puerto> puertos = new List<Puerto>();
-
-                foreach (DataRow fila in dataTable.Rows)
-                {
-                    var puerto = new Puerto
-                    {
-                        Cod_Puerto = int.Parse(fila["puer_codigo"].ToString()),
-                        Nombre = fila["puer_nombre"].ToString(),
-                        Activo = bool.Parse(fila["puer_activo"].ToString())
-                    };
-
-                    puertos.Add(puerto);
+            return new List<Puerto>(){
+                new Puerto(){
+                    Cod_Puerto = 1,
+                    Nombre = "BsAs"
+                }, new Puerto(){
+                    Cod_Puerto = 2,
+                    Nombre = "Colonia",
+                } , new Puerto(){
+                    Cod_Puerto = 3,
+                    Nombre = "Porto Allegre"
+                }, new Puerto(){
+                    Cod_Puerto = 8,
+                    Nombre = "Bangladesh"
+                }, new Puerto(){
+                    Cod_Puerto = 9,
+                    Nombre = "Zimbabwe",
+                }, new Puerto(){
+                    Cod_Puerto = 10,
+                    Nombre = "Delhi"
                 }
+            };
+            //DataTable dataTable;
+            //SqlDataAdapter dataAdapter;
 
-                dataAdapter.Dispose();
-                conn.Dispose();
-                conn.Close();
+            //SqlConnection conn = repositorio.GetConnection();
+            //string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto";
 
-                return puertos;
-            }
-            catch (Exception ex) 
-            {
-                throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
-            }
+            //try
+            //{
+            //    dataAdapter = new SqlDataAdapter(comando, conn);
+            //    dataTable = new DataTable();
+
+            //    dataAdapter.Fill(dataTable);
+            //    IList<Puerto> puertos = new List<Puerto>();
+
+            //    foreach (DataRow fila in dataTable.Rows)
+            //    {
+            //        var puerto = new Puerto
+            //        {
+            //            Cod_Puerto = int.Parse(fila["puer_codigo"].ToString()),
+            //            Nombre = fila["puer_nombre"].ToString(),
+            //            Activo = bool.Parse(fila["puer_activo"].ToString())
+            //        };
+
+            //        puertos.Add(puerto);
+            //    }
+
+            //    dataAdapter.Dispose();
+            //    conn.Dispose();
+            //    conn.Close();
+
+            //    return puertos;
+            //}
+            //catch (Exception ex) 
+            //{
+            //    throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
+            //}
         }
 
         private bool ValidarPuerto(string nombre)
@@ -137,7 +158,7 @@ namespace FrbaCrucero.DAL.DAO
                 conn.Dispose();
                 return existePuerto;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar validar el puerto", ex);
             }

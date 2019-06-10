@@ -16,5 +16,7 @@ namespace FrbaCrucero.DAL.Domain
         public ModeloCrucero Modelo_Crucero { get; set; }
 
         public bool Activo { get; set; }
+
+        public List<Cabina> Cabinas { get; set; }
     }
 }

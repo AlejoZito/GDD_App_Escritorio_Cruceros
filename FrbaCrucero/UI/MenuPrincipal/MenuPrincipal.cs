@@ -61,6 +61,11 @@ namespace FrbaCrucero
             GoToPage(new UI.AbmCrucero.Form_Crucero_Index());
         }
 
+        private void button_AbmRecorridos_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.AbmRecorrido.Form_Recorrido_Index());
+        }
+
         private void button_CerrarSesion_Click(object sender, EventArgs e)
         {
             Program.UsuarioLoggeado = new DAL.Domain.Usuario();

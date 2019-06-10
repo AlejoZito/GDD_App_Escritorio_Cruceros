@@ -8,19 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrbaCrucero.UI.AbmCrucero
+namespace FrbaCrucero.UI.AbmRecorrido
 {
-    public class Form_Crucero_Index : FrbaCrucero.UI.Form_Base_Index<CruceroViewModel, Crucero>
+    public class Form_Recorrido_Index : FrbaCrucero.UI.Form_Base_Index<RecorridoViewModel, Recorrido>
     {
-        public Form_Crucero_Index()
+        public Form_Recorrido_Index()
             : base()
         {
-            _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Crucero_Add(
+            _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Recorrido_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));
 
-            _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Crucero_Edit(
+            _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Recorrido_Edit(
                     onEditSuccess: (c) => this.OnAddOrEditSuccess(),
-                    idCrucero: id));
+                    idRecorrido: id));
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
         }
@@ -28,12 +28,11 @@ namespace FrbaCrucero.UI.AbmCrucero
         public void OnAddOrEditSuccess()
         {
             this.PopulateDataGridView();
-            //Program.Navigation.GoToPreviousPage();
         }
 
-        protected override List<CruceroViewModel> GetData()
+        protected override List<RecorridoViewModel> GetData()
         {
-            return (new CruceroDAO()).GetAll().Select(x=> new CruceroViewModel(x)).ToList();
+            return (new RecorridoDAO()).GetAll().Select(x => new RecorridoViewModel(x)).ToList();
         }
     }
 }

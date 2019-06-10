@@ -40,10 +40,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ListableAttribute.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CabinaViewModel.cs" />
     <Compile Include="ViewModels\CruceroViewModel.cs" />
+    <Compile Include="ViewModels\PuertoViewModel.cs" />
+    <Compile Include="ViewModels\RecorridoViewModel.cs" />
+    <Compile Include="ViewModels\TramoViewModel.cs" />
     <Compile Include="ViewModels\_ViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrbaCrucero.DAL\FrbaCrucero.DAL.csproj">
+      <Project>{af5f4899-4b43-4a21-99d2-67c8c0c45207}</Project>
+      <Name>FrbaCrucero.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

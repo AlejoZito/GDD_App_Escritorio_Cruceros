@@ -8,32 +8,49 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.BL.ViewModels
 {
-    public class ViewModel
+    public abstract class ViewModel <T>
     {
         /// <summary>
         /// Returns a List of key value pairs with column name and cell value
         /// </summary>
         /// <returns></returns>
-        public List<KeyValuePair<string,string>> GetRow()
+        public List<KeyValuePair<string, string>> GetRowData()
         {
             //Obtener columnas a partir del viewmodel pasado a este método
             var properties = this.GetType().GetProperties();
-            List<KeyValuePair<string,string>> columnsAndValues = new List<KeyValuePair<string,string>>();
+            List<KeyValuePair<string, string>> columnsAndValues = new List<KeyValuePair<string, string>>();
 
             foreach (var prop in properties)
             {
                 var attributes = (ListableAttribute[])prop.GetCustomAttributes(typeof(ListableAttribute), true);
                 if (attributes != null && attributes.Length > 0)
                 {
-                    columnsAndValues.Add(new KeyValuePair<string,string>(attributes[0].Description, prop.GetValue(this).ToString()));
+                    columnsAndValues.Add(new KeyValuePair<string, string>(attributes[0].Description, prop.GetValue(this).ToString()));
                 }
             }
 
             return columnsAndValues;
         }
 
+        /// <summary>
+        /// Maps viewmodel to domain object
+        /// </summary>
+        /// <typeparam name="Y"></typeparam>
+        /// <returns></returns>
+        public abstract T MapToDomainObject();
+
+        /// <summary>
+        /// Receives domain object as parameter and fills viewmodels properties
+        /// </summary>
+        /// <typeparam name="T">Domain object Type</typeparam>
+        /// <param name="o"></param>
+        public abstract void MapFromDomainObject(T o);
+
+        //public virtual bool ShowOnClickEdit() { return true; }
+        //public virtual bool ShowOnClickDelete() { return true; }
+
         #region Implementation of INotifyPropertyChanged
-        
+
         /// <summary>
         /// Evento que se dispara cuando el valor de la propiedad cambia
         /// </summary>

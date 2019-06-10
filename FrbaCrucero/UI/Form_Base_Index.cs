@@ -1,4 +1,5 @@
 ﻿using FrbaCrucero;
+using FrbaCrucero.BL;
 using FrbaCrucero.BL.Attributes;
 using FrbaCrucero.BL.ViewModels;
 using System;
@@ -13,15 +14,18 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI
 {
-    public partial class Form_Base_Index<T> : Form
-        where T : ViewModel
+    public partial class Form_Base_Index<T, C> : Form
+        where T : ViewModel<C>
     {
+        public OnButtonClickDelegate _OnClickAdd;
+        public OnButtonClickWithIDDelegate _OnClickEdit;
+        public OnButtonClickWithIDDelegate _OnClickDelete;        
 
         public Form_Base_Index()
         {
             InitializeComponent();
 
-            SetupDataGridView<T>();
+            SetupDataGridView();
             PopulateDataGridView();
         }
 
@@ -37,40 +41,49 @@ namespace FrbaCrucero.UI
         protected void PopulateDataGridView()
         {
             List<T> data = GetData();
+            int rowNumber = 0;
+
+            indexDataGridView.Rows.Clear();
 
             foreach (var item in data)
             {
                 var dataGridRow = new DataGridViewRow();
-                var row = item.GetRow();
+                var rowData = item.GetRowData();
 
                 //Asigno el listado de KeyValue Pairs a la row
-                for (int i = 0; i < row.Count; i++)
+                for (int i = 0; i < rowData.Count; i++)
                 {
-                    dataGridRow.Cells.Add(new DataGridViewTextBoxCell() { Value = row[i].Value });
-                    dataGridRow.Cells[i].Value = row[i].Value;
+                    dataGridRow.Cells.Add(new DataGridViewTextBoxCell() { Value = rowData[i].Value });
+                    dataGridRow.Cells[i].Value = rowData[i].Value;
                 }
-                indexDataGridView.Rows.Add(dataGridRow);
+
+                indexDataGridView.Rows.Add(dataGridRow);                
+
+                rowNumber++;
             }
 
             indexDataGridView.AutoResizeColumns();
-            //cruceroDataGridView.Columns[0].DisplayIndex = 3;
-            //cruceroDataGridView.Columns[1].DisplayIndex = 4;
-            //cruceroDataGridView.Columns[2].DisplayIndex = 0;
-            //cruceroDataGridView.Columns[3].DisplayIndex = 1;
-            //cruceroDataGridView.Columns[4].DisplayIndex = 2;
+            indexDataGridView.Refresh();
         }
 
-        private void button_edit_Click(object sender, EventArgs e)
-        {
-            
-        }
-
+        /// <summary>
+        /// Handle row button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.ColumnIndex == indexDataGridView.Columns["colEdit"].Index)
+            {
+                _OnClickEdit(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
+            }
+            else if (e.ColumnIndex == indexDataGridView.Columns["colDelete"].Index)
+            {
+                _OnClickDelete(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
+            }
         }
 
-        private void SetupDataGridView<T>() where T : ViewModel
+        private void SetupDataGridView()
         {
             this.Controls.Add(indexDataGridView);
 
@@ -102,6 +115,25 @@ namespace FrbaCrucero.UI
                 var column = new DataGridViewColumn();
                 indexDataGridView.Columns.Add(colName, colName);
             }
+            
+            #region Action buttons
+            DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
+            btnColumn1.Name = "colEdit";
+            btnColumn1.HeaderText = "Edit";
+            btnColumn1.Text = "editing";
+            btnColumn1.UseColumnTextForButtonValue = true;
+            btnColumn1.CellTemplate.Style.BackColor = Color.GreenYellow;
+
+            DataGridViewButtonColumn btnColumn2 = new DataGridViewButtonColumn();
+            btnColumn2.Name = "colDelete";
+            btnColumn2.HeaderText = "Delete";
+            btnColumn2.Text = "deleting";
+            btnColumn2.UseColumnTextForButtonValue = true;
+            btnColumn2.CellTemplate.Style.BackColor = Color.Orange;
+
+            indexDataGridView.Columns.Add(btnColumn1);
+            indexDataGridView.Columns.Add(btnColumn2); 
+            #endregion
 
             //cruceroDataGridView.Columns[4].DefaultCellStyle.Font =
             //    new Font(cruceroDataGridView.DefaultCellStyle.Font, FontStyle.Italic);
@@ -113,12 +145,12 @@ namespace FrbaCrucero.UI
             indexDataGridView.MultiSelect = false;
             //indexDataGridView.Dock = DockStyle.Fill;
 
-            indexDataGridView.CellFormatting += new
-                DataGridViewCellFormattingEventHandler(
-                cruceroDataGridView_CellFormatting);
+            //indexDataGridView.CellFormatting += new
+            //    DataGridViewCellFormattingEventHandler(
+            //    cruceroDataGridView_CellFormatting);
         }
 
-        private static List<string> GetViewModelColumns<T>() where T : ViewModel
+        public static List<string> GetViewModelColumns<T>()
         {
             var properties = typeof(T).GetProperties();
             List<string> columns = new List<string>();
@@ -131,52 +163,14 @@ namespace FrbaCrucero.UI
                     //Tiene el atributo <Listable>
                     columns.Add(attributes[0].Description);
                 }
+ 
             }
             return columns;
         }
 
-        private void cruceroDataGridView_CellFormatting(object sender,
-        System.Windows.Forms.DataGridViewCellFormattingEventArgs e)
-        {
-            if (e != null)
-            {
-                if (this.indexDataGridView.Columns[e.ColumnIndex].Name == "Release Date")
-                {
-                    if (e.Value != null)
-                    {
-                        try
-                        {
-                            e.Value = DateTime.Parse(e.Value.ToString())
-                                .ToLongDateString();
-                            e.FormattingApplied = true;
-                        }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine("{0} is not a valid date.", e.Value.ToString());
-                        }
-                    }
-                }
-            }
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void Agregar_Click(object sender, EventArgs e)
         {
-            Program.MainMenu.GoToPage(new Form_Base_Add<T>());
+            _OnClickAdd();
         }
     }
 }
