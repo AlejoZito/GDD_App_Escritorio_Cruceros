@@ -49,6 +49,7 @@
     <Compile Include="DAO\PuertoDAO.cs" />
     <Compile Include="DAO\RecorridoDAO.cs" />
     <Compile Include="DAO\Repository.cs" />
+    <Compile Include="DAO\RutaDeViajeDAO.cs" />
     <Compile Include="DAO\TipoCabinaDAO.cs" />
     <Compile Include="Domain\Cabina.cs" />
     <Compile Include="Domain\Cliente.cs" />

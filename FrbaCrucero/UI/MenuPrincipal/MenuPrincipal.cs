@@ -66,6 +66,11 @@ namespace FrbaCrucero
             GoToPage(new UI.AbmRecorrido.Form_Recorrido_Index());
         }
 
+        private void button_RutasDeViaje_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.AbmRutaDeViaje.Form_RutaDeViaje_Index());
+        }
+
         private void button_CerrarSesion_Click(object sender, EventArgs e)
         {
             Program.UsuarioLoggeado = new DAL.Domain.Usuario();
@@ -76,5 +81,6 @@ namespace FrbaCrucero
         {
             this.UsernameLabel.Text = String.IsNullOrEmpty(Program.UsuarioLoggeado.Username) ? "Cliente" : Program.UsuarioLoggeado.Username;
         }
+
     }
 }

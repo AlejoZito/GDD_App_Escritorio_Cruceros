@@ -31,12 +31,13 @@ namespace FrbaCrucero
         {
             this.button_AbmPuerto = new System.Windows.Forms.Button();
             this.Nav_Panel = new System.Windows.Forms.Panel();
+            this.button_AbmRecorridos = new System.Windows.Forms.Button();
             this.UsernameLabel = new System.Windows.Forms.Label();
             this.welcomeLabel = new System.Windows.Forms.Label();
             this.button_CerrarSesion = new System.Windows.Forms.Button();
             this.button_AbmCruceros = new System.Windows.Forms.Button();
             this.Content = new System.Windows.Forms.Panel();
-            this.button_AbmRecorridos = new System.Windows.Forms.Button();
+            this.button_RutasDeViaje = new System.Windows.Forms.Button();
             this.Nav_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +56,7 @@ namespace FrbaCrucero
             // 
             this.Nav_Panel.AutoSize = true;
             this.Nav_Panel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Nav_Panel.Controls.Add(this.button_RutasDeViaje);
             this.Nav_Panel.Controls.Add(this.button_AbmRecorridos);
             this.Nav_Panel.Controls.Add(this.UsernameLabel);
             this.Nav_Panel.Controls.Add(this.welcomeLabel);
@@ -66,6 +68,17 @@ namespace FrbaCrucero
             this.Nav_Panel.Name = "Nav_Panel";
             this.Nav_Panel.Size = new System.Drawing.Size(961, 48);
             this.Nav_Panel.TabIndex = 1;
+            // 
+            // button_AbmRecorridos
+            // 
+            this.button_AbmRecorridos.Location = new System.Drawing.Point(241, 5);
+            this.button_AbmRecorridos.Margin = new System.Windows.Forms.Padding(2);
+            this.button_AbmRecorridos.Name = "button_AbmRecorridos";
+            this.button_AbmRecorridos.Size = new System.Drawing.Size(126, 33);
+            this.button_AbmRecorridos.TabIndex = 5;
+            this.button_AbmRecorridos.Text = "ABM Recorridos";
+            this.button_AbmRecorridos.UseVisualStyleBackColor = true;
+            this.button_AbmRecorridos.Click += new System.EventHandler(this.button_AbmRecorridos_Click);
             // 
             // UsernameLabel
             // 
@@ -119,16 +132,16 @@ namespace FrbaCrucero
             this.Content.Size = new System.Drawing.Size(961, 556);
             this.Content.TabIndex = 2;
             // 
-            // button_AbmRecorridos
+            // button_RutasDeViaje
             // 
-            this.button_AbmRecorridos.Location = new System.Drawing.Point(241, 5);
-            this.button_AbmRecorridos.Margin = new System.Windows.Forms.Padding(2);
-            this.button_AbmRecorridos.Name = "button_AbmRecorridos";
-            this.button_AbmRecorridos.Size = new System.Drawing.Size(126, 33);
-            this.button_AbmRecorridos.TabIndex = 5;
-            this.button_AbmRecorridos.Text = "ABM Recorridos";
-            this.button_AbmRecorridos.UseVisualStyleBackColor = true;
-            this.button_AbmRecorridos.Click += new System.EventHandler(this.button_AbmRecorridos_Click);
+            this.button_RutasDeViaje.Location = new System.Drawing.Point(371, 5);
+            this.button_RutasDeViaje.Margin = new System.Windows.Forms.Padding(2);
+            this.button_RutasDeViaje.Name = "button_RutasDeViaje";
+            this.button_RutasDeViaje.Size = new System.Drawing.Size(144, 33);
+            this.button_RutasDeViaje.TabIndex = 6;
+            this.button_RutasDeViaje.Text = "ABM Rutas de viaje";
+            this.button_RutasDeViaje.UseVisualStyleBackColor = true;
+            this.button_RutasDeViaje.Click += new System.EventHandler(this.button_RutasDeViaje_Click);
             // 
             // MenuPrincipal
             // 
@@ -158,6 +171,7 @@ namespace FrbaCrucero
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.Label welcomeLabel;
         private System.Windows.Forms.Button button_AbmRecorridos;
+        private System.Windows.Forms.Button button_RutasDeViaje;
     }
 }
 

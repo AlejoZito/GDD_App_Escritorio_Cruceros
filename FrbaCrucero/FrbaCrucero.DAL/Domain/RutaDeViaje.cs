@@ -15,7 +15,7 @@ namespace FrbaCrucero.DAL.Domain
 
         public DateTime Fecha_Inicio { get; set; }
 
-        public DateTime Fecha_Fin { get; set; }
+        public DateTime? Fecha_Fin { get; set; }
 
         public DateTime Fecha_Fin_Estimada { get; set; }
     }

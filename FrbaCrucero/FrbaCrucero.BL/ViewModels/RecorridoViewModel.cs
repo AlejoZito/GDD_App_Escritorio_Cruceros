@@ -32,6 +32,15 @@ namespace FrbaCrucero.BL.ViewModels
 
         public BindingList<TramoViewModel> Tramos { get; set; }
 
+        [Listable(description: "Descripcion")]
+        public string Descripcion
+        {
+            get
+            {
+                return "ID: " + IdRecorrido + " / Tramos: " + CantidadTramos;
+            }
+        }
+
         public override void MapFromDomainObject(Recorrido o)
         {
             this.IdRecorrido = o.Cod_Recorrido;

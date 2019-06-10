@@ -25,7 +25,8 @@ namespace FrbaCrucero.BL.ViewModels
                 var attributes = (ListableAttribute[])prop.GetCustomAttributes(typeof(ListableAttribute), true);
                 if (attributes != null && attributes.Length > 0)
                 {
-                    columnsAndValues.Add(new KeyValuePair<string, string>(attributes[0].Description, prop.GetValue(this).ToString()));
+                    object displayedValue = prop.GetValue(this) ?? "";
+                    columnsAndValues.Add(new KeyValuePair<string, string>(attributes[0].Description, displayedValue.ToString()));
                 }
             }
 
