@@ -1,0 +1,72 @@
+Helper C# para convertir una lista de objetos en un Where IN () programaticamente
+------------------------------------------------------------------------------------
+Clase
+------------------------------------------------------------------------------------
+public static class SqlWhereInParamBuilder
+    {
+        public static string BuildWhereInClause<T>(string partialClause, string paramPrefix, IEnumerable<T> parameters)
+        {
+            List<string> parameterNames = new List<string>();
+            int paramNumber = 0;
+            foreach (var param in parameters)
+            {
+                parameterNames.Add($"@{paramPrefix}{paramNumber.ToString()}");
+                paramNumber++;
+            }
+
+            string inClause = string.Join(",", parameterNames.ToArray());
+            string whereInClause = string.Format(partialClause.Trim(), inClause);
+
+            return whereInClause;
+        }
+        public static List<KeyValuePair<string,T>> GetParamsForCommand<T>(string paramPrefix, IEnumerable<T> parameters)
+        {
+            List<KeyValuePair<string, T>> sqlParameters = new List<KeyValuePair<string, T>>();
+
+            int paramNumber = 0;
+            foreach(T param in parameters)
+            {
+                sqlParameters.Add(new KeyValuePair<string, T>($"@{paramPrefix}{paramNumber.ToString()}", param));
+                paramNumber++;
+            }
+
+            return sqlParameters;
+        }
+    }
+------------------------------------------------------------------------------------
+Ejemplo de Uso:
+------------------------------------------------------------------------------------
+List<int> statusIds =...
+
+"SELECT " +
+"   ir.IDItemRequest as IdItemRequest, " +
+"FROM ItemRequestTMCIntegration as tm " +
+"JOIN ItemRequest as ir on tm.IDItemRequest = ir.IDItemRequest " +
+"JOIN ItemRequestStatus as stt on ir.IDItemRequestStatus = stt.IDItemRequestStatus " +
+"WHERE 1 = 1 and ";
+if (statusIds != null && statusIds.Count > 0)
+{
+    //Add Where IN Clause
+    strSql += " stt.IDItemRequestStatus IN ({0}) and ";
+
+    string paramPrefix = "st";
+
+    strSql = SqlWhereInParamBuilder.BuildWhereInClause(strSql, paramPrefix, statusIds);
+
+    //Get params with values
+    List<KeyValuePair<string, int>> sqlParameters = SqlWhereInParamBuilder.GetParamsForCommand(paramPrefix, statusIds);
+
+    //Add params to cmd
+    foreach (var sqlParam in sqlParameters)
+    {
+        cmd.Parameters.AddWithValue(sqlParam.Key, sqlParam.Value);
+    }
+}
+
+o con string values
+
+List<string> houseNumbers = ...
+strSql = SqlWhereInParamBuilder.BuildWhereInClause(strSql, paramPrefix, houseNumbers);
+
+                    //Get params with values
+                    List<KeyValuePair<string, string>> sqlParameters = SqlWhereInParamBuilder.GetParamsForCommand(paramPrefix, houseNumbers);
