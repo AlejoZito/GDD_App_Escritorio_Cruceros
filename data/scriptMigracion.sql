@@ -12,6 +12,11 @@ GO
 -- Realizo un DROP de las tablas previo a su creación en caso existan
 --*************************************************************************************************************
 
+--ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_fabricante
+--ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_modelo_crucero
+--ALTER TABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_tipoCabina
+--ALTER TABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_crucero
+
 IF OBJECT_ID('[TIRANDO_QUERIES].[Cliente]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Cliente];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Pasaje]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Pasaje];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Pago]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Pago];
@@ -124,7 +129,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Crucero] (
 	[cruc_identificador] [NVARCHAR](50) NULL,
 	[cruc_fabricante] [NUMERIC] NOT NULL,
 	[cruc_modelo] [NUMERIC] NOT NULL,
-	[cruc_activo] BIT
+	[cruc_activo] BIT DEFAULT 1
 	--FOREIGN KEY (cruc_fabricante) REFERENCES Fabricante(fabr_codigo),
 	--FOREIGN KEY (cruc_modelo) REFERENCES Modelo_Crucero(mode_codigo)
 )
@@ -159,6 +164,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Cabina] (
 	[cabi_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[cabi_numero] [DECIMAL](18,0) NOT NULL,
 	[cabi_piso] [DECIMAL](18,0) NOT NULL,
+	[cabi_cod_tipo] [NUMERIC] NOT NULL,
 	[cabi_crucero] [NUMERIC] NOT NULL
 	--FOREIGN KEY (cabi_crucero) REFERENCES Crucero(cruc_codigo)
 )
@@ -513,6 +519,25 @@ WHERE crucero_modelo IS NOT NULL
 GO
 
 --*************************************************************************************************************
+-- TABLE CRUCERO
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].Crucero(cruc_identificador,cruc_fabricante,cruc_modelo)
+SELECT DISTINCT m.crucero_identificador,mc.mc_codigo,fb.fabr_codigo FROM gd_esquema.Maestra m
+JOIN TIRANDO_QUERIES.Modelo_Crucero mc ON m.crucero_modelo = mc.mc_detalle
+JOIN TIRANDO_QUERIES.Fabricante fb ON m.cru_fabricante = fb.fabr_detalle
+GO
+
+--*************************************************************************************************************
+-- TABLE CRUCERO - FOREIGN KEYS
+--*************************************************************************************************************
+
+ALTER TABLE [TIRANDO_QUERIES].Crucero ADD CONSTRAINT fk_crucero_fabricante FOREIGN KEY (cruc_fabricante) REFERENCES [TIRANDO_QUERIES].Fabricante(fabr_codigo)
+GO
+ALTER TABLE [TIRANDO_QUERIES].Crucero ADD CONSTRAINT fk_crucero_modelo_crucero FOREIGN KEY (cruc_modelo) REFERENCES [TIRANDO_QUERIES].Modelo_Crucero(mc_codigo)
+GO
+
+--*************************************************************************************************************
 -- TABLE TIPO_CABINA
 --*************************************************************************************************************
 
@@ -521,3 +546,23 @@ SELECT DISTINCT cabina_tipo,cabina_tipo_porc_recargo FROM gd_esquema.Maestra
 WHERE cabina_tipo IS NOT NULL AND cabina_tipo_porc_recargo IS NOT NULL
 GO
 
+--*************************************************************************************************************
+-- TABLE CABINA
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].Cabina(cabi_numero,cabi_piso,cabi_cod_tipo,cabi_crucero)
+SELECT DISTINCT m.cabina_nro,m.cabina_piso,tc.tc_codigo,cr.cruc_codigo FROM gd_esquema.Maestra m
+JOIN TIRANDO_QUERIES.Tipo_Cabina tc ON m.cabina_tipo = tc.tc_detalle
+JOIN TIRANDO_QUERIES.Crucero cr ON m.crucero_identificador = cr.cruc_identificador
+GO
+
+--*************************************************************************************************************
+-- TABLE CABINA - FOREIGN KEYS
+--*************************************************************************************************************
+
+ALTER TABLE [TIRANDO_QUERIES].Cabina ADD CONSTRAINT fk_cabina_tipoCabina FOREIGN KEY (cabi_cod_tipo) REFERENCES [TIRANDO_QUERIES].Tipo_Cabina(tc_codigo)
+GO
+ALTER TABLE [TIRANDO_QUERIES].Cabina ADD CONSTRAINT fk_cabina_crucero FOREIGN KEY (cabi_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
+GO
+
+--Ver qué identifica un único CRUCERO, para poder joinearlo con CABINA
