@@ -438,37 +438,6 @@ INSERT INTO [TIRANDO_QUERIES].Rol_Usuario(ru_usua_codigo,ru_rol_codigo)
 VALUES (SCOPE_IDENTITY(),@codigo_rol_administrativo)
 GO
 
--- Nuevo usuario cliente
-
-DECLARE @password [nvarchar](255)
-SET @password = 'clie'
-
-INSERT INTO [TIRANDO_QUERIES].Usuario(usua_username,usua_password)
-VALUES ('clie1', HASHBYTES('SHA2_256', @password))
-GO
-
-DECLARE @codigo_rol_cliente [NUMERIC]
-SET @codigo_rol_cliente = (SELECT rol_codigo FROM [TIRANDO_QUERIES].Rol WHERE rol_nombre = 'Cliente')
-
-INSERT INTO [TIRANDO_QUERIES].Rol_Usuario(ru_usua_codigo,ru_rol_codigo)
-VALUES (SCOPE_IDENTITY(),@codigo_rol_cliente)
-GO
-
--- Nuevo usuario cliente
-
-DECLARE @password [nvarchar](255)
-SET @password = 'clie'
-
-INSERT INTO [TIRANDO_QUERIES].Usuario(usua_username,usua_password)
-VALUES ('clie2', HASHBYTES('SHA2_256', @password))
-GO
-
-DECLARE @codigo_rol_cliente [NUMERIC]
-SET @codigo_rol_cliente = (SELECT rol_codigo FROM [TIRANDO_QUERIES].Rol WHERE rol_nombre = 'Cliente')
-
-INSERT INTO [TIRANDO_QUERIES].Rol_Usuario(ru_usua_codigo,ru_rol_codigo)
-VALUES (SCOPE_IDENTITY(),@codigo_rol_cliente)
-GO
 
 --*************************************************************************************************************
 -- TABLE CLIENTE
