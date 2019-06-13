@@ -12,15 +12,16 @@ GO
 -- Realizo un DROP de las tablas previo a su creación en caso existan
 --*************************************************************************************************************
 
---ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_fabricante
---ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_modelo_crucero
---ALTER TABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_tipoCabina
---ALTER TABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_crucero
+/*
+ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_fabricante
+ALTER TABLE [TIRANDO_QUERIES].Crucero DROP CONSTRAINT fk_crucero_modelo_crucero
+ATABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_tipoCabina
+ALTER TABLE [TIRANDO_QUERIES].Cabina DROP CONSTRAINT fk_cabina_crucero
+*/
 
 IF OBJECT_ID('[TIRANDO_QUERIES].[Cliente]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Cliente];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Pasaje]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Pasaje];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Pago]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Pago];
-IF OBJECT_ID('[TIRANDO_QUERIES].[Medio_Pago]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Medio_Pago];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Estado_Pasaje]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Estado_Pasaje];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Ruta_Viaje]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Ruta_Viaje];
 IF OBJECT_ID('[TIRANDO_QUERIES].[Recorrido]','U') IS NOT NULL DROP TABLE [TIRANDO_QUERIES].[Recorrido];
@@ -193,7 +194,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Puerto] (
 --*************************************************************************************************************
 
 CREATE TABLE [TIRANDO_QUERIES].[Recorrido] (
-	[reco_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
+	[reco_codigo] [NUMERIC] PRIMARY KEY,
 	[reco_activo] BIT NOT NULL DEFAULT 1
 )
 
@@ -206,7 +207,8 @@ CREATE TABLE [TIRANDO_QUERIES].[Tramo] (
 	[tram_puerto_desde] [NUMERIC],
 	[tram_puerto_hasta] [NUMERIC],
 	[tram_precio] [NUMERIC],
-	[tram_codigo] [INT],
+	[tram_orden] [INT],
+	[tram_invalido] [BIT] NOT NULL DEFAULT 0
 	PRIMARY KEY (tram_recorrido,tram_puerto_desde,tram_puerto_hasta)
 	--FOREIGN KEY (tram_recorrido) REFERENCES Recorrido(reco_codigo),
 	--FOREIGN KEY (tram_puerto_desde) REFERENCES Puerto(puer_codigo),
@@ -221,9 +223,9 @@ CREATE TABLE [TIRANDO_QUERIES].[Ruta_Viaje] (
 	[rv_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[rv_recorrido] [NUMERIC] NOT NULL,
 	[rv_crucero] [NUMERIC] NOT NULL,
-	[rv_fecha_inicio] DATETIME2(3),
-	[rv_fecha_fin] DATETIME2(3),
-	[rv_fecha_fin_estimada] DATETIME2(3)
+	[rv_fecha_salida] DATETIME2(3),
+	[rv_fecha_llegada] DATETIME2(3),
+	[rv_fecha_llegada_estimada] DATETIME2(3)
 	--FOREIGN KEY (rv_recorrido) REFERENCES Recorrido(reco_codigo),
 	--FOREIGN KEY (rv_crucero) REFERENCES Crucero(cruc_codigo)
 )
@@ -234,18 +236,10 @@ CREATE TABLE [TIRANDO_QUERIES].[Ruta_Viaje] (
 
 CREATE TABLE [TIRANDO_QUERIES].[Estado_Pasaje] (
 	[ep_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[ep_detalle] [NVARCHAR](255) NOT NULL
+	[ep_estado] [NVARCHAR](255) NOT NULL,
+	[ep_motivo] [NVARCHAR](255) NOT NULL
 )
 
---*************************************************************************************************************
--- TABLE MEDIO_PAGO
---*************************************************************************************************************
-
-CREATE TABLE [TIRANDO_QUERIES].[Medio_Pago] (
-	[mp_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[mp_detalle] [NVARCHAR](255) NOT NULL,
-	[mp_cuotas_permitidas] [INT],
-)
 
 --*************************************************************************************************************
 -- TABLE PAGO
@@ -253,10 +247,8 @@ CREATE TABLE [TIRANDO_QUERIES].[Medio_Pago] (
 
 CREATE TABLE [TIRANDO_QUERIES].[Pago] (
 	[pago_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[pago_fecha_compra] DATETIME2(3),
-	[pago_medio_pago] [NUMERIC] NOT NULL,
+	[pago_medio_pago] [VARCHAR](255) NOT NULL,
 	[pago_cuotas] [INT]
-	--FOREIGN KEY (pago_medio_pago) REFERENCES Medio_Pago(mp_codigo),
 )
 
 --*************************************************************************************************************
@@ -270,7 +262,8 @@ CREATE TABLE [TIRANDO_QUERIES].[Pasaje] (
 	[pasa_cliente] [NUMERIC] NOT NULL,
 	[pasa_estado] [NUMERIC] NOT NULL,
 	[pasa_pago] [NUMERIC] NOT NULL,
-	[pasa_ruta] [NUMERIC] NOT NULL
+	[pasa_ruta] [NUMERIC] NOT NULL,
+	[pasa_fecha_pago] DATETIME2(3)
 	--FOREIGN KEY (pasa_cabina) REFERENCES Cabina(cabi_codigo),
 	--FOREIGN KEY (pasa_cliente) REFERENCES Cliente(clie_codigo),
 	--FOREIGN KEY (pasa_estado) REFERENCES Estado(ep_codigo),
@@ -565,4 +558,67 @@ GO
 ALTER TABLE [TIRANDO_QUERIES].Cabina ADD CONSTRAINT fk_cabina_crucero FOREIGN KEY (cabi_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
 GO
 
---Ver qué identifica un único CRUCERO, para poder joinearlo con CABINA
+--*************************************************************************************************************
+-- TABLE TRAMO
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].Tramo(tram_recorrido,tram_puerto_desde,tram_puerto_hasta,tram_precio,tram_orden,tram_invalido)
+SELECT DISTINCT m.recorrido_codigo,p.puer_codigo,p2.puer_codigo,recorrido_precio_base,1,
+(CASE WHEN (SELECT COUNT(*) FROM gd_esquema.Maestra m2 WHERE m.recorrido_codigo=m2.recorrido_codigo) > 1 THEN 1 ELSE 0 END)
+FROM gd_esquema.Maestra m
+JOIN [TIRANDO_QUERIES].Puerto p ON m.puerto_desde = p.puer_nombre
+JOIN [TIRANDO_QUERIES].Puerto p2 ON m.puerto_hasta = p2.puer_nombre;
+GO
+
+--*************************************************************************************************************
+-- TABLE RECORRIDO
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].Recorrido(reco_codigo)
+SELECT DISTINCT m.recorrido_codigo FROM gd_esquema.Maestra m
+WHERE m.recorrido_codigo IS NOT NULL
+GO
+
+--*************************************************************************************************************
+-- TABLE RUTA_VIAJE
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].Ruta_Viaje(rv_recorrido,rv_crucero,rv_fecha_salida,rv_fecha_llegada,rv_fecha_llegada_estimada)
+SELECT DISTINCT m.recorrido_codigo,
+(SELECT cr.cruc_codigo FROM [TIRANDO_QUERIES].Crucero cr WHERE cr.cruc_identificador = m.crucero_identificador),
+m.fecha_salida,m.fecha_llegada,m.fecha_llegada_estimada
+FROM gd_esquema.Maestra m
+GO
+
+--*************************************************************************************************************
+-- TABLE ESTADO_PASAJE
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].[Estado_Pasaje](ep_estado,ep_motivo)
+VALUES ('Vigente','Pasaje vigente'),('Cancelado','Desperfecto tecnico en crucero'),('Cancelado','Crucero completo VU'),('Desconocido','Sin informacion')
+GO
+
+-- Para los datos migrados tomamos Desconocido como DEFAULT
+
+--*************************************************************************************************************
+-- TABLE PAGO
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].[Pago](pago_medio_pago,pago_cuotas)
+VALUES ('Efectivo',0),('TD Santander',0),('TC Santander',3),('TC Ciudad',6),('Desconocido',NULL)
+GO
+
+--*************************************************************************************************************
+-- TABLE PASAJE
+--*************************************************************************************************************
+
+--*************************************************************************************************************
+-- TABLE RESERVA
+--*************************************************************************************************************
+
+
+
+
+
+
+
