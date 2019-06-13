@@ -176,7 +176,8 @@ CREATE TABLE [TIRANDO_QUERIES].[Cabina] (
 
 CREATE TABLE [TIRANDO_QUERIES].[Estado_Reserva] (
 	[er_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[er_detalle] [NVARCHAR](255) NOT NULL
+	[er_estado] [NVARCHAR](255) NOT NULL,
+	[er_motivo] [NVARCHAR](255) NOT NULL
 )
 
 --*************************************************************************************************************
@@ -612,13 +613,97 @@ GO
 -- TABLE PASAJE
 --*************************************************************************************************************
 
+--Creo un índice para performar la migraicón de la tabla pasaje
+CREATE INDEX index_clientes ON TIRANDO_QUERIES.Cliente(clie_dni,clie_nombre,clie_apellido)
+
+DECLARE @cod_estado_desconocido NUMERIC
+DECLARE @cod_pago_desconocido NUMERIC
+SET @cod_estado_desconocido = (SELECT  ep.ep_codigo FROM [TIRANDO_QUERIES].Estado_Pasaje ep WHERE ep.ep_estado = 'Desconocido')
+SET @cod_pago_desconocido = (SELECT  p.pago_codigo FROM [TIRANDO_QUERIES].Pago p WHERE p.pago_medio_pago = 'Desconocido')
+
+INSERT INTO [TIRANDO_QUERIES].[Pasaje](pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
+SELECT DISTINCT m.recorrido_precio_base,
+
+(SELECT c.cabi_codigo FROM [TIRANDO_QUERIES].Cabina c
+ JOIN [TIRANDO_QUERIES].Tipo_Cabina tc ON c.cabi_cod_tipo = tc.tc_codigo
+ JOIN [TIRANDO_QUERIES].Crucero cr ON cr.cruc_codigo = c.cabi_crucero
+ WHERE c.cabi_piso = m.cabina_piso AND c.cabi_numero = m.cabina_nro AND m.cabina_tipo = tc.tc_detalle AND cr.cruc_identificador = m.crucero_identificador),
+ 
+(SELECT c.clie_codigo FROM [TIRANDO_QUERIES].Cliente c
+ WHERE c.clie_dni = m.cli_dni AND c.clie_nombre = m.cli_nombre AND c.clie_apellido = m.cli_apellido),
+ 
+@cod_estado_desconocido,
+@cod_pago_desconocido,
+
+--Aca hacemos un TOP 1 dado que la información en tramos puede devolver mas de un registro con el mismo cod_recorrido
+
+(SELECT TOP 1 rv.rv_codigo FROM [TIRANDO_QUERIES].Ruta_Viaje rv
+ JOIN [TIRANDO_QUERIES].Recorrido r ON rv.rv_recorrido = r.reco_codigo
+ JOIN [TIRANDO_QUERIES].Tramo t ON r.reco_codigo = t.tram_recorrido
+ JOIN [TIRANDO_QUERIES].Puerto p ON t.tram_puerto_desde = p.puer_codigo
+ JOIN [TIRANDO_QUERIES].Puerto p2 ON t.tram_puerto_hasta = p2.puer_codigo
+ WHERE p.puer_nombre = m.puerto_desde AND p2.puer_nombre = m.puerto_hasta AND m.recorrido_codigo = r.reco_codigo),
+
+m.pasaje_fecha_compra 
+ 
+FROM gd_esquema.Maestra m
+WHERE m.reserva_codigo IS NULL AND m.reserva_fecha IS NULL
+GO
+
+--*************************************************************************************************************
+-- TABLE ESTADO_RESERVA
+--*************************************************************************************************************
+
+INSERT INTO [TIRANDO_QUERIES].[Estado_Reserva](er_estado,er_motivo)
+VALUES ('Vigente','Reserva vigente'),('Cancelada','Supero la cantidad de dias'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
+GO
+
+-- Para los datos migrados tomamos Desconocido como DEFAULT
+
 --*************************************************************************************************************
 -- TABLE RESERVA
 --*************************************************************************************************************
 
+DECLARE @cod_estado_desconocido NUMERIC
+SET @cod_estado_desconocido = (SELECT  er.er_codigo FROM [TIRANDO_QUERIES].Estado_Reserva er WHERE er.er_estado = 'Desconocido')
+
+INSERT INTO [TIRANDO_QUERIES].[Reserva](rese_precio,rese_cabina,rese_cliente,rese_estado,rese_ruta,rese_fecha)
+SELECT DISTINCT m.recorrido_precio_base,
+
+(SELECT c.cabi_codigo FROM [TIRANDO_QUERIES].Cabina c
+ JOIN [TIRANDO_QUERIES].Tipo_Cabina tc ON c.cabi_cod_tipo = tc.tc_codigo
+ JOIN [TIRANDO_QUERIES].Crucero cr ON cr.cruc_codigo = c.cabi_crucero
+ WHERE c.cabi_piso = m.cabina_piso AND c.cabi_numero = m.cabina_nro AND m.cabina_tipo = tc.tc_detalle AND cr.cruc_identificador = m.crucero_identificador),
+ 
+(SELECT c.clie_codigo FROM [TIRANDO_QUERIES].Cliente c
+ WHERE c.clie_dni = m.cli_dni AND c.clie_nombre = m.cli_nombre AND c.clie_apellido = m.cli_apellido),
+ 
+@cod_estado_desconocido,
+
+--Aca hacemos un TOP 1 dado que la información en tramos puede devolver mas de un registro con el mismo cod_recorrido
+
+(SELECT TOP 1 rv.rv_codigo FROM [TIRANDO_QUERIES].Ruta_Viaje rv
+ JOIN [TIRANDO_QUERIES].Recorrido r ON rv.rv_recorrido = r.reco_codigo
+ JOIN [TIRANDO_QUERIES].Tramo t ON r.reco_codigo = t.tram_recorrido
+ JOIN [TIRANDO_QUERIES].Puerto p ON t.tram_puerto_desde = p.puer_codigo
+ JOIN [TIRANDO_QUERIES].Puerto p2 ON t.tram_puerto_hasta = p2.puer_codigo
+ WHERE p.puer_nombre = m.puerto_desde AND p2.puer_nombre = m.puerto_hasta AND m.recorrido_codigo = r.reco_codigo),
+
+m.reserva_fecha
+ 
+FROM gd_esquema.Maestra m
+WHERE m.reserva_codigo IS NOT NULL AND m.reserva_fecha IS NOT NULL
+GO
+
+--*************************************************************************************************************
+--*************************************************************************************************************
+-- FIN DE MIGRACION DE DATOS
+--*************************************************************************************************************
+--*************************************************************************************************************
 
 
-
-
-
-
+--*************************************************************************************************************
+--*************************************************************************************************************
+-- CREACION SP,FX,TRG
+--*************************************************************************************************************
+--*************************************************************************************************************
