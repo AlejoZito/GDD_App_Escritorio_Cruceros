@@ -32,7 +32,7 @@ namespace FrbaCrucero.UI.AbmPuerto
         private IList<Puerto> GetData()
         {
             PuertoDAO puertoDAO = new PuertoDAO();
-            var puertos = puertoDAO.ListarPuertos();
+            var puertos = puertoDAO.GetAll();
 
             return puertos;
         }

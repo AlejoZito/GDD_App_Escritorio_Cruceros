@@ -45,11 +45,11 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         private void LoadDropdowns()
         {
-            dropdownPuertoDesde.Input.DataSource = (new PuertoDAO()).ListarPuertos();
+            dropdownPuertoDesde.Input.DataSource = (new PuertoDAO()).GetAll();
             dropdownPuertoDesde.Input.DisplayMember = "Nombre";
             dropdownPuertoDesde.Input.ValueMember = "Cod_Puerto";
 
-            dropdownPuertoHasta.Input.DataSource = (new PuertoDAO()).ListarPuertos();
+            dropdownPuertoHasta.Input.DataSource = (new PuertoDAO()).GetAll();
             dropdownPuertoHasta.Input.DisplayMember = "Nombre";
             dropdownPuertoHasta.Input.ValueMember = "Cod_Puerto";
         }

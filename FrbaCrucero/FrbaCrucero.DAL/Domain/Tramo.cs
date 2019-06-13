@@ -7,7 +7,7 @@ namespace FrbaCrucero.DAL.Domain
 {
     public class Tramo
     {
-        public Recorrido Recorrido { get; set; }
+        public int IdRecorrido { get; set; }
 
         public Puerto Puerto_Desde { get; set; }
 

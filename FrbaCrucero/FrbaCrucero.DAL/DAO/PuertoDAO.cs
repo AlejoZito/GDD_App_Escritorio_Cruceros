@@ -13,7 +13,7 @@ namespace FrbaCrucero.DAL.DAO
     {
         private readonly Repository repositorio = new Repository();
 
-        public void NuevoPuerto(Puerto puerto)
+        public void Add(Puerto puerto)
         {
             if (ValidarPuerto(puerto.Nombre))
             {
@@ -42,7 +42,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void ModificarPuerto(Puerto puerto)
+        public void Edit(Puerto puerto)
         {
             puerto.Nombre = puerto.Nombre.Trim().ToUpper();
 
@@ -83,7 +83,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public IList<Puerto> ListarPuertos()
+        public IList<Puerto> GetAll()
         {
             return new List<Puerto>(){
                 new Puerto(){
@@ -110,7 +110,7 @@ namespace FrbaCrucero.DAL.DAO
             //SqlDataAdapter dataAdapter;
 
             //SqlConnection conn = repositorio.GetConnection();
-            //string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto";
+            //string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
 
             //try
             //{
@@ -142,6 +142,42 @@ namespace FrbaCrucero.DAL.DAO
             //{
             //    throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
             //}
+        }
+
+        public Puerto GetByID(int id) 
+        {
+            var conn = repositorio.GetConnection();
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", id);
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+
+                DataRow registroPuerto = dataTable.Rows[0];
+
+                var idPuerto = int.Parse(registroPuerto["puer_codigo"].ToString());
+
+                var puerto = new Puerto
+                {
+                    Cod_Puerto = idPuerto,
+                    Activo = bool.Parse(registroPuerto["puer_activo"].ToString()),
+                    Nombre = registroPuerto["puer_nombre"].ToString()
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return puerto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener el puerto", ex);
+            }
         }
 
         private bool ValidarPuerto(string nombre)

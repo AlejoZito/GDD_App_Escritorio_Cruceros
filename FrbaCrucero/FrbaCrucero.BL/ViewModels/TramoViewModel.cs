@@ -53,7 +53,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             return new Tramo()
             {
-                Recorrido = new Recorrido() { Cod_Recorrido = this.IDRecorrido },
+                IdRecorrido = this.IDRecorrido,
                 Puerto_Desde = new Puerto() { Cod_Puerto = this.IDPuertoDesde },
                 Puerto_Hasta = new Puerto() { Cod_Puerto = this.IDPuertoHasta },
                 Orden = this.Orden,
