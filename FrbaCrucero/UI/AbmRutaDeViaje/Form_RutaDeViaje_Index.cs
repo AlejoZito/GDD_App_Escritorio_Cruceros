@@ -17,12 +17,17 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));
 
-            _OnClickEdit = (id) => System.Windows.Forms.MessageBox.Show("WIP - casi esta terminado");
-            //_OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Edit(
-            //        onEditSuccess: (c) => this.OnAddOrEditSuccess(),
-            //        idRecorrido: id));
+            _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Edit(
+                    onEditSuccess: (c) => this.OnAddOrEditSuccess(),
+                    idRecorrido: id));
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+
+            Filters = new FiltersViewModel(
+                (new CruceroDAO()).GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
+                "Ingrese un ID de ruta de viaje",
+                "Ingrese un identificador de crucero",
+                "Seleccione un crucero");
         }
 
         public void OnAddOrEditSuccess()
@@ -32,7 +37,11 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         protected override List<RutaDeViajeViewModel> GetData()
         {
-            return (new RutaDeViajeDAO()).GetAll().Select(x => new RutaDeViajeViewModel(x)).ToList();
+            return (new RutaDeViajeDAO()).GetAllWithFilters(
+                this.Filters.LikeFilter,
+                this.Filters.ExactFilter,
+                this.Filters.DropdownFilterSelectedOption
+                ).Select(x => new RutaDeViajeViewModel(x)).ToList();
         }
     }
 }

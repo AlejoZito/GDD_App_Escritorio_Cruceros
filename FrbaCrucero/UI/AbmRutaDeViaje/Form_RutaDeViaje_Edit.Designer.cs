@@ -29,13 +29,12 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listTramos = new FrbaCrucero.UI._Components.DataListViewControl();
-            this.btn_tramoAdd = new System.Windows.Forms.Button();
-            this.btn_TramoDelete = new System.Windows.Forms.Button();
-            this.checkbox_activo = new System.Windows.Forms.CheckBox();
-            this.btn_actualizar = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.btnRecorridoEdit = new System.Windows.Forms.Button();
+            this.dropdownRecorrido = new FrbaCrucero.UI.Components.DropdownControl();
+            this.dropdownCrucero = new FrbaCrucero.UI.Components.DropdownControl();
+            this.datepickerDesde = new FrbaCrucero.UI.Components.DatePickerControl();
+            this.datepickerHasta = new FrbaCrucero.UI.Components.DatePickerControl();
+            this.datepickerEstimada = new FrbaCrucero.UI.Components.DatePickerControl();
             this.SuspendLayout();
             // 
             // label1
@@ -43,84 +42,84 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 17);
+            this.label1.Size = new System.Drawing.Size(141, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Editar recorrido";
+            this.label1.Text = "Agregar ruta de viaje";
             // 
-            // groupBox1
+            // btnRecorridoEdit
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.listTramos);
-            this.groupBox1.Location = new System.Drawing.Point(32, 43);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(338, 300);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tramos";
+            this.btnRecorridoEdit.Location = new System.Drawing.Point(295, 405);
+            this.btnRecorridoEdit.Name = "btnRecorridoEdit";
+            this.btnRecorridoEdit.Size = new System.Drawing.Size(94, 32);
+            this.btnRecorridoEdit.TabIndex = 5;
+            this.btnRecorridoEdit.Text = "Agregar";
+            this.btnRecorridoEdit.UseVisualStyleBackColor = true;
+            this.btnRecorridoEdit.Click += new System.EventHandler(this.btnRecorridoEdit_Click);
             // 
-            // listTramos
+            // dropdownRecorrido
             // 
-            this.listTramos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listTramos.Location = new System.Drawing.Point(18, 33);
-            this.listTramos.Name = "listTramos";
-            this.listTramos.Size = new System.Drawing.Size(301, 245);
-            this.listTramos.TabIndex = 0;
-            this.listTramos.UseCompatibleStateImageBehavior = false;
-            this.listTramos.View = System.Windows.Forms.View.Details;
+            this.dropdownRecorrido.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownRecorrido.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownRecorrido.LabelText = "Recorrido";
+            this.dropdownRecorrido.Location = new System.Drawing.Point(4, 137);
+            this.dropdownRecorrido.Name = "dropdownRecorrido";
+            this.dropdownRecorrido.Size = new System.Drawing.Size(385, 83);
+            this.dropdownRecorrido.TabIndex = 7;
             // 
-            // btn_tramoAdd
+            // dropdownCrucero
             // 
-            this.btn_tramoAdd.Location = new System.Drawing.Point(270, 27);
-            this.btn_tramoAdd.Name = "btn_tramoAdd";
-            this.btn_tramoAdd.Size = new System.Drawing.Size(94, 32);
-            this.btn_tramoAdd.TabIndex = 3;
-            this.btn_tramoAdd.Text = "Agregar";
-            this.btn_tramoAdd.UseVisualStyleBackColor = true;
+            this.dropdownCrucero.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownCrucero.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownCrucero.LabelText = "Crucero";
+            this.dropdownCrucero.Location = new System.Drawing.Point(4, 48);
+            this.dropdownCrucero.Name = "dropdownCrucero";
+            this.dropdownCrucero.Size = new System.Drawing.Size(385, 83);
+            this.dropdownCrucero.TabIndex = 6;
             // 
-            // btn_TramoDelete
+            // datepickerDesde
             // 
-            this.btn_TramoDelete.Location = new System.Drawing.Point(170, 27);
-            this.btn_TramoDelete.Name = "btn_TramoDelete";
-            this.btn_TramoDelete.Size = new System.Drawing.Size(94, 32);
-            this.btn_TramoDelete.TabIndex = 4;
-            this.btn_TramoDelete.Text = "Eliminar";
-            this.btn_TramoDelete.UseVisualStyleBackColor = true;
+            this.datepickerDesde.BackColor = System.Drawing.Color.Transparent;
+            this.datepickerDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.datepickerDesde.LabelText = "Fecha desde";
+            this.datepickerDesde.Location = new System.Drawing.Point(4, 226);
+            this.datepickerDesde.Name = "datepickerDesde";
+            this.datepickerDesde.Size = new System.Drawing.Size(385, 53);
+            this.datepickerDesde.TabIndex = 8;
             // 
-            // checkbox_activo
+            // datepickerHasta
             // 
-            this.checkbox_activo.AutoSize = true;
-            this.checkbox_activo.Location = new System.Drawing.Point(302, 349);
-            this.checkbox_activo.Name = "checkbox_activo";
-            this.checkbox_activo.Size = new System.Drawing.Size(68, 21);
-            this.checkbox_activo.TabIndex = 5;
-            this.checkbox_activo.Text = "Activo";
-            this.checkbox_activo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkbox_activo.UseVisualStyleBackColor = true;
+            this.datepickerHasta.BackColor = System.Drawing.Color.Transparent;
+            this.datepickerHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.datepickerHasta.LabelText = "Fecha hasta";
+            this.datepickerHasta.Location = new System.Drawing.Point(4, 285);
+            this.datepickerHasta.Name = "datepickerHasta";
+            this.datepickerHasta.Size = new System.Drawing.Size(385, 53);
+            this.datepickerHasta.TabIndex = 9;
             // 
-            // btn_actualizar
+            // datepickerEstimada
             // 
-            this.btn_actualizar.Location = new System.Drawing.Point(276, 394);
-            this.btn_actualizar.Name = "btn_actualizar";
-            this.btn_actualizar.Size = new System.Drawing.Size(94, 32);
-            this.btn_actualizar.TabIndex = 6;
-            this.btn_actualizar.Text = "Actualizar";
-            this.btn_actualizar.UseVisualStyleBackColor = true;
-            this.btn_actualizar.Click += new System.EventHandler(this.btn_actualizar_Click);
+            this.datepickerEstimada.BackColor = System.Drawing.Color.Transparent;
+            this.datepickerEstimada.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.datepickerEstimada.LabelText = "Estimada";
+            this.datepickerEstimada.Location = new System.Drawing.Point(4, 344);
+            this.datepickerEstimada.Name = "datepickerEstimada";
+            this.datepickerEstimada.Size = new System.Drawing.Size(385, 53);
+            this.datepickerEstimada.TabIndex = 10;
             // 
-            // Form_Recorrido_Edit
+            // Form_RutaDeViaje_Edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 438);
-            this.Controls.Add(this.btn_actualizar);
-            this.Controls.Add(this.checkbox_activo);
-            this.Controls.Add(this.btn_TramoDelete);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btn_tramoAdd);
+            this.ClientSize = new System.Drawing.Size(401, 449);
+            this.Controls.Add(this.datepickerEstimada);
+            this.Controls.Add(this.datepickerHasta);
+            this.Controls.Add(this.datepickerDesde);
+            this.Controls.Add(this.dropdownRecorrido);
+            this.Controls.Add(this.dropdownCrucero);
+            this.Controls.Add(this.btnRecorridoEdit);
             this.Controls.Add(this.label1);
-            this.Name = "Form_Recorrido_Edit";
-            this.Text = "Form_Recorrido_Edit";
-            this.groupBox1.ResumeLayout(false);
+            this.Name = "Form_RutaDeViaje_Edit";
+            this.Text = "Form_Recorrido_Add";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,11 +128,11 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btn_tramoAdd;
-        private _Components.DataListViewControl listTramos;
-        private System.Windows.Forms.Button btn_TramoDelete;
-        private System.Windows.Forms.CheckBox checkbox_activo;
-        private System.Windows.Forms.Button btn_actualizar;
+        private System.Windows.Forms.Button btnRecorridoEdit;
+        private Components.DropdownControl dropdownCrucero;
+        private Components.DropdownControl dropdownRecorrido;
+        private Components.DatePickerControl datepickerDesde;
+        private Components.DatePickerControl datepickerHasta;
+        private Components.DatePickerControl datepickerEstimada;
     }
 }

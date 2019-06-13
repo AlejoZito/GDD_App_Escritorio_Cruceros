@@ -98,17 +98,17 @@
     <Compile Include="UI\AbmRecorrido\Form_Tramo_Add.Designer.cs">
       <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.Designer.cs">
-      <DependentUpon>Form_RutaDeViaje_Add.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Edit.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Edit.Designer.cs">
       <DependentUpon>Form_RutaDeViaje_Edit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.Designer.cs">
+      <DependentUpon>Form_RutaDeViaje_Add.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Index.cs">
       <SubType>Form</SubType>
@@ -226,11 +226,11 @@
     <EmbeddedResource Include="UI\AbmRecorrido\Form_Tramo_Add.resx">
       <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.resx">
-      <DependentUpon>Form_RutaDeViaje_Add.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Edit.resx">
       <DependentUpon>Form_RutaDeViaje_Edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.resx">
+      <DependentUpon>Form_RutaDeViaje_Add.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\_Components\DatePickerControl.resx">
       <DependentUpon>DatePickerControl.cs</DependentUpon>

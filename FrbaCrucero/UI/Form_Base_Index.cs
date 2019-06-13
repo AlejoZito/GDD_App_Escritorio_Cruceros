@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,51 +20,92 @@ namespace FrbaCrucero.UI
     {
         public OnButtonClickDelegate _OnClickAdd;
         public OnButtonClickWithIDDelegate _OnClickEdit;
-        public OnButtonClickWithIDDelegate _OnClickDelete;        
+        public OnButtonClickWithIDDelegate _OnClickDelete;
+        private FiltersViewModel _Filters;
+        protected FiltersViewModel Filters
+        {
+            get { return _Filters; }
+            set
+            {
+                //Set object and bind properties
+                _Filters = value;
+
+                dropdownFilter.DataSource = _Filters.DropdownOptions;
+                dropdownFilter.DisplayMember = "Value";
+                dropdownFilter.ValueMember = "Key";
+                dropdownFilter.DataBindings.Add("SelectedValue", _Filters, "DropdownFilterSelectedOption", true, DataSourceUpdateMode.OnPropertyChanged);
+                if (!string.IsNullOrWhiteSpace(_Filters.DropdownFilterTooltip))
+                    dropdownFilterTooltip.SetToolTip(dropdownFilter, _Filters.DropdownFilterTooltip);
+
+                likeFilter.DataBindings.Add("Text", _Filters, "LikeFilter", true, DataSourceUpdateMode.OnPropertyChanged);
+                if (!string.IsNullOrWhiteSpace(_Filters.LikeFilterTooltip))
+                    likeFilterTooltip.SetToolTip(likeFilter, _Filters.LikeFilterTooltip);
+
+                exactFilter.DataBindings.Add("Text", _Filters, "ExactFilter", true, DataSourceUpdateMode.OnPropertyChanged);
+                if (!string.IsNullOrWhiteSpace(_Filters.ExactFilterToolTip))
+                    exactFilterTooltip.SetToolTip(exactFilter, _Filters.ExactFilterToolTip);
+
+                //ToDo DateTime
+                //datepickerDesde.Input.DataBindings.Add("Value", _ViewModel, "Fecha_Inicio", true, DataSourceUpdateMode.OnPropertyChanged);
+
+            }
+        }
 
         public Form_Base_Index()
         {
             InitializeComponent();
 
             SetupDataGridView();
-            PopulateDataGridView();
+            //PopulateDataGridView(); //NO POPULARLA INICIALMENTE, SOLO AL PRESIONAR "BUSCAR"
         }
 
         /// <summary>
         /// Metodo para obtener los datos en cada vista Index
         /// </summary>
         /// <returns></returns>
-        protected virtual List<T> GetData(){return null;}
+        protected virtual List<T> GetData() { return null; }
+
+        /// <summary>
+        /// Metodo para popular los filtros de busqueda
+        /// </summary>
+        protected virtual void PopulateFilters() { Expression.Empty(); }
 
         /// <summary>
         /// Metodo para obtener datos y llenar la tabla
         /// </summary>
         protected void PopulateDataGridView()
         {
-            List<T> data = GetData();
-            int rowNumber = 0;
-
-            indexDataGridView.Rows.Clear();
-
-            foreach (var item in data)
+            try
             {
-                var dataGridRow = new DataGridViewRow();
-                var rowData = item.GetRowData();
+                List<T> data = GetData();
+                int rowNumber = 0;
 
-                //Asigno el listado de KeyValue Pairs a la row
-                for (int i = 0; i < rowData.Count; i++)
+                indexDataGridView.Rows.Clear();
+
+                foreach (var item in data)
                 {
-                    dataGridRow.Cells.Add(new DataGridViewTextBoxCell() { Value = rowData[i].Value });
-                    dataGridRow.Cells[i].Value = rowData[i].Value;
+                    var dataGridRow = new DataGridViewRow();
+                    var rowData = item.GetRowData();
+
+                    //Asigno el listado de KeyValue Pairs a la row
+                    for (int i = 0; i < rowData.Count; i++)
+                    {
+                        dataGridRow.Cells.Add(new DataGridViewTextBoxCell() { Value = rowData[i].Value });
+                        dataGridRow.Cells[i].Value = rowData[i].Value;
+                    }
+
+                    indexDataGridView.Rows.Add(dataGridRow);
+
+                    rowNumber++;
                 }
 
-                indexDataGridView.Rows.Add(dataGridRow);                
-
-                rowNumber++;
+                indexDataGridView.AutoResizeColumns();
+                indexDataGridView.Refresh();
             }
-
-            indexDataGridView.AutoResizeColumns();
-            indexDataGridView.Refresh();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -83,11 +125,24 @@ namespace FrbaCrucero.UI
             }
         }
 
+        private void Agregar_Click(object sender, EventArgs e)
+        {
+            _OnClickAdd();
+        }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            PopulateDataGridView();
+        }
+
+        private void cleanFilters_Click(object sender, EventArgs e)
+        {
+            _Filters.ResetFilter();
+        }
+
         private void SetupDataGridView()
         {
             this.Controls.Add(indexDataGridView);
-
-            #region Estilos
 
             indexDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
             indexDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
@@ -95,16 +150,12 @@ namespace FrbaCrucero.UI
                 new Font(indexDataGridView.Font, FontStyle.Bold);
 
             indexDataGridView.Name = typeof(T).Name + "_DataGridView";
-            //cruceroDataGridView.Location = new Point(8, 8);
-            //cruceroDataGridView.Size = new Size(500, 250);
             indexDataGridView.AutoSizeRowsMode =
                 DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             indexDataGridView.ColumnHeadersBorderStyle =
                 DataGridViewHeaderBorderStyle.Single;
             indexDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             indexDataGridView.GridColor = Color.Black;
-            //cruceroDataGridView.RowHeadersVisible = false; 
-            #endregion
 
             //Obtener columnas a partir del viewmodel pasado a este método
             List<string> columns = GetViewModelColumns<T>();
@@ -115,7 +166,7 @@ namespace FrbaCrucero.UI
                 var column = new DataGridViewColumn();
                 indexDataGridView.Columns.Add(colName, colName);
             }
-            
+
             #region Action buttons
             DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
             btnColumn1.Name = "colEdit";
@@ -132,22 +183,14 @@ namespace FrbaCrucero.UI
             btnColumn2.CellTemplate.Style.BackColor = Color.Orange;
 
             indexDataGridView.Columns.Add(btnColumn1);
-            indexDataGridView.Columns.Add(btnColumn2); 
+            indexDataGridView.Columns.Add(btnColumn2);
             #endregion
-
-            //cruceroDataGridView.Columns[4].DefaultCellStyle.Font =
-            //    new Font(cruceroDataGridView.DefaultCellStyle.Font, FontStyle.Italic);
 
             indexDataGridView.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
             indexDataGridView.AutoSize = true;
             indexDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             indexDataGridView.MultiSelect = false;
-            //indexDataGridView.Dock = DockStyle.Fill;
-
-            //indexDataGridView.CellFormatting += new
-            //    DataGridViewCellFormattingEventHandler(
-            //    cruceroDataGridView_CellFormatting);
         }
 
         public static List<string> GetViewModelColumns<T>()
@@ -163,14 +206,9 @@ namespace FrbaCrucero.UI
                     //Tiene el atributo <Listable>
                     columns.Add(attributes[0].Description);
                 }
- 
+
             }
             return columns;
-        }
-
-        private void Agregar_Click(object sender, EventArgs e)
-        {
-            _OnClickAdd();
         }
     }
 }

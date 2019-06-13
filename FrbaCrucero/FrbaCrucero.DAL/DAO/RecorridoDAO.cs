@@ -59,68 +59,6 @@ namespace FrbaCrucero.DAL.DAO
 
         public List<Recorrido> GetAll()
         {
-            //return new List<Recorrido>(){
-            //    new Recorrido(){
-            //        Cod_Recorrido = 1,
-            //        Activo = true,
-            //        Tramos = new List<Tramo>(){
-            //            new Tramo(){
-            //                Orden = 1,
-            //                Precio = 100,
-            //                Puerto_Desde = new Puerto(){
-            //                    Cod_Puerto = 1,
-            //                    Nombre = "BsAs"
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 2,
-            //                    Nombre = "Colonia",
-            //                }
-            //            },
-            //            new Tramo(){
-            //                Orden = 2,
-            //                Precio = 200,                            
-            //                Puerto_Desde= new Puerto(){
-            //                    Cod_Puerto = 2,
-            //                    Nombre = "Colonia",
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 3,
-            //                    Nombre = "Porto Allegre"
-            //                },
-            //            }
-            //        }
-            //    },
-            //    new Recorrido(){
-            //        Cod_Recorrido = 2,
-            //        Activo = true,
-            //        Tramos = new List<Tramo>(){
-            //            new Tramo(){
-            //                Orden = 1,
-            //                Precio = 150,
-            //                Puerto_Desde = new Puerto(){
-            //                    Cod_Puerto = 8,
-            //                    Nombre = "Bangladesh"
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 9,
-            //                    Nombre = "Zimbabwe",
-            //                }
-            //            },
-            //            new Tramo(){
-            //                Orden = 2,
-            //                Precio = 200,                            
-            //                Puerto_Desde= new Puerto(){
-            //                    Cod_Puerto = 9,
-            //                    Nombre = "Zimbabwe",
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 10,
-            //                    Nombre = "Delhi"
-            //                },
-            //            }
-            //        }
-            //    }
-            //};
             var conn = repositorio.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_activo = 1";
             DataTable dataTable;

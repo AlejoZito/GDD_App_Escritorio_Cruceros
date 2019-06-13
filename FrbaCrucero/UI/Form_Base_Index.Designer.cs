@@ -28,20 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.indexDataGridView = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.dropdownFilter = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.exactFilter = new System.Windows.Forms.TextBox();
             this.label_filtroLibre = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.likeFilter = new System.Windows.Forms.TextBox();
+            this.search = new System.Windows.Forms.Button();
+            this.cleanFilters = new System.Windows.Forms.Button();
             this.Agregar = new System.Windows.Forms.Button();
+            this.likeFilterTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.exactFilterTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.dropdownFilterTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -65,11 +69,11 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.dropdownFilter);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.exactFilter);
             this.groupBox1.Controls.Add(this.label_filtroLibre);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.likeFilter);
             this.groupBox1.Location = new System.Drawing.Point(40, 26);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(651, 106);
@@ -113,13 +117,13 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Filtro dropdown";
             // 
-            // comboBox1
+            // dropdownFilter
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(383, 34);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(235, 24);
-            this.comboBox1.TabIndex = 4;
+            this.dropdownFilter.FormattingEnabled = true;
+            this.dropdownFilter.Location = new System.Drawing.Point(383, 34);
+            this.dropdownFilter.Name = "dropdownFilter";
+            this.dropdownFilter.Size = new System.Drawing.Size(235, 24);
+            this.dropdownFilter.TabIndex = 4;
             // 
             // label1
             // 
@@ -130,13 +134,13 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Filtro exacto";
             // 
-            // textBox2
+            // exactFilter
             // 
-            this.textBox2.Location = new System.Drawing.Point(94, 67);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(133, 22);
-            this.textBox2.TabIndex = 2;
-            this.textBox2.Tag = "";
+            this.exactFilter.Location = new System.Drawing.Point(94, 67);
+            this.exactFilter.Name = "exactFilter";
+            this.exactFilter.Size = new System.Drawing.Size(133, 22);
+            this.exactFilter.TabIndex = 2;
+            this.exactFilter.Tag = "";
             // 
             // label_filtroLibre
             // 
@@ -147,31 +151,34 @@
             this.label_filtroLibre.TabIndex = 1;
             this.label_filtroLibre.Text = "Filtro libre";
             // 
-            // textBox1
+            // likeFilter
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(133, 22);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Tag = "";
+            this.likeFilter.Location = new System.Drawing.Point(94, 36);
+            this.likeFilter.Name = "likeFilter";
+            this.likeFilter.Size = new System.Drawing.Size(133, 22);
+            this.likeFilter.TabIndex = 0;
+            this.likeFilter.Tag = "";
+            this.likeFilterTooltip.SetToolTip(this.likeFilter, "asd");
             // 
-            // button2
+            // search
             // 
-            this.button2.Location = new System.Drawing.Point(482, 159);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(152, 36);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Buscar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.search.Location = new System.Drawing.Point(482, 159);
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(152, 36);
+            this.search.TabIndex = 4;
+            this.search.Text = "Buscar";
+            this.search.UseVisualStyleBackColor = true;
+            this.search.Click += new System.EventHandler(this.search_Click);
             // 
-            // button3
+            // cleanFilters
             // 
-            this.button3.Location = new System.Drawing.Point(134, 160);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(152, 35);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Limpiar";
-            this.button3.UseVisualStyleBackColor = true;
+            this.cleanFilters.Location = new System.Drawing.Point(134, 160);
+            this.cleanFilters.Name = "cleanFilters";
+            this.cleanFilters.Size = new System.Drawing.Size(152, 35);
+            this.cleanFilters.TabIndex = 5;
+            this.cleanFilters.Text = "Limpiar";
+            this.cleanFilters.UseVisualStyleBackColor = true;
+            this.cleanFilters.Click += new System.EventHandler(this.cleanFilters_Click);
             // 
             // Agregar
             // 
@@ -189,8 +196,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.Agregar);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.cleanFilters);
+            this.Controls.Add(this.search);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.indexDataGridView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -208,16 +215,19 @@
         private System.Windows.Forms.DataGridView indexDataGridView;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label_filtroLibre;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox likeFilter;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox exactFilter;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox dropdownFilter;
+        private System.Windows.Forms.Button search;
+        private System.Windows.Forms.Button cleanFilters;
         private System.Windows.Forms.Button Agregar;
+        private System.Windows.Forms.ToolTip likeFilterTooltip;
+        private System.Windows.Forms.ToolTip exactFilterTooltip;
+        private System.Windows.Forms.ToolTip dropdownFilterTooltip;
     }
 }
