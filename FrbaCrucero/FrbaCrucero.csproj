@@ -113,6 +113,7 @@
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Index.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\CompraReservaPasaje\_ViewModel.cs" />
     <Compile Include="UI\_Components\DatePickerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -158,12 +159,6 @@
     <Compile Include="UI\AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\CompraReservaPasaje\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\CompraReservaPasaje\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\MenuPrincipal\MenuPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,11 +189,11 @@
     <Compile Include="UI\Login\LoginGeneral.Designer.cs">
       <DependentUpon>LoginGeneral.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PagoReserva\Form1.cs">
+    <Compile Include="UI\CompraReservaPasaje\CompraReserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PagoReserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="UI\CompraReservaPasaje\CompraReserva.Designer.cs">
+      <DependentUpon>CompraReserva.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -231,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Add.resx">
       <DependentUpon>Form_RutaDeViaje_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CompraReservaPasaje\CompraReserva.resx">
+      <DependentUpon>CompraReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\_Components\DatePickerControl.resx">
       <DependentUpon>DatePickerControl.cs</DependentUpon>

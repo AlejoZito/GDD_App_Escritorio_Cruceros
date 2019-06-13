@@ -40,6 +40,11 @@ namespace FrbaCrucero.BL.ViewModels
         [Listable(description: "Fecha de fin estimada")]
         public DateTime Fecha_Fin_Estimada { get; set; }
 
+        public string Descripcion
+        {
+            get { return string.Format("{0} - {1} [{2}]", IdRutaDeViaje, Crucero, Fecha_Fin_Estimada); }
+        }
+
         public override void MapFromDomainObject(RutaDeViaje o)
         {
             this.IdRutaDeViaje = o.Cod_Ruta;

@@ -45,6 +45,7 @@
     <Compile Include="DAO\CruceroDAO.cs" />
     <Compile Include="DAO\IDAO.cs" />
     <Compile Include="DAO\FabricanteDAO.cs" />
+    <Compile Include="DAO\MedioDePagoDAO.cs" />
     <Compile Include="DAO\ModeloCruceroDAO.cs" />
     <Compile Include="DAO\PermisoDAO.cs" />
     <Compile Include="DAO\PuertoDAO.cs" />
