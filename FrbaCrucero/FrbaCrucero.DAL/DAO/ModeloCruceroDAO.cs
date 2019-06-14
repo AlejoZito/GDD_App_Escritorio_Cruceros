@@ -50,10 +50,41 @@ namespace FrbaCrucero.DAL.DAO
 
         public List<ModeloCrucero> GetAll()
         {
-            return new List<ModeloCrucero>(){
-                new ModeloCrucero(){Cod_Modelo = 1, Detalle = "Catamaran"},
-                new ModeloCrucero(){Cod_Modelo = 2, Detalle = "Lancha a remo"}
-            };
+            var conn = repositorio.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Modelo_Crucero";
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<ModeloCrucero> modelosDeCruceros = new List<ModeloCrucero>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idModeloCrucero = int.Parse(fila["mc_codigo"].ToString());
+
+                    var modeloCrucero = new ModeloCrucero
+                    {
+                        Cod_Modelo = idModeloCrucero,
+                        Detalle = fila["mc_detalle"].ToString(),
+                    };
+
+                    modelosDeCruceros.Add(modeloCrucero);
+                }
+
+                conn.Close();
+                conn.Dispose();
+
+                return modelosDeCruceros;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los modelos de cruceros", ex);
+            }
         }
 
         public void Add(ModeloCrucero t)

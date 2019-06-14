@@ -50,10 +50,41 @@ namespace FrbaCrucero.DAL.DAO
 
         public List<Fabricante> GetAll()
         {
-            return new List<Fabricante>(){
-                new Fabricante(){Cod_Fabricante = 1, Detalle = "Samsung"},
-                new Fabricante(){Cod_Fabricante = 2, Detalle = "Coca cola"}
-            };
+            var conn = repositorio.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Fabricante";
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<Fabricante> fabricantes = new List<Fabricante>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idFabricante = int.Parse(fila["fabr_codigo"].ToString());
+
+                    var fabricante = new Fabricante
+                    {
+                        Cod_Fabricante = idFabricante,
+                        Detalle = fila["fabr_detalle"].ToString(),
+                    };
+
+                    fabricantes.Add(fabricante);
+                }
+
+                conn.Close();
+                conn.Dispose();
+
+                return fabricantes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los fabricantes", ex);
+            }
         }
 
         public void Add(Fabricante t)

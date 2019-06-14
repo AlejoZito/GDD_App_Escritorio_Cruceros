@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class TramoDAO
+    public class TramoDAO : IDAO<Tramo>
     {
         private readonly Repository repositorio = new Repository();
         private readonly PuertoDAO puertoDAO = new PuertoDAO();
@@ -99,6 +99,31 @@ namespace FrbaCrucero.DAL.DAO
             {
                 throw new Exception("Ocurrio un error al intentar listar los tramos", ex);
             }
+        }
+
+        public void Delete(Tramo t) 
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tramo GetByID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Tramo> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(Tramo t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Edit(Tramo t)
+        {
+            throw new NotImplementedException();
         }
     }
 }

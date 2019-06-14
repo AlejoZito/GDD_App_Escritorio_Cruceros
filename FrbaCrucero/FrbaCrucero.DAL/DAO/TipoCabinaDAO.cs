@@ -51,12 +51,50 @@ namespace FrbaCrucero.DAL.DAO
 
         public List<TipoCabina> GetAll()
         {
-            return new List<TipoCabina>(){
-                new TipoCabina(){Cod_Tipo = 1, Detalle = "Luxury", Porc_Recargo = 1},
-                new TipoCabina(){Cod_Tipo = 2, Detalle = "Turista", Porc_Recargo = 2}
-            };
+            //return new List<TipoCabina>(){
+            //    new TipoCabina(){Cod_Tipo = 1, Detalle = "Luxury", Porc_Recargo = 1},
+            //    new TipoCabina(){Cod_Tipo = 2, Detalle = "Turista", Porc_Recargo = 2}
+            //};
+            var conn = repositorio.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Tipo_Cabina";
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<TipoCabina> tiposDeCabinas = new List<TipoCabina>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idTipoCabina = int.Parse(fila["tc_codigo"].ToString());
+
+                    var tipoCabina = new TipoCabina
+                    {
+                        Cod_Tipo = idTipoCabina,
+                        Detalle = fila["tc_detalle"].ToString(),
+                        Porc_Recargo = decimal.Parse(fila["tc_porc_recargo"].ToString())
+                    };
+
+                    tiposDeCabinas.Add(tipoCabina);
+                }
+
+                conn.Close();
+                conn.Dispose();
+
+                return tiposDeCabinas;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los tipos de cabina", ex);
+            }
         }
 
+        //No se implementan ADD, EDIT, DELETE dado que no tiene un ABM, se mantienen solo por la interfaz de DAO. El conjunto de tipos de cabina 
+        //se asume ingresado por base y de selección acotada en abm de cruceros
         public void Add(TipoCabina t)
         {
             throw new NotImplementedException();

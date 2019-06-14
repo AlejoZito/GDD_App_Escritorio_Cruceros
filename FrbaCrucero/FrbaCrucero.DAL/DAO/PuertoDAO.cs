@@ -15,7 +15,7 @@ namespace FrbaCrucero.DAL.DAO
 
         public void Add(Puerto puerto)
         {
-            if (ValidarPuerto(puerto.Nombre))
+            if (ValidarExistenciaPuerto(puerto.Nombre))
             {
                 throw new Exception("El puerto ya existe");
             }
@@ -56,7 +56,7 @@ namespace FrbaCrucero.DAL.DAO
 
             if (!string.Equals(puerto.Nombre, nombreSinModificar))
             {
-                if (ValidarPuerto(puerto.Nombre))
+                if (ValidarExistenciaPuerto(puerto.Nombre))
                 {
                     throw new Exception("El nuevo nombre ingresado corresponde a un puerto ya existente");
                 };
@@ -159,7 +159,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        private bool ValidarPuerto(string nombre)
+        private bool ValidarExistenciaPuerto(string nombre)
         {
             try
             {
