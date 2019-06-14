@@ -208,8 +208,20 @@ CREATE TABLE [TIRANDO_QUERIES].[Puerto] (
 
 CREATE TABLE [TIRANDO_QUERIES].[Recorrido] (
 	[reco_codigo] [NUMERIC] PRIMARY KEY,
-	[reco_activo] BIT NOT NULL DEFAULT 1
+	[reco_activo] BIT NOT NULL DEFAULT 1,
+	[reco_invalido] BIT NOT NULL DEFAULT 0
 )
+
+--*************************************************************************************************************
+-- TABLE RECORRIDO - DATOS INCOHERENTES MARCADOS CON EL FLAG
+--*************************************************************************************************************
+
+UPDATE [TIRANDO_QUERIES].[Recorrido]
+SET reco_invalido = 1
+WHERE reco_codigo IN 
+(SELECT recorrido_codigo FROM gd_esquema.Maestra m
+ GROUP BY recorrido_codigo
+ HAVING COUNT(DISTINCT puerto_desde) > 1)
 
 --*************************************************************************************************************
 -- TABLE TRAMO
@@ -221,7 +233,6 @@ CREATE TABLE [TIRANDO_QUERIES].[Tramo] (
 	[tram_puerto_hasta] [NUMERIC],
 	[tram_precio] [NUMERIC],
 	[tram_orden] [INT],
-	[tram_invalido] [BIT] NOT NULL DEFAULT 0,
 	PRIMARY KEY (tram_recorrido,tram_puerto_desde,tram_puerto_hasta),
 	FOREIGN KEY (tram_recorrido) REFERENCES [TIRANDO_QUERIES].Recorrido(reco_codigo),
 	FOREIGN KEY (tram_puerto_desde) REFERENCES [TIRANDO_QUERIES].Puerto(puer_codigo),
@@ -537,8 +548,8 @@ GO
 -- TABLE TRAMO
 --*************************************************************************************************************
 
-INSERT INTO [TIRANDO_QUERIES].Tramo(tram_recorrido,tram_puerto_desde,tram_puerto_hasta,tram_precio,tram_orden,tram_invalido)
-SELECT DISTINCT m.recorrido_codigo,p.puer_codigo,p2.puer_codigo,recorrido_precio_base,1,
+INSERT INTO [TIRANDO_QUERIES].Tramo(tram_recorrido,tram_puerto_desde,tram_puerto_hasta,tram_precio,tram_orden)
+SELECT DISTINCT m.recorrido_codigo,p.puer_codigo,p2.puer_codigo,recorrido_precio_base,
 (CASE WHEN (SELECT COUNT(*) FROM gd_esquema.Maestra m2 WHERE m.recorrido_codigo=m2.recorrido_codigo) > 1 THEN 1 ELSE 0 END)
 FROM gd_esquema.Maestra m
 JOIN [TIRANDO_QUERIES].Puerto p ON m.puerto_desde = p.puer_nombre
