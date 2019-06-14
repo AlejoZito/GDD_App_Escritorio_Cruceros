@@ -114,6 +114,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Cliente] (
 	[clie_mail] [NVARCHAR](255) NOT NULL,
 	[clie_fecha_nac] DATETIME2(3) NOT NULL
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE FABRICANTE
@@ -123,6 +124,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Fabricante] (
 	[fabr_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[fabr_detalle] [NVARCHAR](255) NOT NULL
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE MODELO_CRUCERO
@@ -132,6 +134,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Modelo_Crucero] (
 	[mc_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[mc_detalle] [NVARCHAR](50) NOT NULL
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE CRUCERO
@@ -146,6 +149,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Crucero] (
 	FOREIGN KEY (cruc_fabricante) REFERENCES [TIRANDO_QUERIES].Fabricante(fabr_codigo) ON DELETE CASCADE,
 	FOREIGN KEY (cruc_modelo) REFERENCES [TIRANDO_QUERIES].Modelo_Crucero(mc_codigo) ON DELETE CASCADE
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE MANTENIMIENTO
@@ -158,6 +162,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Mantenimiento] (
 	[mant_fecha_hasta] DATETIME2(3),
 	FOREIGN KEY (mant_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE TIPO_CABINA
@@ -168,6 +173,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Tipo_Cabina] (
 	[tc_detalle] [NVARCHAR](255) NOT NULL,
 	[tc_porc_recargo] [DECIMAL](18,2) NOT NULL
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE CABINA
@@ -181,6 +187,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Cabina] (
 	[cabi_crucero] [NUMERIC] NOT NULL,
 	FOREIGN KEY (cabi_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE ESTADO_RESERVA
@@ -191,6 +198,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Estado_Reserva] (
 	[er_estado] [NVARCHAR](255) NOT NULL,
 	[er_motivo] [NVARCHAR](255) NOT NULL
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE PUERTO
@@ -201,6 +209,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Puerto] (
 	[puer_nombre] [NVARCHAR](255) NOT NULL,
 	[puer_activo] BIT NOT NULL DEFAULT 1
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE RECORRIDO
@@ -211,17 +220,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Recorrido] (
 	[reco_activo] BIT NOT NULL DEFAULT 1,
 	[reco_invalido] BIT NOT NULL DEFAULT 0
 )
-
---*************************************************************************************************************
--- TABLE RECORRIDO - DATOS INCOHERENTES MARCADOS CON EL FLAG
---*************************************************************************************************************
-
-UPDATE [TIRANDO_QUERIES].[Recorrido]
-SET reco_invalido = 1
-WHERE reco_codigo IN 
-(SELECT recorrido_codigo FROM gd_esquema.Maestra m
- GROUP BY recorrido_codigo
- HAVING COUNT(DISTINCT puerto_desde) > 1)
+GO
 
 --*************************************************************************************************************
 -- TABLE TRAMO
@@ -238,6 +237,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Tramo] (
 	FOREIGN KEY (tram_puerto_desde) REFERENCES [TIRANDO_QUERIES].Puerto(puer_codigo),
 	FOREIGN KEY (tram_puerto_hasta) REFERENCES [TIRANDO_QUERIES].Puerto(puer_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE RUTA_VIAJE
@@ -253,6 +253,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Ruta_Viaje] (
 	FOREIGN KEY (rv_recorrido) REFERENCES [TIRANDO_QUERIES].Recorrido(reco_codigo),
 	FOREIGN KEY (rv_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE ESTADO_PASAJE
@@ -263,7 +264,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Estado_Pasaje] (
 	[ep_estado] [NVARCHAR](255) NOT NULL,
 	[ep_motivo] [NVARCHAR](255) NOT NULL
 )
-
+GO
 
 --*************************************************************************************************************
 -- TABLE PAGO
@@ -274,6 +275,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Pago] (
 	[pago_medio_pago] [VARCHAR](255) NOT NULL,
 	[pago_cuotas] [INT]
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE PASAJE
@@ -294,6 +296,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Pasaje] (
 	FOREIGN KEY (pasa_pago) REFERENCES [TIRANDO_QUERIES].Pago(pago_codigo),
 	FOREIGN KEY (pasa_ruta) REFERENCES [TIRANDO_QUERIES].Ruta_Viaje(rv_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE RESERVA
@@ -312,6 +315,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Reserva] (
 	FOREIGN KEY (rese_estado) REFERENCES [TIRANDO_QUERIES].Estado_Reserva(er_codigo),
 	FOREIGN KEY (rese_ruta) REFERENCES [TIRANDO_QUERIES].Ruta_Viaje(rv_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE USUARIO
@@ -324,6 +328,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Usuario] (
 	[usua_login_fallidos] INT NOT NULL DEFAULT 0,
 	[usua_fecha_inhabilitaicon] DATETIME2(3)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE ROL
@@ -334,6 +339,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Rol] (
 	[rol_nombre] [NVARCHAR](255) NOT NULL UNIQUE,
 	[rol_activo] [BIT] NOT NULL DEFAULT 1,
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE PERMISO
@@ -343,6 +349,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Permiso] (
 	[perm_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[perm_nombre] [NVARCHAR](255) NOT NULL,
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE ROL_USUARIO
@@ -355,6 +362,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Rol_Usuario] (
 	FOREIGN KEY (ru_usua_codigo) REFERENCES [TIRANDO_QUERIES].Usuario(usua_codigo),
 	FOREIGN KEY (ru_rol_codigo) REFERENCES [TIRANDO_QUERIES].Rol(rol_codigo)
 )
+GO
 
 --*************************************************************************************************************
 -- TABLE PERMISO_ROL
@@ -367,7 +375,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Permiso_Rol] (
 	FOREIGN KEY (pr_rol_codigo) REFERENCES [TIRANDO_QUERIES].Rol(rol_codigo),
 	FOREIGN KEY (pr_perm_codigo) REFERENCES [TIRANDO_QUERIES].Permiso(perm_codigo)
 )
-
+GO
 
 
 --*************************************************************************************************************
@@ -545,6 +553,18 @@ WHERE m.recorrido_codigo IS NOT NULL
 GO
 
 --*************************************************************************************************************
+-- TABLE RECORRIDO - DATOS INCOHERENTES MARCADOS CON EL FLAG
+--*************************************************************************************************************
+
+UPDATE [TIRANDO_QUERIES].[Recorrido]
+SET reco_invalido = 1
+WHERE reco_codigo IN 
+(SELECT recorrido_codigo FROM gd_esquema.Maestra m
+GROUP BY recorrido_codigo
+HAVING COUNT(DISTINCT puerto_desde) > 1)
+GO
+
+--*************************************************************************************************************
 -- TABLE TRAMO
 --*************************************************************************************************************
 
@@ -631,7 +651,7 @@ GO
 --*************************************************************************************************************
 
 INSERT INTO [TIRANDO_QUERIES].[Estado_Reserva](er_estado,er_motivo)
-VALUES ('Vigente','Reserva vigente'),('Cancelada','Supero la cantidad de dias'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
+VALUES ('Vigente','Reserva vigente'),('Vencido','Supero la cantidad de dias'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
 GO
 
 -- Para los datos migrados tomamos Desconocido como DEFAULT
