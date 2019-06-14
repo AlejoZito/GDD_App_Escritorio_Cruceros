@@ -38,7 +38,7 @@ namespace FrbaCrucero
                 {
                     _PageCache.Add(newPage);
                 }
-            }            
+            }
 
             newPage.Value.TopLevel = false;
             Content.Controls.Clear();
@@ -69,6 +69,11 @@ namespace FrbaCrucero
         private void button_RutasDeViaje_Click(object sender, EventArgs e)
         {
             GoToPage(new UI.AbmRutaDeViaje.Form_RutaDeViaje_Index());
+        }
+
+        private void btnPasaje_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.CompraReservaPasaje.CompraReserva());
         }
 
         private void button_CerrarSesion_Click(object sender, EventArgs e)

@@ -1,4 +1,4 @@
-﻿namespace FrbaCrucero.PagoReserva
+﻿namespace FrbaCrucero.UI.CompraReservaPasaje
 {
     partial class CompraReserva
     {
@@ -31,15 +31,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBuscarViajes = new System.Windows.Forms.Button();
-            this.datePickerDeparture = new FrbaCrucero.UI.Components.DatePickerControl();
-            this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
-            this.dropdownPuertoDesde = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listViewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
-            this.listViewViajes = new FrbaCrucero.UI._Components.DataListViewControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnReservar = new System.Windows.Forms.Button();
             this.btnComprar = new System.Windows.Forms.Button();
@@ -50,6 +45,11 @@
             this.inputApellido = new FrbaCrucero.UI.Components.InputTextControl();
             this.inputNombre = new FrbaCrucero.UI.Components.InputTextControl();
             this.inputDni = new FrbaCrucero.UI.Components.InputTextControl();
+            this.listViewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
+            this.listViewViajes = new FrbaCrucero.UI._Components.DataListViewControl();
+            this.datePickerDeparture = new FrbaCrucero.UI.Components.DatePickerControl();
+            this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
+            this.dropdownPuertoDesde = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -85,36 +85,7 @@
             this.btnBuscarViajes.TabIndex = 5;
             this.btnBuscarViajes.Text = "Buscar viajes";
             this.btnBuscarViajes.UseVisualStyleBackColor = true;
-            // 
-            // datePickerDeparture
-            // 
-            this.datePickerDeparture.BackColor = System.Drawing.Color.Transparent;
-            this.datePickerDeparture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.datePickerDeparture.LabelText = "Fecha de Partida";
-            this.datePickerDeparture.Location = new System.Drawing.Point(0, 25);
-            this.datePickerDeparture.Name = "datePickerDeparture";
-            this.datePickerDeparture.Size = new System.Drawing.Size(385, 53);
-            this.datePickerDeparture.TabIndex = 0;
-            // 
-            // dropdownPuertoHasta
-            // 
-            this.dropdownPuertoHasta.BackColor = System.Drawing.Color.Transparent;
-            this.dropdownPuertoHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.dropdownPuertoHasta.LabelText = "Puerto Llegada";
-            this.dropdownPuertoHasta.Location = new System.Drawing.Point(774, 25);
-            this.dropdownPuertoHasta.Name = "dropdownPuertoHasta";
-            this.dropdownPuertoHasta.Size = new System.Drawing.Size(385, 83);
-            this.dropdownPuertoHasta.TabIndex = 4;
-            // 
-            // dropdownPuertoDesde
-            // 
-            this.dropdownPuertoDesde.BackColor = System.Drawing.Color.Transparent;
-            this.dropdownPuertoDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.dropdownPuertoDesde.LabelText = "Puerto Salida";
-            this.dropdownPuertoDesde.Location = new System.Drawing.Point(391, 25);
-            this.dropdownPuertoDesde.Name = "dropdownPuertoDesde";
-            this.dropdownPuertoDesde.Size = new System.Drawing.Size(385, 83);
-            this.dropdownPuertoDesde.TabIndex = 3;
+            this.btnBuscarViajes.Click += new System.EventHandler(this.btnBuscarViajes_Click);
             // 
             // groupBox2
             // 
@@ -156,26 +127,6 @@
             this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Viajes";
-            // 
-            // listViewCabinas
-            // 
-            this.listViewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewCabinas.Location = new System.Drawing.Point(581, 58);
-            this.listViewCabinas.Name = "listViewCabinas";
-            this.listViewCabinas.Size = new System.Drawing.Size(579, 145);
-            this.listViewCabinas.TabIndex = 1;
-            this.listViewCabinas.UseCompatibleStateImageBehavior = false;
-            this.listViewCabinas.View = System.Windows.Forms.View.Details;
-            // 
-            // listViewViajes
-            // 
-            this.listViewViajes.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewViajes.Location = new System.Drawing.Point(16, 58);
-            this.listViewViajes.Name = "listViewViajes";
-            this.listViewViajes.Size = new System.Drawing.Size(521, 146);
-            this.listViewViajes.TabIndex = 0;
-            this.listViewViajes.UseCompatibleStateImageBehavior = false;
-            this.listViewViajes.View = System.Windows.Forms.View.Details;
             // 
             // groupBox3
             // 
@@ -286,6 +237,61 @@
             this.inputDni.Size = new System.Drawing.Size(385, 53);
             this.inputDni.TabIndex = 0;
             // 
+            // listViewCabinas
+            // 
+            this.listViewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listViewCabinas.HideSelection = false;
+            this.listViewCabinas.Location = new System.Drawing.Point(581, 58);
+            this.listViewCabinas.Name = "listViewCabinas";
+            this.listViewCabinas.Size = new System.Drawing.Size(579, 145);
+            this.listViewCabinas.TabIndex = 1;
+            this.listViewCabinas.UseCompatibleStateImageBehavior = false;
+            this.listViewCabinas.View = System.Windows.Forms.View.Details;
+            this.listViewCabinas.SelectedIndexChanged += new System.EventHandler(this.listViewCabinas_SelectedIndexChanged);
+            // 
+            // listViewViajes
+            // 
+            this.listViewViajes.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listViewViajes.HideSelection = false;
+            this.listViewViajes.Location = new System.Drawing.Point(16, 58);
+            this.listViewViajes.MultiSelect = false;
+            this.listViewViajes.Name = "listViewViajes";
+            this.listViewViajes.Size = new System.Drawing.Size(521, 146);
+            this.listViewViajes.TabIndex = 0;
+            this.listViewViajes.UseCompatibleStateImageBehavior = false;
+            this.listViewViajes.View = System.Windows.Forms.View.Details;
+            this.listViewViajes.SelectedIndexChanged += new System.EventHandler(this.listViewViajes_SelectedIndexChanged);
+            // 
+            // datePickerDeparture
+            // 
+            this.datePickerDeparture.BackColor = System.Drawing.Color.Transparent;
+            this.datePickerDeparture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.datePickerDeparture.LabelText = "Fecha de Partida";
+            this.datePickerDeparture.Location = new System.Drawing.Point(0, 25);
+            this.datePickerDeparture.Name = "datePickerDeparture";
+            this.datePickerDeparture.Size = new System.Drawing.Size(385, 53);
+            this.datePickerDeparture.TabIndex = 0;
+            // 
+            // dropdownPuertoHasta
+            // 
+            this.dropdownPuertoHasta.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownPuertoHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownPuertoHasta.LabelText = "Puerto Llegada";
+            this.dropdownPuertoHasta.Location = new System.Drawing.Point(774, 25);
+            this.dropdownPuertoHasta.Name = "dropdownPuertoHasta";
+            this.dropdownPuertoHasta.Size = new System.Drawing.Size(385, 83);
+            this.dropdownPuertoHasta.TabIndex = 4;
+            // 
+            // dropdownPuertoDesde
+            // 
+            this.dropdownPuertoDesde.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownPuertoDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownPuertoDesde.LabelText = "Puerto Salida";
+            this.dropdownPuertoDesde.Location = new System.Drawing.Point(391, 25);
+            this.dropdownPuertoDesde.Name = "dropdownPuertoDesde";
+            this.dropdownPuertoDesde.Size = new System.Drawing.Size(385, 83);
+            this.dropdownPuertoDesde.TabIndex = 3;
+            // 
             // CompraReserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -295,6 +301,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CompraReserva";
             this.Text = "Pasaje";
             this.groupBox1.ResumeLayout(false);

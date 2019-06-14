@@ -113,7 +113,6 @@
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Index.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\CompraReservaPasaje\_ViewModel.cs" />
     <Compile Include="UI\_Components\DatePickerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

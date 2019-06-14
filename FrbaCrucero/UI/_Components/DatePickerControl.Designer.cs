@@ -58,12 +58,12 @@
             // 
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker1.Location = new System.Drawing.Point(127, 3);
-            this.dateTimePicker1.MinDate = new System.DateTime(2019, 6, 10, 0, 0, 0, 0);
+            this.dateTimePicker1.MinDate = new System.DateTime(1998, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(250, 22);
             this.dateTimePicker1.TabIndex = 3;
             // 
-            // InputTextControl
+            // DatePickerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,7 +72,7 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.validationError);
             this.Controls.Add(this.label1);
-            this.Name = "InputTextControl";
+            this.Name = "DatePickerControl";
             this.Size = new System.Drawing.Size(385, 53);
             this.ResumeLayout(false);
             this.PerformLayout();

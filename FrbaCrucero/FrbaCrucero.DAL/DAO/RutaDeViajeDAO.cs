@@ -50,7 +50,7 @@ namespace FrbaCrucero.DAL.DAO
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
                         Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
-                        Fecha_Fin = fila["rv_fecha_salida"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
+                        Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
                         Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
@@ -117,7 +117,7 @@ namespace FrbaCrucero.DAL.DAO
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
                         Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
-                        Fecha_Fin = fila["rv_fecha_salida"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
+                        Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
                         Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
@@ -151,6 +151,77 @@ namespace FrbaCrucero.DAL.DAO
         public void Delete(RutaDeViaje t)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Metodo llamado desde la vista de compra de pasajes
+        /// </summary>
+        /// <param name="fechaPartida"></param>
+        /// <param name="idPuertoSalida"></param>
+        /// <param name="idPuertoLlegada"></param>
+        /// <returns></returns>
+        public List<RutaDeViaje> GetByFiltersPasaje(DateTime? fechaPartida, int idPuertoSalida, int idPuertoLlegada)
+        {var conn = repositorio.GetConnection();
+            SqlCommand comando = new SqlCommand(@"SELECT " +
+                                                "    Ruta.rv_recorrido rv_recorrido, " +
+                                                "    Ruta.rv_fecha_salida rv_fecha_salida, " +
+                                                "    Ruta.rv_fecha_llegada_estimada rv_fecha_llegada_estimada, " +
+                                                "    Tramo_INICIAL.tram_puerto_desde, " +
+                                                "    Tramo_DESTINO.tram_puerto_hasta, " +
+                                                "    Ruta.rv_crucero rv_crucero " +
+                                                "FROM [TIRANDO_QUERIES].Ruta_Viaje Ruta, [TIRANDO_QUERIES].Tramo Tramo_INICIAL, " +
+                                                " [TIRANDO_QUERIES].Tramo Tramo_DESTINO " +
+                                                "WHERE  " +
+                                                "   CONVERT(VARCHAR(10), Ruta.rv_fecha_salida, 111) = CONVERT(VARCHAR(10), @fecha_salida, 111) AND " +
+                                                "   Tramo_INICIAL.tram_recorrido = Ruta.rv_recorrido AND " +
+                                                "   Tramo_DESTINO.tram_recorrido = Ruta.rv_recorrido AND " +
+                                                "	Tramo_INICIAL.tram_orden = 1 AND " +
+                                                "	Tramo_INICIAL.tram_puerto_desde = @puerto_desde AND " +
+                                                "	Tramo_DESTINO.tram_puerto_hasta = @puerto_destino ", conn);
+
+            DataTable dataTable = new DataTable();
+            comando.Parameters.AddWithValue("@fecha_salida", fechaPartida);
+            comando.Parameters.AddWithValue("@puerto_desde", idPuertoSalida);
+            comando.Parameters.AddWithValue("@puerto_destino", idPuertoLlegada);
+            
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
+            };
+
+            try
+            {        
+                dataAdapter.Fill(dataTable);
+                List<RutaDeViaje> recorridos = new List<RutaDeViaje>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    var rutaDeViaje = new RutaDeViaje()
+                    {
+                        Cod_Ruta = int.Parse(fila["rv_recorrido"].ToString()),
+                        Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
+                        Fecha_Fin = null,
+                        Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
+                        Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                    };
+
+                    recorridos.Add(rutaDeViaje);
+                };
+
+                return recorridos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar las rutas de viaje", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
         }
     }
 }

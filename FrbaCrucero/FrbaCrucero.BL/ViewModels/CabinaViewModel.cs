@@ -9,6 +9,14 @@ namespace FrbaCrucero.BL.ViewModels
 {
     public class CabinaViewModel : ViewModel <Cabina>
     {
+        public CabinaViewModel() { }
+
+        public CabinaViewModel(Cabina o)
+        {
+            MapFromDomainObject(o);
+        }
+
+        public int IdCabina { get; set; }
         public int Numero { get; set; }
         public int Piso { get; set; }
         public int IdTipo { get; set; }
@@ -26,6 +34,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             return new Cabina()
             {
+                Cod_Cabina = this.IdCabina,
                 Numero = this.Numero,
                 Piso = this.Piso,
                 Tipo_Cabina = new TipoCabina() { Cod_Tipo = this.IdTipo },
@@ -35,6 +44,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public override void MapFromDomainObject(Cabina c)
         {
+            this.IdCabina = c.Cod_Cabina;
             this.Numero = c.Numero;
             this.Piso = c.Piso;
             this.IdTipo = c.Tipo_Cabina.Cod_Tipo;

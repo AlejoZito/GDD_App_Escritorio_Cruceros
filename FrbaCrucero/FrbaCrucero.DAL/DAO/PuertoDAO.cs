@@ -85,63 +85,42 @@ namespace FrbaCrucero.DAL.DAO
 
         public IList<Puerto> GetAll()
         {
-            return new List<Puerto>(){
-                new Puerto(){
-                    Cod_Puerto = 1,
-                    Nombre = "BsAs"
-                }, new Puerto(){
-                    Cod_Puerto = 2,
-                    Nombre = "Colonia",
-                } , new Puerto(){
-                    Cod_Puerto = 3,
-                    Nombre = "Porto Allegre"
-                }, new Puerto(){
-                    Cod_Puerto = 8,
-                    Nombre = "Bangladesh"
-                }, new Puerto(){
-                    Cod_Puerto = 9,
-                    Nombre = "Zimbabwe",
-                }, new Puerto(){
-                    Cod_Puerto = 10,
-                    Nombre = "Delhi"
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            SqlConnection conn = repositorio.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                IList<Puerto> puertos = new List<Puerto>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var puerto = new Puerto
+                    {
+                        Cod_Puerto = int.Parse(fila["puer_codigo"].ToString()),
+                        Nombre = fila["puer_nombre"].ToString(),
+                        Activo = bool.Parse(fila["puer_activo"].ToString())
+                    };
+
+                    puertos.Add(puerto);
                 }
-            };
-            //DataTable dataTable;
-            //SqlDataAdapter dataAdapter;
 
-            //SqlConnection conn = repositorio.GetConnection();
-            //string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
+                dataAdapter.Dispose();
+                conn.Dispose();
+                conn.Close();
 
-            //try
-            //{
-            //    dataAdapter = new SqlDataAdapter(comando, conn);
-            //    dataTable = new DataTable();
-
-            //    dataAdapter.Fill(dataTable);
-            //    IList<Puerto> puertos = new List<Puerto>();
-
-            //    foreach (DataRow fila in dataTable.Rows)
-            //    {
-            //        var puerto = new Puerto
-            //        {
-            //            Cod_Puerto = int.Parse(fila["puer_codigo"].ToString()),
-            //            Nombre = fila["puer_nombre"].ToString(),
-            //            Activo = bool.Parse(fila["puer_activo"].ToString())
-            //        };
-
-            //        puertos.Add(puerto);
-            //    }
-
-            //    dataAdapter.Dispose();
-            //    conn.Dispose();
-            //    conn.Close();
-
-            //    return puertos;
-            //}
-            //catch (Exception ex) 
-            //{
-            //    throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
-            //}
+                return puertos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
+            }
         }
 
         public Puerto GetByID(int id) 

@@ -34,5 +34,13 @@ namespace FrbaCrucero.DAL.DAO
         {
             throw new NotImplementedException();
         }
+
+        public List<Cabina> GetByRutaDeViaje(int _RutaDeViajeSeleccionada)
+        {
+            return new List<Cabina>(){
+                new Cabina(){Cod_Cabina = 1, Numero = 1, Piso = 1, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
+                new Cabina(){Cod_Cabina = 2, Numero = 2, Piso = 2, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
+            };
+        }
     }
 }

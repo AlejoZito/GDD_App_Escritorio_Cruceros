@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaCrucero.PagoReserva
+namespace FrbaCrucero.UI.CompraReservaPasaje
 {
     public partial class CompraReserva : Form
     {
@@ -27,20 +27,20 @@ namespace FrbaCrucero.PagoReserva
         private void BindControls()
         {
             datePickerDeparture.Input.DataBindings.Add("Value", _ViewModel, "FechaPartida", true, DataSourceUpdateMode.OnPropertyChanged);
-            dropdownPuertoDesde.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
+            dropdownPuertoDesde.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdPuertoSalida", true, DataSourceUpdateMode.OnPropertyChanged);
+            dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdPuertoLlegada", true, DataSourceUpdateMode.OnPropertyChanged);
 
             listViewViajes.SetDataBinding(_ViewModel.Viajes, "Descripcion");
             
             listViewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
 
-            inputDni.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputNombre.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputApellido.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputDireccion.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputTelefono.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputEmail.Input.DataBindings.Add("Text", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
-            inputFechaNacimiento.Input.DataBindings.Add("Value", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputDni.Input.DataBindings.Add("Text", _ViewModel, "Cliente.DNI", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputNombre.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputApellido.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Apellido", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputDireccion.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Direccion", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputTelefono.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Telefono", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputEmail.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Mail", true, DataSourceUpdateMode.OnPropertyChanged);
+            inputFechaNacimiento.Input.DataBindings.Add("Value", _ViewModel, "Cliente.FechaNacimiento", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadDropDowns()
@@ -49,9 +49,14 @@ namespace FrbaCrucero.PagoReserva
             dropdownPuertoDesde.Input.DisplayMember = "Nombre";
             dropdownPuertoDesde.Input.ValueMember = "Cod_Puerto";
 
-            dropdownPuertoHasta.Input.DataSource = (new CruceroDAO()).GetAll();
+            dropdownPuertoHasta.Input.DataSource = (new PuertoDAO()).GetAll();
             dropdownPuertoHasta.Input.DisplayMember = "Nombre";
             dropdownPuertoHasta.Input.ValueMember = "Cod_Puerto";
+        }
+
+        private void btnBuscarViajes_Click(object sender, EventArgs e)
+        {
+            _ViewModel.BuscarViajes();
         }
 
         private void btnReservar_Click(object sender, EventArgs e)
@@ -62,6 +67,35 @@ namespace FrbaCrucero.PagoReserva
         private void btnComprar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void listViewViajes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewViajes.SelectedItems == null || listViewViajes.SelectedItems.Count == 0)
+            {
+                _ViewModel.RutaDeViajeSeleccionada = (int?)null;
+            }
+            else
+            {
+                var rutaSeleccionada = _ViewModel.Viajes.FirstOrDefault(x => x.Descripcion == listViewViajes.SelectedItems[0].Text);
+                _ViewModel.RutaDeViajeSeleccionada = rutaSeleccionada.IdRutaDeViaje;
+            }
+        }
+
+        private void listViewCabinas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewCabinas.SelectedItems == null || listViewCabinas.SelectedItems.Count == 0)
+            {
+                _ViewModel.IdsCabinasSeleccionadas.Clear();
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listViewCabinas.SelectedItems)
+                {
+                    var cabinaToAdd = _ViewModel.Cabinas.FirstOrDefault(x => x.Descripcion == listItem.Text);
+                    _ViewModel.IdsCabinasSeleccionadas.Add(cabinaToAdd.IdCabina);
+                }
+            }
         }
     }
 }
