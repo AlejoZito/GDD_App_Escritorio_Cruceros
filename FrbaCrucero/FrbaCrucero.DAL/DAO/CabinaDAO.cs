@@ -42,5 +42,10 @@ namespace FrbaCrucero.DAL.DAO
                 new Cabina(){Cod_Cabina = 2, Numero = 2, Piso = 2, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
             };
         }
+
+        public List<Cabina> GetAllForId(int idCrucero)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
