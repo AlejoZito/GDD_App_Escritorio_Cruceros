@@ -33,7 +33,7 @@ namespace FrbaCrucero.DAL.DAO
                 {
                     mediosDePago.Add(new MedioDePago()
                     {
-                        Cod_Medio_De_Pago = (int)fila["pago_codigo"],
+                        Cod_Medio_De_Pago = int.Parse(fila["pago_codigo"].ToString()),
                         Medio_De_Pago = fila["pago_medio_pago"].ToString(),
                         Cuotas = (int)fila["pago_cuotas"]
                     });
@@ -44,7 +44,7 @@ namespace FrbaCrucero.DAL.DAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrió un error al listar los permisos del rol", ex);
+                throw new Exception("Ocurrió un error al listar los medios de pago", ex);
             }
             finally
             {

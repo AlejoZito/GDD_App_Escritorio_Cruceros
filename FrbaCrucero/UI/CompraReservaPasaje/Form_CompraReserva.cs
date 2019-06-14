@@ -72,9 +72,11 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             if (_ViewModel.IsValid())
             {
                 Program.Navigation.PopUpPage(new Form_Pago(
-                    onSuccess: (pago) => _ViewModel.Pago = pago));
+                    onSuccess: (pago) => _ViewModel.MedioDePago = pago));
 
                 _ViewModel.ComprarPasaje();
+
+                Program.Navigation.PopUpPage(new Form_PasajeExitoso());
             }
         }
 
