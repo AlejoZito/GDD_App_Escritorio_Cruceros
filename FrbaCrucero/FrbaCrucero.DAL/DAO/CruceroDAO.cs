@@ -79,56 +79,98 @@ namespace FrbaCrucero.DAL.DAO
 
         public static List<Crucero> GetAll()
         {
-            return new List<Crucero>(){
-                new Crucero(){
-                    Cod_Crucero = 1,
-                Fabricante = new Fabricante()
+            var conn = Repository.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_activo = 1";
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<Crucero> cruceros = new List<Crucero>();
+
+                foreach (DataRow fila in dataTable.Rows)
                 {
-                    Cod_Fabricante = 1,
-                    Detalle = "Motorola"
-                },
-                Modelo_Crucero = new ModeloCrucero()
-                {
-                    Cod_Modelo = 2,
-                    Detalle = "Catamaran"
-                },
-                Cabinas = new List<Cabina>(){
-                    new Cabina(){
-                        Cod_Cabina = 2,
-                        Numero = 3,
-                        Piso = 1,
-                        Tipo_Cabina = new TipoCabina(){
-                            Cod_Tipo = 5,
-                            Detalle = "Con cama"
-                            }
-                        }
-                    }
-                },
-                new Crucero(){
-                        Cod_Crucero = 2,
-                    Fabricante = new Fabricante()
+                    var idCrucero = int.Parse(fila["cruc_codigo"].ToString());
+                    var idFabricante = int.Parse(fila["cruc_fabricante"].ToString());
+                    var idModelo = int.Parse(fila["cruc_modelo"].ToString());
+
+                    var crucero = new Crucero
                     {
-                        Cod_Fabricante = 1,
-                        Detalle = "A"
-                    },
-                    Modelo_Crucero = new ModeloCrucero()
-                    {
-                        Cod_Modelo = 2,
-                        Detalle = "X"
-                    },
-                    Cabinas = new List<Cabina>(){
-                        new Cabina(){
-                            Cod_Cabina = 2,
-                            Numero = 3,
-                            Piso = 1,
-                            Tipo_Cabina = new TipoCabina(){
-                                Cod_Tipo = 5,
-                                Detalle = "B"
-                            }
-                        }
-                    },
+                        Cod_Crucero = idCrucero,
+                        Cabinas = CabinaDAO.GetAllForId(idCrucero),
+                        Identificador = fila["cruc_identificador"].ToString(),
+                        Fabricante = FabricanteDAO.GetByID(idFabricante),
+                        Modelo_Crucero = ModeloCruceroDAO.GetByID(idModelo),
+                        Activo = bool.Parse(fila["cruc_activo"].ToString())
+                    };
+
+                    cruceros.Add(crucero);
                 }
-            };
+
+                conn.Close();
+                conn.Dispose();
+
+                return cruceros;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los fabricantes", ex);
+            }
+
+            //return new List<Crucero>(){
+            //    new Crucero(){
+            //        Cod_Crucero = 1,
+            //    Fabricante = new Fabricante()
+            //    {
+            //        Cod_Fabricante = 1,
+            //        Detalle = "Motorola"
+            //    },
+            //    Modelo_Crucero = new ModeloCrucero()
+            //    {
+            //        Cod_Modelo = 2,
+            //        Detalle = "Catamaran"
+            //    },
+            //    Cabinas = new List<Cabina>(){
+            //        new Cabina(){
+            //            Cod_Cabina = 2,
+            //            Numero = 3,
+            //            Piso = 1,
+            //            Tipo_Cabina = new TipoCabina(){
+            //                Cod_Tipo = 5,
+            //                Detalle = "Con cama"
+            //                }
+            //            }
+            //        }
+            //    },
+            //    new Crucero(){
+            //            Cod_Crucero = 2,
+            //        Fabricante = new Fabricante()
+            //        {
+            //            Cod_Fabricante = 1,
+            //            Detalle = "A"
+            //        },
+            //        Modelo_Crucero = new ModeloCrucero()
+            //        {
+            //            Cod_Modelo = 2,
+            //            Detalle = "X"
+            //        },
+            //        Cabinas = new List<Cabina>(){
+            //            new Cabina(){
+            //                Cod_Cabina = 2,
+            //                Numero = 3,
+            //                Piso = 1,
+            //                Tipo_Cabina = new TipoCabina(){
+            //                    Cod_Tipo = 5,
+            //                    Detalle = "B"
+            //                }
+            //            }
+            //        },
+            //    }
+            //};
         }
 
         public static void Add(Crucero t)
