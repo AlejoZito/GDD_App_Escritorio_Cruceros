@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class TramoDAO : IDAO<Tramo>
+    public static class TramoDAO
     {
-        private readonly Repository repositorio = new Repository();
-        private readonly PuertoDAO puertoDAO = new PuertoDAO();
-
-        public void Add(IList<Tramo> tramos, int idRecorrido)
+        public static void Add(IList<Tramo> tramos, int idRecorrido)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             int orden = 1;
             SqlCommand comando = new SqlCommand();
             
@@ -43,9 +40,9 @@ namespace FrbaCrucero.DAL.DAO
             conn.Dispose();
         }
 
-        public void Edit(IList<Tramo> tramos, int idRecorrido)
+        public static void Edit(IList<Tramo> tramos, int idRecorrido)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"DELETE TIRANDO_QUERIES.Tramo WHERE tram_recorrido = @idRecorrido");
             comando.Parameters.Add("@tram_recorrido", SqlDbType.Int);
             comando.Parameters["@tram_recorrido"].Value = idRecorrido;
@@ -54,14 +51,14 @@ namespace FrbaCrucero.DAL.DAO
             conn.Close();
             conn.Dispose();
 
-            this.Add(tramos, idRecorrido);
+            TramoDAO.Add(tramos, idRecorrido);
         }
 
-        public IList<Tramo> GetAllForID(int idRecorrido) 
+        public static IList<Tramo> GetAllForID(int idRecorrido) 
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Tramo WHERE tram_recorrido = {0}", idRecorrido);
 
             try
@@ -81,8 +78,8 @@ namespace FrbaCrucero.DAL.DAO
                     {
                         Orden = int.Parse(fila["tram_orden"].ToString()),
                         Precio = decimal.Parse(fila["tram_precio"].ToString()),
-                        Puerto_Desde = puertoDAO.GetByID(codigoPuertoDesde),
-                        Puerto_Hasta = puertoDAO.GetByID(codigoPuertoHasta),
+                        Puerto_Desde = PuertoDAO.GetByID(codigoPuertoDesde),
+                        Puerto_Hasta = PuertoDAO.GetByID(codigoPuertoHasta),
                         IdRecorrido = int.Parse(fila["tram_recorrido"].ToString())
                     };
 
@@ -101,27 +98,27 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Delete(Tramo t) 
+        public static void Delete(Tramo t) 
         {
             throw new NotImplementedException();
         }
 
-        public Tramo GetByID(int id)
+        public static Tramo GetByID(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Tramo> GetAll()
+        public static List<Tramo> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Tramo t)
+        public static void Add(Tramo t)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(Tramo t)
+        public static void Edit(Tramo t)
         {
             throw new NotImplementedException();
         }

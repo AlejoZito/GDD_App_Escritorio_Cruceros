@@ -11,14 +11,13 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class RolDAO
     {
-        private readonly Repository repositorio = new Repository();
         private readonly PermisoDAO permisoDAO = new PermisoDAO();
 
         public List<Rol> GetAllForID(int idUsuario)
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
 
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol_Usuario WHERE ru_usua_codigo = {0}", idUsuario);
 
@@ -53,7 +52,7 @@ namespace FrbaCrucero.DAL.DAO
 
         public Rol GetByID(int id) 
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;

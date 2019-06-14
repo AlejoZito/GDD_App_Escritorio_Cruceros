@@ -9,18 +9,15 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class RecorridoDAO : IDAO<Recorrido>
+    public static class RecorridoDAO
     {
-        private readonly Repository repositorio = new Repository();
-        private readonly TramoDAO tramoDAO = new TramoDAO();
-
-        public void Add(Recorrido recorrido)
+        public static void Add(Recorrido recorrido)
         {
             ValidarTramos(recorrido.Tramos);
 
             try
             {
-                var conn = repositorio.GetConnection();
+                var conn = Repository.GetConnection();
 
                 //Inserto el recorrido y obtengo el id
                 SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(reco_activo) VALUES(@activo)", conn);
@@ -34,7 +31,7 @@ namespace FrbaCrucero.DAL.DAO
                 conn.Dispose();
 
                 //Inserto los tramos en base con el id de recorrido
-                tramoDAO.Add(recorrido.Tramos, idRecorrido);
+                TramoDAO.Add(recorrido.Tramos, idRecorrido);
 
             }
             catch (Exception ex)
@@ -43,13 +40,13 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Edit(Recorrido recorridoModificado)
+        public static void Edit(Recorrido recorridoModificado)
         {
             ValidarTramos(recorridoModificado.Tramos);
 
             try
             {
-                tramoDAO.Edit(recorridoModificado.Tramos, recorridoModificado.Cod_Recorrido);
+                TramoDAO.Edit(recorridoModificado.Tramos, recorridoModificado.Cod_Recorrido);
             }
             catch (Exception ex)
             {
@@ -57,9 +54,9 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Recorrido> GetAll()
+        public static List<Recorrido> GetAll()
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_activo = 1";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -80,7 +77,7 @@ namespace FrbaCrucero.DAL.DAO
                     {
                         Cod_Recorrido = idRecorrido,
                         Activo = bool.Parse(fila["reco_activo"].ToString()),
-                        Tramos = tramoDAO.GetAllForID(idRecorrido)
+                        Tramos = TramoDAO.GetAllForID(idRecorrido)
                     };
 
                     recorridos.Add(recorrido);
@@ -97,7 +94,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public Recorrido GetByID(int id)
+        public static Recorrido GetByID(int id)
         {
             //return new Recorrido()
             //{
@@ -130,7 +127,7 @@ namespace FrbaCrucero.DAL.DAO
             //            }
             //        }
             //};
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -150,7 +147,7 @@ namespace FrbaCrucero.DAL.DAO
                 {
                     Cod_Recorrido = idRecorrido,
                     Activo = bool.Parse(registroRecorrido["reco_activo"].ToString()),
-                    Tramos = tramoDAO.GetAllForID(idRecorrido)
+                    Tramos = TramoDAO.GetAllForID(idRecorrido)
                 };
 
                 conn.Close();
@@ -164,11 +161,11 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Delete(Recorrido recorrido)
+        public static void Delete(Recorrido recorrido)
         {
             try
             {
-                var conn = repositorio.GetConnection();
+                var conn = Repository.GetConnection();
                 SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Recorrido SET reco_activo = 0 WHERE reco_codigo = @idRecorrido");
                 comando.Parameters.Add("@idRecorrido");
                 comando.Parameters["@idRecorrido"].Value = recorrido.Cod_Recorrido;
@@ -184,7 +181,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        private void ValidarTramos(IList<Tramo> tramos)
+        private static void ValidarTramos(IList<Tramo> tramos)
         {
             if (!tramos.Any())
             {

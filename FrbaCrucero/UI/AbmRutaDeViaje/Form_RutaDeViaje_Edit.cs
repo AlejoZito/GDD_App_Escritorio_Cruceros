@@ -41,11 +41,11 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         private void LoadDropdowns()
         {
-            dropdownCrucero.Input.DataSource = (new CruceroDAO()).GetAll();
+            dropdownCrucero.Input.DataSource = CruceroDAO.GetAll();
             dropdownCrucero.Input.DisplayMember = "Detalle";
             dropdownCrucero.Input.ValueMember = "Cod_Crucero";
 
-            dropdownRecorrido.Input.DataSource = (new RecorridoDAO()).GetAll().Select(x => new RecorridoViewModel(x)).ToList();
+            dropdownRecorrido.Input.DataSource = RecorridoDAO.GetAll().Select(x => new RecorridoViewModel(x)).ToList();
             dropdownRecorrido.Input.DisplayMember = "Descripcion";
             dropdownRecorrido.Input.ValueMember = "IdRecorrido";
         }

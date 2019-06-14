@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class FabricanteDAO : IDAO<Fabricante>
+    public static class FabricanteDAO
     {
-        private readonly Repository repositorio = new Repository();
-
-        public Fabricante GetByID(int id)
+        public static Fabricante GetByID(int id)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Fabricante WHERE fabr_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -48,9 +46,9 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Fabricante> GetAll()
+        public static List<Fabricante> GetAll()
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Fabricante";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -87,17 +85,17 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Add(Fabricante t)
+        public static void Add(Fabricante t)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(Fabricante t)
+        public static void Edit(Fabricante t)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Fabricante t)
+        public static void Delete(Fabricante t)
         {
             throw new NotImplementedException();
         }

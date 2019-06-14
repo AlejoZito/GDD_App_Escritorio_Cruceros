@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class TipoCabinaDAO : IDAO<TipoCabina>
+    public static class TipoCabinaDAO
     {
-        private readonly Repository repositorio = new Repository();
-
-        public TipoCabina GetByID(int id)
+        public static TipoCabina GetByID(int id)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Tipo_Cabina WHERE tc_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -49,13 +47,13 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<TipoCabina> GetAll()
+        public static List<TipoCabina> GetAll()
         {
             //return new List<TipoCabina>(){
             //    new TipoCabina(){Cod_Tipo = 1, Detalle = "Luxury", Porc_Recargo = 1},
             //    new TipoCabina(){Cod_Tipo = 2, Detalle = "Turista", Porc_Recargo = 2}
             //};
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Tipo_Cabina";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -95,17 +93,17 @@ namespace FrbaCrucero.DAL.DAO
 
         //No se implementan ADD, EDIT, DELETE dado que no tiene un ABM, se mantienen solo por la interfaz de DAO. El conjunto de tipos de cabina 
         //se asume ingresado por base y de selección acotada en abm de cruceros
-        public void Add(TipoCabina t)
+        public static void Add(TipoCabina t)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(TipoCabina t)
+        public static void Edit(TipoCabina t)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(TipoCabina t)
+        public static void Delete(TipoCabina t)
         {
             throw new NotImplementedException();
         }

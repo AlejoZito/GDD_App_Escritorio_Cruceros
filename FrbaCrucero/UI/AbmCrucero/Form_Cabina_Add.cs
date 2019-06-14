@@ -35,7 +35,7 @@ namespace FrbaCrucero.UI.AbmCrucero
         }
         private void LoadDropdowns()
         {
-            dropdownTipo.Input.DataSource = (new TipoCabinaDAO()).GetAll();
+            dropdownTipo.Input.DataSource = TipoCabinaDAO.GetAll();
             dropdownTipo.Input.DisplayMember = "Detalle";
             dropdownTipo.Input.ValueMember = "Cod_Tipo";
         }

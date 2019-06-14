@@ -38,7 +38,7 @@ namespace FrbaCrucero.BL.ViewModels
                 Numero = this.Numero,
                 Piso = this.Piso,
                 Tipo_Cabina = new TipoCabina() { Cod_Tipo = this.IdTipo },
-                Crucero = null
+                IdCrucero = 2
             };
         }
 

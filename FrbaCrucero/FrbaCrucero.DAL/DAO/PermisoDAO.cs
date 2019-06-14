@@ -11,11 +11,9 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class PermisoDAO
     {
-        private readonly Repository repositorio = new Repository();
-
         public Permiso GetByID(int id)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Permiso WHERE perm_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -50,7 +48,7 @@ namespace FrbaCrucero.DAL.DAO
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
 
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Permiso_Rol WHERE pr_rol_codigo = {0}", id);
 

@@ -32,7 +32,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         protected override List<RecorridoViewModel> GetData()
         {
-            return (new RecorridoDAO()).GetAll().Select(x => new RecorridoViewModel(x)).ToList();
+            return RecorridoDAO.GetAll().Select(x => new RecorridoViewModel(x)).ToList();
         }
     }
 }

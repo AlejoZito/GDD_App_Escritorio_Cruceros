@@ -38,18 +38,18 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void LoadDropdowns()
         {
-            dropdownFabricante.Input.DataSource = (new FabricanteDAO()).GetAll();
+            dropdownFabricante.Input.DataSource = FabricanteDAO.GetAll();
             dropdownFabricante.Input.DisplayMember = "Detalle";
             dropdownFabricante.Input.ValueMember = "Cod_Fabricante";
 
-            dropdownModelo.Input.DataSource = (new ModeloCruceroDAO()).GetAll();
+            dropdownModelo.Input.DataSource = ModeloCruceroDAO.GetAll();
             dropdownModelo.Input.DisplayMember = "Detalle";
             dropdownModelo.Input.ValueMember = "Cod_Modelo";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            (new CruceroDAO()).Add(_ViewModel.MapToDomainObject());
+            CruceroDAO.Add(_ViewModel.MapToDomainObject());
             _OnAddSuccess(_ViewModel);
             this.Close();
         }

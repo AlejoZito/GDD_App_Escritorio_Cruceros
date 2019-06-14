@@ -90,7 +90,7 @@ namespace FrbaCrucero.BL.ViewModels
                 if (_RutaDeViajeSeleccionada.HasValue)
                 {
                     List<CabinaViewModel> cabinas =
-                        (new CabinaDAO()).GetByRutaDeViaje(_RutaDeViajeSeleccionada.Value)
+                        CabinaDAO.GetByRutaDeViaje(_RutaDeViajeSeleccionada.Value)
                         .Select(x => new CabinaViewModel(x)).ToList();
 
                     foreach (var c in cabinas)

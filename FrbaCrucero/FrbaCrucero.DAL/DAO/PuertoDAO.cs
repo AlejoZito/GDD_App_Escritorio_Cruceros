@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class PuertoDAO
+    public static class PuertoDAO
     {
-        private readonly Repository repositorio = new Repository();
-
-        public void Add(Puerto puerto)
+        public static void Add(Puerto puerto)
         {
             if (ValidarExistenciaPuerto(puerto.Nombre))
             {
@@ -22,7 +20,7 @@ namespace FrbaCrucero.DAL.DAO
 
             try
             {
-                var conn = repositorio.GetConnection();
+                var conn = Repository.GetConnection();
                 SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Puerto(puer_nombre, puer_activo) values(@nombre, @activo)", conn);
 
                 puerto.Nombre = puerto.Nombre.Trim().ToUpper();
@@ -42,11 +40,11 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Edit(Puerto puerto)
+        public static void Edit(Puerto puerto)
         {
             puerto.Nombre = puerto.Nombre.Trim().ToUpper();
 
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string select = string.Format(@"SELECT puer_nombre FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", puerto.Cod_Puerto);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(select, conn);
             DataTable dataTable = new DataTable();
@@ -83,12 +81,12 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public IList<Puerto> GetAll()
+        public static IList<Puerto> GetAll()
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
-            SqlConnection conn = repositorio.GetConnection();
+            SqlConnection conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
 
             try
@@ -123,9 +121,9 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public Puerto GetByID(int id) 
+        public static Puerto GetByID(int id) 
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -159,12 +157,12 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        private bool ValidarExistenciaPuerto(string nombre)
+        private static bool ValidarExistenciaPuerto(string nombre)
         {
             try
             {
                 string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_nombre LIKE @nombre");
-                SqlConnection conn = repositorio.GetConnection();
+                SqlConnection conn = Repository.GetConnection();
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@nombre", nombre.Trim().ToUpper());
                 bool existePuerto = cmd.ExecuteScalar() != null;

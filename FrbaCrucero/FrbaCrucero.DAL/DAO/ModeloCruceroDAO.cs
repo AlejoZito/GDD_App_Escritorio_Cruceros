@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class ModeloCruceroDAO : IDAO<ModeloCrucero>
+    public static class ModeloCruceroDAO
     {
-        private readonly Repository repositorio = new Repository();
-
-        public ModeloCrucero GetByID(int id)
+        public static ModeloCrucero GetByID(int id)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Modelo_Crucero WHERE mc_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -48,9 +46,9 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<ModeloCrucero> GetAll()
+        public static List<ModeloCrucero> GetAll()
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Modelo_Crucero";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -87,17 +85,17 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public void Add(ModeloCrucero t)
+        public static void Add(ModeloCrucero t)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(ModeloCrucero t)
+        public static void Edit(ModeloCrucero t)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(ModeloCrucero t)
+        public static void Delete(ModeloCrucero t)
         {
             throw new NotImplementedException();
         }

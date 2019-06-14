@@ -55,7 +55,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         private void btnRecorridoAdd_Click(object sender, EventArgs e)
         {
-            (new RecorridoDAO()).Add(_ViewModel.MapToDomainObject());
+            RecorridoDAO.Add(_ViewModel.MapToDomainObject());
             _OnAddSuccess(_ViewModel);
             this.Close();
         }

@@ -25,7 +25,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
             _OnEditSuccess = onEditSuccess;
             
             //obtengo el recorrido de la base y lo mapeo a un viewmodel
-            _ViewModel = new RecorridoViewModel((new RecorridoDAO()).GetByID(idRecorrido));
+            _ViewModel = new RecorridoViewModel(RecorridoDAO.GetByID(idRecorrido));
 
             //bindeo las propiedades del viewmodel a los controles
             BindViewModel();
@@ -53,7 +53,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         private void btn_actualizar_Click(object sender, EventArgs e)
         {
-            (new RecorridoDAO()).Edit(_ViewModel.MapToDomainObject());
+            RecorridoDAO.Edit(_ViewModel.MapToDomainObject());
             _OnEditSuccess(_ViewModel);
             this.Close();
         }

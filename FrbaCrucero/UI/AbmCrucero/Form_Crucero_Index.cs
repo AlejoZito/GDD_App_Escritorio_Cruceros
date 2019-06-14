@@ -33,7 +33,7 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         protected override List<CruceroViewModel> GetData()
         {
-            return (new CruceroDAO()).GetAll().Select(x=> new CruceroViewModel(x)).ToList();
+            return CruceroDAO.GetAll().Select(x=> new CruceroViewModel(x)).ToList();
         }
     }
 }

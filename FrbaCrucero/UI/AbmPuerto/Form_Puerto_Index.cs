@@ -31,8 +31,7 @@ namespace FrbaCrucero.UI.AbmPuerto
 
         private IList<Puerto> GetData()
         {
-            PuertoDAO puertoDAO = new PuertoDAO();
-            var puertos = puertoDAO.GetAll();
+            var puertos = PuertoDAO.GetAll();
 
             return puertos;
         }

@@ -11,25 +11,23 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class RutaDeViajeDAO
     {
-        private readonly Repository repositorio = new Repository();
-
         public RutaDeViaje GetByID(int id)
         {
             return new RutaDeViaje()
             {
                 Cod_Ruta = 1,
-                Crucero = (new CruceroDAO()).GetByID(1),
+                Crucero = CruceroDAO.GetByID(1),
                 Fecha_Inicio = DateTime.Today,
                 Fecha_Fin = null,
                 Fecha_Fin_Estimada = DateTime.Today.AddDays(10),
-                Recorrido = (new RecorridoDAO()).GetByID(1)
+                Recorrido = RecorridoDAO.GetByID(1)
             };
 
         }
 
         public List<RutaDeViaje> GetAll()
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = @"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -48,11 +46,11 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
-                        Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
-                        Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                        Recorrido = RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
 
                     recorridos.Add(rutaDeViaje);
@@ -73,7 +71,7 @@ namespace FrbaCrucero.DAL.DAO
 
         public List<RutaDeViaje> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje " +
                                                 "join TIRANDO_QUERIES.Crucero on rv_crucero = cruc_codigo " +
                                                 "join TIRANDO_QUERIES.Modelo_Crucero on cruc_modelo = mc_codigo " +
@@ -115,11 +113,11 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
-                        Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
-                        Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                        Recorrido = RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
 
                     recorridos.Add(rutaDeViaje);
@@ -161,7 +159,7 @@ namespace FrbaCrucero.DAL.DAO
         /// <param name="idPuertoLlegada"></param>
         /// <returns></returns>
         public List<RutaDeViaje> GetByFiltersPasaje(DateTime? fechaPartida, int idPuertoSalida, int idPuertoLlegada)
-        {var conn = repositorio.GetConnection();
+        {var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT " +
                                                 "    Ruta.rv_recorrido rv_recorrido, " +
                                                 "    Ruta.rv_fecha_salida rv_fecha_salida, " +
@@ -201,11 +199,11 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_recorrido"].ToString()),
-                        Crucero = (new CruceroDAO()).GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = null,
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
-                        Recorrido = (new RecorridoDAO()).GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                        Recorrido = RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
 
                     recorridos.Add(rutaDeViaje);

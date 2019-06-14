@@ -24,7 +24,7 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
 
             Filters = new FiltersViewModel(
-                (new CruceroDAO()).GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
+                CruceroDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
                 "Ingrese un ID de ruta de viaje",
                 "Ingrese un identificador de crucero",
                 "Seleccione un crucero");

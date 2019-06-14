@@ -9,11 +9,9 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class UsuarioDAO
     {
-        private readonly Repository repositorio = new Repository();
-
         public Usuario AuthenticateUser(Usuario usuario)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
 
             throw new NotImplementedException();
         }

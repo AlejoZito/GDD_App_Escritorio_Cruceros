@@ -9,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class CruceroDAO : IDAO<Crucero>
+    public static class CruceroDAO
     {
-        private readonly Repository repositorio = new Repository();
-        private readonly ModeloCruceroDAO modeloDAO = new ModeloCruceroDAO();
-        private readonly CabinaDAO cabinaDAO = new CabinaDAO();
-        private readonly FabricanteDAO fabricanteDAO = new FabricanteDAO();
-
-        public Crucero GetByID(int id)
+        public static Crucero GetByID(int id)
         {
             //return new Crucero()
             //{
@@ -43,7 +38,7 @@ namespace FrbaCrucero.DAL.DAO
             //        }
             //    },
             //};
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -66,9 +61,9 @@ namespace FrbaCrucero.DAL.DAO
                     Cod_Crucero = idCrucero,
                     Activo = bool.Parse(registroCrucero["cruc_activo"].ToString()),
                     Identificador = registroCrucero["cruc_identificador"].ToString(),
-                    Modelo_Crucero = modeloDAO.GetByID(idModelo),
-                    Cabinas = cabinaDAO.GetAllForId(idCrucero),
-                    Fabricante = fabricanteDAO.GetByID(idFabricante)
+                    Modelo_Crucero = ModeloCruceroDAO.GetByID(idModelo),
+                    Cabinas = CabinaDAO.GetAllForId(idCrucero),
+                    Fabricante = FabricanteDAO.GetByID(idFabricante)
                 };
 
                 conn.Close();
@@ -82,7 +77,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Crucero> GetAll()
+        public static List<Crucero> GetAll()
         {
             return new List<Crucero>(){
                 new Crucero(){
@@ -136,17 +131,17 @@ namespace FrbaCrucero.DAL.DAO
             };
         }
 
-        public void Add(Crucero t)
+        public static void Add(Crucero t)
         {
 
         }
 
-        public void Edit(Crucero t)
+        public static void Edit(Crucero t)
         {
             
         }
 
-        public void Delete(Crucero t)
+        public static void Delete(Crucero t)
         {
             throw new NotImplementedException();
         }

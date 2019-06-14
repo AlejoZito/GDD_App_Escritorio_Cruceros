@@ -11,13 +11,11 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class MedioDePagoDAO
     {
-        private readonly Repository repositorio = new Repository();
-
         public List<MedioDePago> GetAll()
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
 
             dataAdapter = new SqlDataAdapter(@"SELECT pago_codigo, pago_medio_pago, pago_cuotas FROM [TIRANDO_QUERIES].Pago " +
                                             "WHERE pago_codigo <> (select TOP(1)pago_codigo from [TIRANDO_QUERIES].Pago where pago_medio_pago = 'Desconocido')", conn);

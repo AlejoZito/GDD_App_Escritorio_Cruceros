@@ -9,15 +9,11 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class CabinaDAO : IDAO<Cabina>
+    public static class CabinaDAO
     {
-        private readonly Repository repositorio = new Repository();
-        private readonly TipoCabinaDAO tipoCabinaDAO = new TipoCabinaDAO();
-        private readonly CruceroDAO cruceroDAO = new CruceroDAO();
-
-        public Cabina GetByID(int id)
+        public static Cabina GetByID(int id)
         {
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cabina WHERE cabi_codigo = {0}", id);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -38,10 +34,10 @@ namespace FrbaCrucero.DAL.DAO
                 var cabina = new Cabina
                 {
                     Cod_Cabina = idCabina,
-                    Crucero = cruceroDAO.GetByID(idCrucero),
                     Numero = int.Parse(registroCabina["cabi_numero"].ToString()),
                     Piso = int.Parse(registroCabina["cabi_piso"].ToString()),
-                    Tipo_Cabina = tipoCabinaDAO.GetByID(idTipoCabina)
+                    Tipo_Cabina = TipoCabinaDAO.GetByID(idTipoCabina),
+                    IdCrucero = int.Parse(registroCabina["cabi_crucero"].ToString())
                 };
 
                 conn.Close();
@@ -55,7 +51,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Cabina> GetByRutaDeViaje(int _RutaDeViajeSeleccionada)
+        public static List<Cabina> GetByRutaDeViaje(int _RutaDeViajeSeleccionada)
         {
             return new List<Cabina>(){
                 new Cabina(){Cod_Cabina = 1, Numero = 1, Piso = 1, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
@@ -63,11 +59,11 @@ namespace FrbaCrucero.DAL.DAO
             };
         }
 
-        public List<Cabina> GetAllForId(int idCrucero)
+        public static List<Cabina> GetAllForId(int idCrucero)
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
-            var conn = repositorio.GetConnection();
+            var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cabina WHERE cabi_crucero = {0}", idCrucero);
 
             try
@@ -86,10 +82,10 @@ namespace FrbaCrucero.DAL.DAO
                     var cabina = new Cabina
                     {
                         Cod_Cabina = idCabina,
-                        Crucero = cruceroDAO.GetByID(idCrucero),
                         Numero = int.Parse(fila["cabi_numero"].ToString()),
-                        Tipo_Cabina = tipoCabinaDAO.GetByID(idTipoCabina),
+                        Tipo_Cabina = TipoCabinaDAO.GetByID(idTipoCabina),
                         Piso = int.Parse(fila["cabi_piso"].ToString()),
+                        IdCrucero = int.Parse(fila["cabi_crucero"].ToString())
                     };
 
                     cabinas.Add(cabina);
@@ -107,22 +103,22 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Cabina> GetAll()
+        public static List<Cabina> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Cabina t)
+        public static void Add(Cabina t)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(Cabina t)
+        public static void Edit(Cabina t)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Cabina t)
+        public static void Delete(Cabina t)
         {
             throw new NotImplementedException();
         }

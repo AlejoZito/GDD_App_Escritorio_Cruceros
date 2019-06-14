@@ -15,6 +15,6 @@ namespace FrbaCrucero.DAL.Domain
 
         public TipoCabina Tipo_Cabina { get; set; }
 
-        public Crucero Crucero { get; set; }
+        public int IdCrucero { get; set; }
     }
 }

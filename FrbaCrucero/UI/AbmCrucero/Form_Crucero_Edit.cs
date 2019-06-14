@@ -26,7 +26,8 @@ namespace FrbaCrucero.UI.AbmCrucero
             _OnEditSuccess = onEditSuccess;
             _ViewModel = new CruceroViewModel();
             //Obtengo object de la base y lo mapeo al viewmodel
-            _ViewModel.MapFromDomainObject((new DAL.DAO.CruceroDAO()).GetByID(idCrucero));
+            var crucero = CruceroDAO.GetByID(idCrucero);
+            _ViewModel.MapFromDomainObject(crucero);
             //Bindeo el viewmodel a los inputs
             BindViewModel();
         }
@@ -40,18 +41,18 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void LoadDropdowns()
         {
-            dropdownFabricante.Input.DataSource = (new FabricanteDAO()).GetAll();
+            dropdownFabricante.Input.DataSource = FabricanteDAO.GetAll();
             dropdownFabricante.Input.DisplayMember = "Detalle";
             dropdownFabricante.Input.ValueMember = "Cod_Fabricante";
 
-            dropdownModelo.Input.DataSource = (new ModeloCruceroDAO()).GetAll();
+            dropdownModelo.Input.DataSource = ModeloCruceroDAO.GetAll();
             dropdownModelo.Input.DisplayMember = "Detalle";
             dropdownModelo.Input.ValueMember = "Cod_Modelo";
         }
 
         private void btnCrucerEdit_Click(object sender, EventArgs e)
         {
-            (new CruceroDAO()).Edit(_ViewModel.MapToDomainObject());
+            CruceroDAO.Edit(_ViewModel.MapToDomainObject());
             _OnEditSuccess(_ViewModel);
             this.Close();
         }

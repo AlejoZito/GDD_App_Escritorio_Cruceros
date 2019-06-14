@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class Repository
+    public static class Repository
     {
-        public SqlConnection GetConnection()
+        public static SqlConnection GetConnection()
         {
             try
             {
