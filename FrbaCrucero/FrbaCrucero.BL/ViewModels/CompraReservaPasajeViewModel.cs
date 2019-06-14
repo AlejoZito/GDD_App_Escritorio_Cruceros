@@ -53,7 +53,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public ClienteViewModel Cliente { get; set; }
 
-        public PagoViewModel Pago { get; set; }
+        public PagoViewModel MedioDePago { get; set; }
 
         /// <summary>
         /// Busca los viajes segun la fecha de partida, puerto de salida y de llegada,
@@ -66,10 +66,10 @@ namespace FrbaCrucero.BL.ViewModels
                 Viajes.Clear();
                 Cabinas.Clear();
 
-                List<RutaDeViajeViewModel> viajes = 
+                List<RutaDeViajeViewModel> viajes =
                     (new RutaDeViajeDAO()).GetByFiltersPasaje(FechaPartida, IdPuertoSalida, IdPuertoLlegada)
                     .Select(x => new RutaDeViajeViewModel(x)).ToList();
-                
+
                 foreach (var v in viajes)
                 {
                     Viajes.Add(v);
@@ -107,12 +107,31 @@ namespace FrbaCrucero.BL.ViewModels
 
         public bool IsValid()
         {
-            return true;
+            return _RutaDeViajeSeleccionada.HasValue &&
+                IdsCabinasSeleccionadas != null && IdsCabinasSeleccionadas.Count > 0 &&
+                //MedioDePago != null && MedioDePago.IDMedioDePago != 0 &&
+                Cliente != null && Cliente.IsValid();
         }
 
         public void ComprarPasaje()
         {
-            throw new NotImplementedException();
+            if (IsValid())
+            {
+                foreach (var cabina in IdsCabinasSeleccionadas)
+                {
+                    (new PasajeDAO()).ComprarPasaje(
+                        cabina,
+                        MedioDePago.IDMedioDePago,
+                        RutaDeViajeSeleccionada.Value,
+                        Cliente.Nombre,
+                        Cliente.Apellido,
+                        Cliente.DNI,
+                        Cliente.Telefono,
+                        Cliente.Direccion,
+                        Cliente.Mail,
+                        Cliente.FechaNacimiento);
+                }
+            }
         }
     }
 }

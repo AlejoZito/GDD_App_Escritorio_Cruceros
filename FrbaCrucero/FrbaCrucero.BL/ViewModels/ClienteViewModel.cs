@@ -54,5 +54,15 @@ namespace FrbaCrucero.BL.ViewModels
                 Fecha_Nac = this.FechaNacimiento
             };
         }
+
+        public bool IsValid()
+        {
+            return  !string.IsNullOrWhiteSpace(DNI) &&
+                    !string.IsNullOrWhiteSpace(Nombre) &&
+                    !string.IsNullOrWhiteSpace(Apellido) &&
+                    !string.IsNullOrWhiteSpace(Direccion) &&
+                    !string.IsNullOrWhiteSpace(Telefono) &&
+                    !string.IsNullOrWhiteSpace(Mail);
+        }
     }
 }

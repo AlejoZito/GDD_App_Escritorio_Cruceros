@@ -11,6 +11,21 @@
     <AssemblyName>FrbaCrucero</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -118,6 +133,12 @@
     </Compile>
     <Compile Include="UI\CompraReservaPasaje\Form_Pago.Designer.cs">
       <DependentUpon>Form_Pago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PasajeExitoso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PasajeExitoso.Designer.cs">
+      <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\_Components\DatePickerControl.cs">
       <SubType>UserControl</SubType>
@@ -238,6 +259,9 @@
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_Pago.resx">
       <DependentUpon>Form_Pago.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PasajeExitoso.resx">
+      <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\_Components\DatePickerControl.resx">
       <DependentUpon>DatePickerControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -289,7 +313,23 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FrbaCrucero.BL\FrbaCrucero.BL.csproj">
       <Project>{f6d77a6b-6fd8-4333-8f05-e5bb41dcd3aa}</Project>
