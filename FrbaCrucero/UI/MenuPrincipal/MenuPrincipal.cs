@@ -73,7 +73,7 @@ namespace FrbaCrucero
 
         private void btnPasaje_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.CompraReservaPasaje.CompraReserva());
+            GoToPage(new UI.CompraReservaPasaje.Form_CompraReserva());
         }
 
         private void button_CerrarSesion_Click(object sender, EventArgs e)

@@ -19,9 +19,12 @@ namespace FrbaCrucero.BL.ViewModels
             Cliente = new ClienteViewModel();
 
             //TestData
-            FechaPartida = new DateTime(2018, 7, 6);
+            //FechaPartida = new DateTime(2018, 7, 6);
+            //IdPuertoSalida = 23;
+            //IdPuertoLlegada = 18;
+            FechaPartida = new DateTime(2019, 07, 25);
             IdPuertoSalida = 23;
-            IdPuertoLlegada = 18;
+            IdPuertoLlegada = 10;
         }
 
         public DateTime? FechaPartida { get; set; }
@@ -49,6 +52,8 @@ namespace FrbaCrucero.BL.ViewModels
         public List<int> IdsCabinasSeleccionadas { get; set; }
 
         public ClienteViewModel Cliente { get; set; }
+
+        public PagoViewModel Pago { get; set; }
 
         /// <summary>
         /// Busca los viajes segun la fecha de partida, puerto de salida y de llegada,
@@ -98,6 +103,16 @@ namespace FrbaCrucero.BL.ViewModels
             {
                 //ToDo Revisar manejo de errores
             }
+        }
+
+        public bool IsValid()
+        {
+            return true;
+        }
+
+        public void ComprarPasaje()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.CompraReservaPasaje
 {
-    public partial class CompraReserva : Form
+    public partial class Form_CompraReserva : Form
     {
         private readonly CompraReservaPasajeViewModel _ViewModel;
 
-        public CompraReserva()
+        public Form_CompraReserva()
         {
             InitializeComponent();
             _ViewModel = new CompraReservaPasajeViewModel();
@@ -31,7 +31,7 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdPuertoLlegada", true, DataSourceUpdateMode.OnPropertyChanged);
 
             listViewViajes.SetDataBinding(_ViewModel.Viajes, "Descripcion");
-            
+
             listViewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
 
             inputDni.Input.DataBindings.Add("Text", _ViewModel, "Cliente.DNI", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -61,12 +61,21 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
         private void btnReservar_Click(object sender, EventArgs e)
         {
+            if (_ViewModel.IsValid())
+            {
 
+            }
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
         {
+            if (_ViewModel.IsValid())
+            {
+                Program.Navigation.PopUpPage(new Form_Pago(
+                    onSuccess: (pago) => _ViewModel.Pago = pago));
 
+                _ViewModel.ComprarPasaje();
+            }
         }
 
         private void listViewViajes_SelectedIndexChanged(object sender, EventArgs e)
