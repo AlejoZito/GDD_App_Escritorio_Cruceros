@@ -108,14 +108,37 @@ namespace FrbaCrucero.DAL.DAO
             throw new NotImplementedException();
         }
 
-        public static void Add(Cabina t)
+        public static void Add(IList<Cabina> cabinas, int idCrucero)
         {
-            throw new NotImplementedException();
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand();
+
+            foreach (var cabina in cabinas)
+            {
+                comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Cabina(cabi_numero, cabi_piso, cabi_cod_tipo, cabi_crucero) VALUES(@numero, @piso, @tipoCabina, @idCrucero)", conn);
+                comando.Parameters.Add("@cabi_numero", SqlDbType.Int);
+                comando.Parameters["@cabi_numero"].Value = cabina.Numero;
+                comando.Parameters.Add("@cabi_piso", SqlDbType.Int);
+                comando.Parameters["@cabi_piso"].Value = cabina.Piso;
+                comando.Parameters.Add("@cabi_cod_tipo", SqlDbType.Int);
+                comando.Parameters["@cabi_cod_tipo"].Value = cabina.Tipo_Cabina.Cod_Tipo;
+                comando.Parameters.Add("@cabi_crucero", SqlDbType.Int);
+                comando.Parameters["@cabi_crucero"].Value = idCrucero;
+
+                comando.ExecuteNonQuery();
+            }
+
+            comando.Dispose();
+            conn.Close();
+            conn.Dispose();
         }
 
-        public static void Edit(Cabina t)
+        public static void Edit(IList<Cabina> cabinas, int idCrucero)
         {
-            throw new NotImplementedException();
+            var cabinasAnteriores = CabinaDAO.GetAllForId(idCrucero);
+            var cabinasNuevas = cabinas.Except(cabinasAnteriores).ToList();
+
+            CabinaDAO.Add(cabinasNuevas, idCrucero);
         }
 
         public static void Delete(Cabina t)

@@ -173,19 +173,118 @@ namespace FrbaCrucero.DAL.DAO
             //};
         }
 
-        public static void Add(Crucero t)
+        public static void Add(Crucero crucero)
         {
+            crucero.Identificador = crucero.Identificador.ToUpper().Trim();
+            ValidarCrucero(crucero);
 
+            try
+            {
+                var conn = Repository.GetConnection();
+
+                //Inserto la cabina y obtengo el id
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Crucero(cruc_identificador, cruc_fabricante, cruc_modelo, cruc_activo) VALUES(@identificador, @fabricante, @modelo, @activo)", conn);
+                comando.Parameters.AddWithValue("@identificador", crucero.Identificador);
+                comando.Parameters.Add("@fabricante", SqlDbType.Int);
+                comando.Parameters["@fabricante"].Value = crucero.Fabricante.Cod_Fabricante;
+                comando.Parameters.Add("@modelo", SqlDbType.Int);
+                comando.Parameters["@modelo"].Value = crucero.Modelo_Crucero.Cod_Modelo;
+                crucero.Activo = true;
+                comando.Parameters.Add("@activo", SqlDbType.Bit);
+                comando.Parameters["@activo"].Value = crucero.Activo;
+                int idCrucero = Convert.ToInt32(comando.ExecuteScalar());
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                //Inserto las cabinas en base con el id de cabina
+                CabinaDAO.Add(crucero.Cabinas, idCrucero);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear el crucero", ex);
+            }
         }
 
-        public static void Edit(Crucero t)
+        public static void Edit(Crucero crucero)
         {
+            crucero.Identificador = crucero.Identificador.ToUpper().Trim();
+            ValidarCrucero(crucero);
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar editar el crucero");
+            }
+        }
+
+        public static void Delete(Crucero crucero)
+        {
+            try
+            {
+                var conn = Repository.GetConnection();
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Crucero SET cruc_activo = 0 WHERE cruc_codigo = @idCrucero");
+                comando.Parameters.Add("@idCrucero");
+                comando.Parameters["@idCrucero"].Value = crucero.Cod_Crucero;
+                comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar eliminar el crucero", ex);
+            }
+        }
+
+        private static void ValidarCrucero(Crucero crucero)
+        {
+            if (string.IsNullOrWhiteSpace(crucero.Identificador))
+            {
+                throw new Exception("El campo identificador debe ser completado");
+            }
+
+            if (!crucero.Cabinas.Any())
+            {
+                throw new Exception("El crucero debe tener al menos una cabina");
+            }
+
+            if (CruceroDAO.ExisteCrucero(crucero))
+            {
+                throw new Exception("Ya existe un crucero con ese identificador");
+            }
+        }
+
+        private static bool ExisteCrucero(Crucero crucero)
+        {
+            string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_identificador LIKE '{0}'", crucero.Identificador);
+            SqlConnection conn = Repository.GetConnection();
+            DataTable dataTable = new DataTable();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, conn);
             
-        }
+            dataAdapter.Fill(dataTable);
+            conn.Close();
+            conn.Dispose();
+            
+            if (dataTable.Rows.Count == 0)
+            {
+                return false;
+            }
 
-        public static void Delete(Crucero t)
-        {
-            throw new NotImplementedException();
+            var filaSinModificar = dataTable.Rows[0];
+            int idCrucero = int.Parse(filaSinModificar["cruc_codigo"].ToString());
+
+            if (idCrucero == crucero.Cod_Crucero)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
