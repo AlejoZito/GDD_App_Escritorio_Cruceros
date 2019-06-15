@@ -95,38 +95,7 @@ namespace FrbaCrucero.DAL.DAO
         }
 
         public static Recorrido GetByID(int id)
-        {
-            //return new Recorrido()
-            //{
-            //    Cod_Recorrido = 2,
-            //    Activo = true,
-            //    Tramos = new List<Tramo>(){
-            //            new Tramo(){
-            //                Orden = 1,
-            //                Precio = 150,
-            //                Puerto_Desde = new Puerto(){
-            //                    Cod_Puerto = 8,
-            //                    Nombre = "Bangladesh"
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 9,
-            //                    Nombre = "Zimbabwe",
-            //                }
-            //            },
-            //            new Tramo(){
-            //                Orden = 2,
-            //                Precio = 200,                            
-            //                Puerto_Desde= new Puerto(){
-            //                    Cod_Puerto = 9,
-            //                    Nombre = "Zimbabwe",
-            //                },
-            //                Puerto_Hasta = new Puerto(){
-            //                    Cod_Puerto = 10,
-            //                    Nombre = "Delhi"
-            //                },
-            //            }
-            //        }
-            //};
+        {            
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_codigo = {0}", id);
             DataTable dataTable;

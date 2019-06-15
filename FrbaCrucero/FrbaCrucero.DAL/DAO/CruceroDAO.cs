@@ -12,32 +12,7 @@ namespace FrbaCrucero.DAL.DAO
     public static class CruceroDAO
     {
         public static Crucero GetByID(int id)
-        {
-            //return new Crucero()
-            //{
-            //    Cod_Crucero = 1,
-            //    Fabricante = new Fabricante()
-            //    {
-            //        Cod_Fabricante = 1,
-            //        Detalle = "Motorola"
-            //    },
-            //    Modelo_Crucero = new ModeloCrucero()
-            //    {
-            //        Cod_Modelo = 2,
-            //        Detalle = "Catamaran"
-            //    },
-            //    Cabinas = new List<Cabina>(){
-            //        new Cabina(){
-            //            Cod_Cabina = 2,
-            //            Numero = 3,
-            //            Piso = 1,
-            //            Tipo_Cabina = new TipoCabina(){
-            //                Cod_Tipo = 5,
-            //                Detalle = "Con cama"
-            //            }
-            //        }
-            //    },
-            //};
+        {           
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_codigo = {0}", id);
             DataTable dataTable;
@@ -176,7 +151,6 @@ namespace FrbaCrucero.DAL.DAO
         public static void Add(Crucero crucero)
         {
             crucero.Identificador = crucero.Identificador.ToUpper().Trim();
-            ValidarCrucero(crucero);
 
             try
             {
@@ -211,7 +185,6 @@ namespace FrbaCrucero.DAL.DAO
         public static void Edit(Crucero crucero)
         {
             crucero.Identificador = crucero.Identificador.ToUpper().Trim();
-            ValidarCrucero(crucero);
 
             try
             {
@@ -242,25 +215,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        private static void ValidarCrucero(Crucero crucero)
-        {
-            if (string.IsNullOrWhiteSpace(crucero.Identificador))
-            {
-                throw new Exception("El campo identificador debe ser completado");
-            }
-
-            if (!crucero.Cabinas.Any())
-            {
-                throw new Exception("El crucero debe tener al menos una cabina");
-            }
-
-            if (CruceroDAO.ExisteCrucero(crucero))
-            {
-                throw new Exception("Ya existe un crucero con ese identificador");
-            }
-        }
-
-        private static bool ExisteCrucero(Crucero crucero)
+        public static bool ExisteCrucero(Crucero crucero)
         {
             string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_identificador LIKE '{0}'", crucero.Identificador);
             SqlConnection conn = Repository.GetConnection();

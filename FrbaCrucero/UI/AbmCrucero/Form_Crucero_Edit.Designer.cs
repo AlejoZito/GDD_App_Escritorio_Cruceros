@@ -31,9 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_delete_cabina = new System.Windows.Forms.Button();
-            this.listviewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
             this.btn_add_cabina = new System.Windows.Forms.Button();
             this.btnCruceroEdit = new System.Windows.Forms.Button();
+            this.listviewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
             this.dropdownModelo = new FrbaCrucero.UI.Components.DropdownControl();
             this.dropdownFabricante = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox1.SuspendLayout();
@@ -69,16 +69,6 @@
             this.btn_delete_cabina.UseVisualStyleBackColor = true;
             this.btn_delete_cabina.Click += new System.EventHandler(this.btn_delete_cabina_Click);
             // 
-            // listviewCabinas
-            // 
-            this.listviewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listviewCabinas.Location = new System.Drawing.Point(12, 23);
-            this.listviewCabinas.Name = "listviewCabinas";
-            this.listviewCabinas.Size = new System.Drawing.Size(357, 118);
-            this.listviewCabinas.TabIndex = 0;
-            this.listviewCabinas.UseCompatibleStateImageBehavior = false;
-            this.listviewCabinas.View = System.Windows.Forms.View.Details;
-            // 
             // btn_add_cabina
             // 
             this.btn_add_cabina.Location = new System.Drawing.Point(368, 262);
@@ -98,6 +88,16 @@
             this.btnCruceroEdit.Text = "Actualizar";
             this.btnCruceroEdit.UseVisualStyleBackColor = true;
             this.btnCruceroEdit.Click += new System.EventHandler(this.btnCrucerEdit_Click);
+            // 
+            // listviewCabinas
+            // 
+            this.listviewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listviewCabinas.Location = new System.Drawing.Point(12, 23);
+            this.listviewCabinas.Name = "listviewCabinas";
+            this.listviewCabinas.Size = new System.Drawing.Size(357, 118);
+            this.listviewCabinas.TabIndex = 0;
+            this.listviewCabinas.UseCompatibleStateImageBehavior = false;
+            this.listviewCabinas.View = System.Windows.Forms.View.Details;
             // 
             // dropdownModelo
             // 

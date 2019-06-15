@@ -52,9 +52,16 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void btnCrucerEdit_Click(object sender, EventArgs e)
         {
-            CruceroDAO.Edit(_ViewModel.MapToDomainObject());
-            _OnEditSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                _ViewModel.Edit();
+                _OnEditSuccess(_ViewModel);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
         }
 
         private void btn_add_cabina_Click(object sender, EventArgs e)
