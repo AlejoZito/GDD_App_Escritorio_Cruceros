@@ -92,6 +92,9 @@
     <Compile Include="UI\AbmPuerto\AltaPuerto.Designer.cs">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AbmPuerto\Form_Puerto_Index.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\AbmRecorrido\Form_Recorrido_Edit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,11 +176,11 @@
     <Compile Include="UI\Form_Base_Index.Designer.cs">
       <DependentUpon>Form_Base_Index.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\AbmPuerto\Form_Puerto_Index.cs">
+    <Compile Include="UI\AbmPuerto\Form_Puerto_Index_old.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AbmPuerto\Form_Puerto_Index.Designer.cs">
-      <DependentUpon>Form_Puerto_Index.cs</DependentUpon>
+    <Compile Include="UI\AbmPuerto\Form_Puerto_Index_old.Designer.cs">
+      <DependentUpon>Form_Puerto_Index_old.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmRol\Form1.cs">
       <SubType>Form</SubType>
@@ -277,8 +280,8 @@
     <EmbeddedResource Include="UI\Form_Base_Index.resx">
       <DependentUpon>Form_Base_Index.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AbmPuerto\Form_Puerto_Index.resx">
-      <DependentUpon>Form_Puerto_Index.cs</DependentUpon>
+    <EmbeddedResource Include="UI\AbmPuerto\Form_Puerto_Index_old.resx">
+      <DependentUpon>Form_Puerto_Index_old.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MenuPrincipal\MenuPrincipal.resx">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>

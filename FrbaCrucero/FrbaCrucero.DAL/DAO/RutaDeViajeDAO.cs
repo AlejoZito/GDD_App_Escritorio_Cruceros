@@ -113,7 +113,7 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
-                        //Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
@@ -168,9 +168,11 @@ namespace FrbaCrucero.DAL.DAO
                                                 "    Tramo_DESTINO.tram_puerto_hasta, " +
                                                 "    Ruta.rv_crucero rv_crucero " +
                                                 "FROM [TIRANDO_QUERIES].Ruta_Viaje Ruta, [TIRANDO_QUERIES].Tramo Tramo_INICIAL, " +
-                                                " [TIRANDO_QUERIES].Tramo Tramo_DESTINO " +
+                                                " [TIRANDO_QUERIES].Tramo Tramo_DESTINO, [TIRANDO_QUERIES].Recorrido Recorridos " +
                                                 "WHERE  " +
                                                 "   CONVERT(VARCHAR(10), Ruta.rv_fecha_salida, 111) = CONVERT(VARCHAR(10), @fecha_salida, 111) AND " +
+                                                "   Ruta.rv_recorrido = Recorridos.reco_codigo AND " +
+                                                "   Recorridos.reco_activo = 1 AND " +
                                                 "   Tramo_INICIAL.tram_recorrido = Ruta.rv_recorrido AND " +
                                                 "   Tramo_DESTINO.tram_recorrido = Ruta.rv_recorrido AND " +
                                                 "	Tramo_INICIAL.tram_orden = 1 AND " +

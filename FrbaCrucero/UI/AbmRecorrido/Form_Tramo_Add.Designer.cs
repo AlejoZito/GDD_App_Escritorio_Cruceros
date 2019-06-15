@@ -30,7 +30,6 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.inputPrecio = new FrbaCrucero.UI.Components.InputTextControl();
             this.inputOrden = new FrbaCrucero.UI.Components.InputTextControl();
             this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
@@ -55,15 +54,6 @@
             this.btnAdd.Text = "Agregar";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(89, 170);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(177, 24);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
             // inputPrecio
             // 
@@ -110,7 +100,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 434);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.inputPrecio);
             this.Controls.Add(this.inputOrden);
@@ -132,6 +121,5 @@
         private Components.InputTextControl inputOrden;
         private Components.InputTextControl inputPrecio;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

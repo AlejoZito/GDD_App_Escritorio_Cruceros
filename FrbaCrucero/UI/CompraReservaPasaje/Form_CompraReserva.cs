@@ -34,6 +34,8 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
             listViewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
 
+            //labelMonto.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+
             inputDni.Input.DataBindings.Add("Text", _ViewModel, "Cliente.DNI", true, DataSourceUpdateMode.OnPropertyChanged);
             inputNombre.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
             inputApellido.Input.DataBindings.Add("Text", _ViewModel, "Cliente.Apellido", true, DataSourceUpdateMode.OnPropertyChanged);

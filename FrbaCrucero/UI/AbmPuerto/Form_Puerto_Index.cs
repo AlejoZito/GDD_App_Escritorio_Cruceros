@@ -1,39 +1,37 @@
-﻿using FrbaCrucero.DAL.DAO;
+﻿using FrbaCrucero.BL.ViewModels;
+using FrbaCrucero.DAL.DAO;
 using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmPuerto
 {
-    public partial class Form_Puerto_Index : Form
+    class Form_Puerto_Index : Form_Base_Index<PuertoViewModel, Puerto>
     {
         public Form_Puerto_Index()
+            : base()
         {
-            InitializeComponent();
+            _OnClickAdd = () => Program.Navigation.PopUpPage(new AltaPuerto());
+                    //onAddSuccess: (c) => this.OnAddOrEditSuccess()));
+
+            //_OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Recorrido_Edit(
+            //        onEditSuccess: (c) => this.OnAddOrEditSuccess(),
+            //        idRecorrido: id));
+
+            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
         }
 
-        private void CrearButton_Click(object sender, EventArgs e)
+        public void OnAddOrEditSuccess()
         {
-            Program.Navigation.PopUpPage(new AltaPuerto());
+            this.PopulateDataGridView();
         }
 
-        private void Form_Puerto_Index_Load(object sender, EventArgs e)
+        protected override List<PuertoViewModel> GetData()
         {
-            IList<Puerto> puertos = this.GetData();
-        }
-
-        private IList<Puerto> GetData()
-        {
-            var puertos = PuertoDAO.GetAll();
-
-            return puertos;
+            return PuertoDAO.GetAllWithFilters().Select(x => new PuertoViewModel(x)).ToList();
         }
     }
 }

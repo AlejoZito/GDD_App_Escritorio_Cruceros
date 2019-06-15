@@ -44,13 +44,13 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Permiso> GetAllForID(int id) 
+        public List<Permiso> GetAllForIDRol(int idRol) 
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
             var conn = Repository.GetConnection();
 
-            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Permiso_Rol WHERE pr_rol_codigo = {0}", id);
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Permiso_Rol WHERE pr_rol_codigo = {0}", idRol);
 
             try
             {

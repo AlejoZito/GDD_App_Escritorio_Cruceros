@@ -121,6 +121,46 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
+        public static IList<Puerto> GetAllWithFilters()//ToDo agregar filtros
+        {
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            SqlConnection conn = Repository.GetConnection();
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                IList<Puerto> puertos = new List<Puerto>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var puerto = new Puerto
+                    {
+                        Cod_Puerto = int.Parse(fila["puer_codigo"].ToString()),
+                        Nombre = fila["puer_nombre"].ToString(),
+                        Activo = bool.Parse(fila["puer_activo"].ToString())
+                    };
+
+                    puertos.Add(puerto);
+                }
+
+                dataAdapter.Dispose();
+                conn.Dispose();
+                conn.Close();
+
+                return puertos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
+            }
+        }
+
         public static Puerto GetByID(int id) 
         {
             var conn = Repository.GetConnection();

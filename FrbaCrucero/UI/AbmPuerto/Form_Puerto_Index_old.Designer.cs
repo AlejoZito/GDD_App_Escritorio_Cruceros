@@ -1,6 +1,6 @@
 ﻿namespace FrbaCrucero.UI.AbmPuerto
 {
-    partial class Form_Puerto_Index
+    partial class Form_Puerto_Index_old
     {
         /// <summary>
         /// Required designer variable.

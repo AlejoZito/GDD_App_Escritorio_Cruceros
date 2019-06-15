@@ -73,7 +73,7 @@ namespace FrbaCrucero.DAL.DAO
                     Activo = bool.Parse(registroRol["rol_activo"].ToString()),
                     Cod_rol = idRol,
                     Nombre = registroRol["rol_nombre"].ToString(),
-                    Permisos = permisoDAO.GetAllForID(idRol)
+                    Permisos = permisoDAO.GetAllForIDRol(idRol)
                 };
 
                 conn.Close();
