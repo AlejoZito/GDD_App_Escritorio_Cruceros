@@ -658,7 +658,7 @@ GO
 --*************************************************************************************************************
 
 INSERT INTO [TIRANDO_QUERIES].[Estado_Reserva](er_estado,er_motivo)
-VALUES ('Vigente','Reserva vigente'),('Vencido','Supero la cantidad de dias'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
+VALUES ('Vigente','Reserva vigente'),('Vencido','Supero la cantidad de dias'),('Pagado','Se realizo el pago'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
 GO
 
 -- Para los datos migrados tomamos Desconocido como DEFAULT
@@ -788,6 +788,4 @@ CLOSE cursor_puerto
 DEALLOCATE cursor_puerto
 END
 GO
-
-
 
