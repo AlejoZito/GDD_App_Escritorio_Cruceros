@@ -485,7 +485,7 @@ GO
 
 UPDATE [TIRANDO_QUERIES].Cliente
 SET clie_duplicado = 1
-WHERE clie_dni IN (SELECT DISTINCT clie_dni FROM [TIRANDO_QUERIES].Cliente GROUP BY clie_dni HAVING COUNT(clie_dni) > 2)
+WHERE clie_dni IN (SELECT DISTINCT clie_dni FROM [TIRANDO_QUERIES].Cliente GROUP BY clie_dni HAVING COUNT(clie_dni) > 1)
 GO
 
 --*************************************************************************************************************
@@ -712,20 +712,20 @@ GO
 --*************************************************************************************************************
 
 --*************************************************************************************************************
--- procedure postergar_viajes
+-- PROCEDURE POSTERGAR_VIAJES
 --*************************************************************************************************************
-CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero numeric, @dias numeric)
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero NUMERIC, @dias NUMERIC)
 AS
- BEGIN
+BEGIN
 	UPDATE [TIRANDO_QUERIES].[Ruta_Viaje]
-	SET [rv_fecha_salida] = dateadd(dd,@dias,[rv_fecha_salida]), [rv_fecha_llegada_estimada] = dateadd(dd,@dias,[rv_fecha_llegada_estimada])
+	SET [rv_fecha_salida] = DATEADD(dd,@dias,[rv_fecha_salida]), [rv_fecha_llegada_estimada] = DATEADD(dd,@dias,[rv_fecha_llegada_estimada])
 	WHERE rv_crucero=@crucero
 	AND rv_fecha_llegada IS NULL;
-  END
+END
 GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
--- CREACION SP,FX,TRG
+-- CREACION TRIGGERS
 --*************************************************************************************************************
 --*************************************************************************************************************
