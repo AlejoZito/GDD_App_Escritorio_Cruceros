@@ -11,8 +11,6 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class RolDAO
     {
-        private readonly PermisoDAO permisoDAO = new PermisoDAO();
-
         public List<Rol> GetAllForID(int idUsuario)
         {
             DataTable dataTable;
@@ -73,7 +71,7 @@ namespace FrbaCrucero.DAL.DAO
                     Activo = bool.Parse(registroRol["rol_activo"].ToString()),
                     Cod_rol = idRol,
                     Nombre = registroRol["rol_nombre"].ToString(),
-                    Permisos = permisoDAO.GetAllForIDRol(idRol)
+                    Permisos = PermisoDAO.GetAllForIDRol(idRol)
                 };
 
                 conn.Close();
@@ -84,6 +82,43 @@ namespace FrbaCrucero.DAL.DAO
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar obtener el rol", ex);
+            }
+        }
+
+        public static IList<Rol> GetAll()
+        {
+            var conn = Repository.GetConnection();
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_activo = 1");
+            DataTable dataTable = new DataTable();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(comando, conn);
+            List<Rol> roles = new List<Rol>();
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    int idRol = int.Parse(fila["rol_codigo"].ToString());
+
+                    Rol rol = new Rol
+                    {
+                        Cod_rol = idRol,
+                        Activo = bool.Parse(fila["rol_activo"].ToString()),
+                        Nombre = fila["rol_nombre"].ToString(),
+                        Permisos = PermisoDAO.GetAllForIDRol(idRol)
+                    };
+
+                    roles.Add(rol);
+                }
+
+                conn.Close();
+                conn.Dispose();
+                return roles;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al listar los roles", ex);
             }
         }
     }

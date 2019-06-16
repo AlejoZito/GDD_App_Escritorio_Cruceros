@@ -39,7 +39,7 @@ namespace FrbaCrucero.DAL.DAO
                     Cod_Cliente = idCliente,
                     Apellido = registroCliente["clie_apellido"].ToString(),
                     Direccion = registroCliente["clie_direccion"].ToString(),
-                    Dni = decimal.Parse(registroCliente["clie_dni"].ToString()),
+                    Dni = int.Parse(registroCliente["clie_dni"].ToString()),
                     Fecha_Nac = DateTime.Parse(registroCliente["clie_fecha_nac"].ToString()),
                     Mail = registroCliente["clie_mail"].ToString(),
                     Nombre = registroCliente["clie_nombre"].ToString(),

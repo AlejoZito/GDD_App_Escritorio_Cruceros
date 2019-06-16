@@ -32,11 +32,11 @@ namespace FrbaCrucero.BL.ViewModels
 
         public override void MapFromDomainObject(Cliente o)
         {
-            this.DNI = o.Dni;
+            this.DNI = o.Dni.ToString();
             this.Nombre = o.Nombre;
             this.Apellido = o.Apellido;
             this.Direccion = o.Direccion;
-            this.Telefono = o.Telefono;
+            this.Telefono = o.Telefono.ToString();
             this.Mail = o.Mail;
             this.FechaNacimiento = o.Fecha_Nac;
         }
@@ -45,11 +45,11 @@ namespace FrbaCrucero.BL.ViewModels
         {
             return new Cliente()
             {
-                Dni = this.DNI,
+                Dni = int.Parse(this.DNI),
                 Nombre = this.Nombre,
                 Apellido = this.Apellido,
                 Direccion = this.Direccion,
-                Telefono = this.Telefono,
+                Telefono = int.Parse(this.Telefono),
                 Mail = this.Mail,
                 Fecha_Nac = this.FechaNacimiento
             };

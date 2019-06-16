@@ -11,7 +11,7 @@ namespace FrbaCrucero.DAL.DAO
 {
     public class PermisoDAO
     {
-        public Permiso GetByID(int id)
+        public static Permiso GetByID(int id)
         {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Permiso WHERE perm_codigo = {0}", id);
@@ -44,7 +44,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<Permiso> GetAllForIDRol(int idRol) 
+        public static List<Permiso> GetAllForIDRol(int idRol) 
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -64,7 +64,7 @@ namespace FrbaCrucero.DAL.DAO
                 {
                     var codigoPermiso = int.Parse(fila["pr_perm_codigo"].ToString());
 
-                    var permiso = this.GetByID(codigoPermiso);
+                    var permiso = PermisoDAO.GetByID(codigoPermiso);
 
                     permisos.Add(permiso);
                 }

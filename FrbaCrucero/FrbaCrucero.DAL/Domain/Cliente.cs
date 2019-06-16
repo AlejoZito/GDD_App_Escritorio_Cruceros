@@ -14,7 +14,7 @@ namespace FrbaCrucero.DAL.Domain
 
         public string Apellido { get; set; }
 
-        public decimal Dni { get; set; }
+        public int Dni { get; set; }
 
         public int Telefono { get; set; }
 
