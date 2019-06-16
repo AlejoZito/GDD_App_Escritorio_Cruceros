@@ -110,11 +110,12 @@ CREATE TABLE [TIRANDO_QUERIES].[Cliente] (
 	[clie_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[clie_nombre] [NVARCHAR](255) NOT NULL,
 	[clie_apellido] [NVARCHAR](255) NOT NULL,
-	[clie_dni] [DECIMAL](18,0) NOT NULL,
+	[clie_dni] [NUMERIC] NOT NULL,
 	[clie_telefono] [INT] NOT NULL,
 	[clie_direccion] [NVARCHAR](255) NOT NULL,
 	[clie_mail] [NVARCHAR](255) NOT NULL,
-	[clie_fecha_nac] DATETIME2(3) NOT NULL
+	[clie_fecha_nac] DATETIME2(3) NOT NULL,
+	[clie_duplicado] BIT DEFAULT 0
 )
 GO
 
@@ -482,6 +483,10 @@ INSERT INTO [TIRANDO_QUERIES].Cliente(clie_nombre,clie_apellido,clie_dni,clie_te
 SELECT DISTINCT m.cli_nombre,m.cli_apellido,m.cli_dni,m.cli_telefono,m.cli_direccion,m.cli_mail,m.cli_fecha_nac FROM gd_esquema.Maestra m
 GO
 
+UPDATE [TIRANDO_QUERIES].Cliente
+SET clie_duplicado = 1
+WHERE clie_dni IN (SELECT DISTINCT clie_dni FROM [TIRANDO_QUERIES].Cliente GROUP BY clie_dni HAVING COUNT(clie_dni) > 2)
+GO
 
 --*************************************************************************************************************
 -- TABLE PUERTOS
@@ -647,6 +652,7 @@ m.pasaje_fecha_compra
 FROM gd_esquema.Maestra m
 WHERE m.reserva_codigo IS NULL AND m.reserva_fecha IS NULL
 GO
+
 
 --*************************************************************************************************************
 -- TABLE ESTADO_RESERVA
