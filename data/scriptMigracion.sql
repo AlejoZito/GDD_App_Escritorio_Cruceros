@@ -69,17 +69,16 @@ GO
 -- Realizo un DROP de las funciones previo a su creación en caso existan
 --*************************************************************************************************************
 
---TODO
+-- TODO
 
 --*************************************************************************************************************
 -- DROP TRIGGERS
 -- Realizo un DROP de los triggers previo a su creación en caso existan
 --*************************************************************************************************************
 
---TODO
---Cuando inhabilitas un rol (baja lógica), se lo tenés que quitar al usuario que lo tenga (delete rol_permiso)
-
-
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto];
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido];
+GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
@@ -599,7 +598,7 @@ GO
 --*************************************************************************************************************
 
 INSERT INTO [TIRANDO_QUERIES].[Estado_Pasaje](ep_estado,ep_motivo)
-VALUES ('Vigente','Pasaje vigente'),('Cancelado','Desperfecto tecnico en crucero'),('Cancelado','Crucero completo VU'),('Desconocido','Sin informacion')
+VALUES ('Vigente','Pasaje vigente'),('Desconocido','Sin informacion'),('Cancelado','Desperfecto tecnico en crucero'),('Cancelado','Crucero completo VU'),('Cancelado','Baja de recorrido')
 GO
 
 -- Para los datos migrados tomamos Desconocido como DEFAULT
@@ -714,6 +713,7 @@ GO
 --*************************************************************************************************************
 -- PROCEDURE POSTERGAR_VIAJES
 --*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero NUMERIC, @dias NUMERIC)
 AS
 BEGIN
@@ -729,3 +729,65 @@ GO
 -- CREACION TRIGGERS
 --*************************************************************************************************************
 --*************************************************************************************************************
+
+
+--Cuando ponemos un puerto como inactivo, se deben poner los recorridos que tienen tramos con dichos puertos también como inactivos.
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto] ON [TIRANDO_QUERIES].[Puerto] AFTER UPDATE
+AS
+BEGIN
+
+	DECLARE cursor_puerto CURSOR FOR
+	SELECT i.puer_codigo FROM inserted i
+	JOIN deleted d ON i.puer_codigo = d.puer_codigo
+	WHERE i.puer_activo = 0 AND d.puer_activo = 1
+	--Hago el JOIN para ver que cambio el estado y solo asi pegarle a la base solo cuando es necesario
+	
+	OPEN cursor_puerto
+	DECLARE @puerto_id NUMERIC
+	
+	FETCH cursor_puerto INTO @puerto_id
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		UPDATE [TIRANDO_QUERIES].Recorrido SET reco_activo = 0 WHERE reco_codigo IN 
+		(SELECT DISTINCT tram_recorrido FROM [TIRANDO_QUERIES].Tramo WHERE @puerto_id = tram_puerto_desde OR @puerto_id = tram_puerto_hasta)
+		FETCH cursor_componentes INTO @puerto_id
+	END
+
+CLOSE cursor_puerto
+DEALLOCATE cursor_puerto
+END
+GO
+
+--Cuando ponemos un puerto como inactivo, cancelar pasajes que no hayan iniciado
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido] ON [TIRANDO_QUERIES].[Recorrido] AFTER UPDATE
+AS
+BEGIN
+	DECLARE cursor_recorrido CURSOR FOR
+	SELECT i.reco_codigo FROM inserted i
+	JOIN deleted d ON i.reco_codigo = d.reco_codigo
+	WHERE i.reco_activo = 0 AND d.reco_activo = 1
+	--Hago el JOIN para ver que cambio el estado y solo asi pegarle a la base solo cuando es necesario
+	
+	OPEN cursor_recorrido
+	DECLARE @recorrido_id NUMERIC
+	
+	FETCH cursor_recorrido INTO @recorrido_id
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		UPDATE [TIRANDO_QUERIES].Pasaje SET pasa_estado = (SELECT ep_codigo FROM [TIRANDO_QUERIES].Estado_Pasaje WHERE ep_motivo = 'Baja de recorrido')
+		WHERE pasa_ruta IN 
+		(SELECT rv_codigo FROM [TIRANDO_QUERIES].Ruta_Viaje 
+		WHERE rv_recorrido = @recorrido_id AND rv_fecha_llegada IS NULL AND rv_fecha_salida > GETDATE())
+		
+		FETCH cursor_recorrido INTO @recorrido_id
+	END
+
+CLOSE cursor_puerto
+DEALLOCATE cursor_puerto
+END
+GO
+
+
+
