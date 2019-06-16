@@ -46,7 +46,10 @@ namespace FrbaCrucero.BL.ViewModels
 
         public BindingList<CabinaViewModel> Cabinas { get; set; }
 
-
+        public string Descripcion
+        {
+            get { return "[" + Identificador + "] " + Modelo ; }
+        }
 
         public bool IsValid()
         {
@@ -93,6 +96,7 @@ namespace FrbaCrucero.BL.ViewModels
             this.IdModelo = c.Modelo_Crucero.Cod_Modelo;
             this.Modelo = c.Modelo_Crucero.Detalle;
             this.Activo = c.Activo;
+            this.Identificador = c.Identificador;
             this.Cabinas = new BindingList<CabinaViewModel>();
             foreach (var cab in c.Cabinas)
             {

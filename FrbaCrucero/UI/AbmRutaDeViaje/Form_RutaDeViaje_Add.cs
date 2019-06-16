@@ -29,20 +29,19 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
         }
 
         private void BindViewModel()
-        {
-            dropdownCrucero.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
+        {            
             dropdownRecorrido.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdRecorrido", true, DataSourceUpdateMode.OnPropertyChanged);
             datepickerDesde.Input.DataBindings.Add("Value", _ViewModel, "Fecha_Inicio", true, DataSourceUpdateMode.OnPropertyChanged);
-            datepickerHasta.Input.DataBindings.Add("Value", _ViewModel, "Fecha_Fin", true, DataSourceUpdateMode.OnPropertyChanged);
             datepickerEstimada.Input.DataBindings.Add("Value", _ViewModel, "Fecha_Fin_Estimada", true, DataSourceUpdateMode.OnPropertyChanged);
+
+            dropdownCrucero.Input.DataSource = _ViewModel.CrucerosDisponibles;
+            dropdownCrucero.Input.DisplayMember = "Descripcion";
+            dropdownCrucero.Input.ValueMember = "IdCrucero";
+            dropdownCrucero.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdCrucero", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadDropdowns()
         {
-            dropdownCrucero.Input.DataSource = CruceroDAO.GetAll();
-            dropdownCrucero.Input.DisplayMember = "Detalle";
-            dropdownCrucero.Input.ValueMember = "Cod_Crucero";
-
             dropdownRecorrido.Input.DataSource = RecorridoDAO.GetAll().Select(x => new RecorridoViewModel(x)).ToList();
             dropdownRecorrido.Input.DisplayMember = "Descripcion";
             dropdownRecorrido.Input.ValueMember = "IdRecorrido";
@@ -50,9 +49,21 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         private void btnRecorridoAdd_Click(object sender, EventArgs e)
         {
-            (new RutaDeViajeDAO()).Add(_ViewModel.MapToDomainObject());
-            _OnAddSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                _ViewModel.Add();
+                _OnAddSuccess(_ViewModel);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
+        }
+
+        private void btnBuscarCruceros_Click(object sender, EventArgs e)
+        {
+            _ViewModel.BuscarCruceros();
         }
     }
 }
