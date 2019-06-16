@@ -60,8 +60,8 @@ GO
 -- Realizo un DROP de los SP previo a su creación en caso existan
 --*************************************************************************************************************
 
--- LOGIN
-IF OBJECT_ID('[LORDS_OF_THE_STRINGS_V2].sp_login_validate') IS NOT NULL DROP PROCEDURE [LORDS_OF_THE_STRINGS_V2].[sp_login_validate]; 
+-- sp_postergar_viajes
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_postergar_viajes') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes;
 GO
 
 --*************************************************************************************************************
