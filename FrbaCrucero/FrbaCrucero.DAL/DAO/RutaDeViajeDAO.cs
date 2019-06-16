@@ -13,16 +13,47 @@ namespace FrbaCrucero.DAL.DAO
     {
         public RutaDeViaje GetByID(int id)
         {
-            return new RutaDeViaje()
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"SELECT * " +
+                                                "FROM TIRANDO_QUERIES.Ruta_Viaje " +
+                                                "WHERE rv_codigo = @rutaCodigo", conn);
+
+            DataTable dataTable = new DataTable();
+            comando.Parameters.AddWithValue("@rutaCodigo", id);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
             {
-                Cod_Ruta = 1,
-                Crucero = CruceroDAO.GetByID(1),
-                Fecha_Inicio = DateTime.Today,
-                Fecha_Fin = null,
-                Fecha_Fin_Estimada = DateTime.Today.AddDays(10),
-                Recorrido = RecorridoDAO.GetByID(1)
+                SelectCommand = comando
             };
 
+            try
+            {
+                dataAdapter.Fill(dataTable);
+
+                if (dataTable != null && dataTable.Rows.Count > 0)
+                {
+                    return new RutaDeViaje()
+                    {
+                        Cod_Ruta = int.Parse(dataTable.Rows[0]["rv_recorrido"].ToString()),
+                        Crucero = CruceroDAO.GetByID(int.Parse(dataTable.Rows[0]["rv_crucero"].ToString())),
+                        Fecha_Inicio = (DateTime)dataTable.Rows[0]["rv_fecha_salida"],
+                        Fecha_Fin = (DateTime)dataTable.Rows[0]["rv_fecha_llegada"],
+                        Fecha_Fin_Estimada = (DateTime)dataTable.Rows[0]["rv_fecha_llegada_estimada"],
+                        Recorrido = RecorridoDAO.GetByID(int.Parse(dataTable.Rows[0]["rv_recorrido"].ToString()))
+                    };
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar las rutas de viaje", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
         }
 
         public List<RutaDeViaje> GetAll()
@@ -77,8 +108,9 @@ namespace FrbaCrucero.DAL.DAO
                                                 "join TIRANDO_QUERIES.Modelo_Crucero on cruc_modelo = mc_codigo " +
                                                 "where 1=1 ", conn);
             DataTable dataTable = new DataTable();
-            
-            if(!string.IsNullOrWhiteSpace(likeFilter)){
+
+            if (!string.IsNullOrWhiteSpace(likeFilter))
+            {
                 comando.CommandText += "AND (rv_codigo like '%' + @likeParameter + '%' OR " +
                                             "cruc_identificador like '%' + @likeParameter + '%' OR " +
                                             "mc_detalle like '%' + @likeParameter + '%') ";
@@ -103,7 +135,7 @@ namespace FrbaCrucero.DAL.DAO
             };
 
             try
-            {        
+            {
                 dataAdapter.Fill(dataTable);
                 List<RutaDeViaje> recorridos = new List<RutaDeViaje>();
 
@@ -159,7 +191,8 @@ namespace FrbaCrucero.DAL.DAO
         /// <param name="idPuertoLlegada"></param>
         /// <returns></returns>
         public List<RutaDeViaje> GetByFiltersPasaje(DateTime? fechaPartida, int idPuertoSalida, int idPuertoLlegada)
-        {var conn = Repository.GetConnection();
+        {
+            var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT " +
                                                 "    Ruta.rv_recorrido rv_recorrido, " +
                                                 "    Ruta.rv_fecha_salida rv_fecha_salida, " +
@@ -183,7 +216,7 @@ namespace FrbaCrucero.DAL.DAO
             comando.Parameters.AddWithValue("@fecha_salida", fechaPartida);
             comando.Parameters.AddWithValue("@puerto_desde", idPuertoSalida);
             comando.Parameters.AddWithValue("@puerto_destino", idPuertoLlegada);
-            
+
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter()
             {
@@ -191,7 +224,7 @@ namespace FrbaCrucero.DAL.DAO
             };
 
             try
-            {        
+            {
                 dataAdapter.Fill(dataTable);
                 List<RutaDeViaje> recorridos = new List<RutaDeViaje>();
 

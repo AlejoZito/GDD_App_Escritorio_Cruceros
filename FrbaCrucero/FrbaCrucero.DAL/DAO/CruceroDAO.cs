@@ -12,7 +12,7 @@ namespace FrbaCrucero.DAL.DAO
     public static class CruceroDAO
     {
         public static Crucero GetByID(int id)
-        {           
+        {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_codigo = {0}", id);
             DataTable dataTable;
@@ -95,57 +95,6 @@ namespace FrbaCrucero.DAL.DAO
             {
                 throw new Exception("Ocurrió un error al intentar listar los fabricantes", ex);
             }
-
-            //return new List<Crucero>(){
-            //    new Crucero(){
-            //        Cod_Crucero = 1,
-            //    Fabricante = new Fabricante()
-            //    {
-            //        Cod_Fabricante = 1,
-            //        Detalle = "Motorola"
-            //    },
-            //    Modelo_Crucero = new ModeloCrucero()
-            //    {
-            //        Cod_Modelo = 2,
-            //        Detalle = "Catamaran"
-            //    },
-            //    Cabinas = new List<Cabina>(){
-            //        new Cabina(){
-            //            Cod_Cabina = 2,
-            //            Numero = 3,
-            //            Piso = 1,
-            //            Tipo_Cabina = new TipoCabina(){
-            //                Cod_Tipo = 5,
-            //                Detalle = "Con cama"
-            //                }
-            //            }
-            //        }
-            //    },
-            //    new Crucero(){
-            //            Cod_Crucero = 2,
-            //        Fabricante = new Fabricante()
-            //        {
-            //            Cod_Fabricante = 1,
-            //            Detalle = "A"
-            //        },
-            //        Modelo_Crucero = new ModeloCrucero()
-            //        {
-            //            Cod_Modelo = 2,
-            //            Detalle = "X"
-            //        },
-            //        Cabinas = new List<Cabina>(){
-            //            new Cabina(){
-            //                Cod_Cabina = 2,
-            //                Numero = 3,
-            //                Piso = 1,
-            //                Tipo_Cabina = new TipoCabina(){
-            //                    Cod_Tipo = 5,
-            //                    Detalle = "B"
-            //                }
-            //            }
-            //        },
-            //    }
-            //};
         }
 
         public static void Add(Crucero crucero)
@@ -221,11 +170,11 @@ namespace FrbaCrucero.DAL.DAO
             SqlConnection conn = Repository.GetConnection();
             DataTable dataTable = new DataTable();
             SqlDataAdapter dataAdapter = new SqlDataAdapter(query, conn);
-            
+
             dataAdapter.Fill(dataTable);
             conn.Close();
             conn.Dispose();
-            
+
             if (dataTable.Rows.Count == 0)
             {
                 return false;
@@ -240,6 +189,71 @@ namespace FrbaCrucero.DAL.DAO
             }
 
             return true;
+        }
+
+        public static List<Crucero> GetAllByFechas(DateTime? fecha_Inicio, DateTime? fecha_Fin_Estimada)
+        {
+            var conn = Repository.GetConnection();
+
+            SqlCommand comando = new SqlCommand(
+                              @"SELECT DISTINCT cruc_codigo, cruc_fabricante, cruc_modelo, cruc_activo, cruc_identificador " +
+                               "FROM [TIRANDO_QUERIES].Crucero c " +
+                               "WHERE cruc_activo = 1 " +
+                               "AND cruc_codigo NOT IN " +
+                               "(SELECT m.mant_crucero FROM [TIRANDO_QUERIES].Mantenimiento m " +
+                               "WHERE @fecha_desde BETWEEN m.mant_fecha_desde AND m.mant_fecha_hasta " +
+                               "AND @fecha_hasta_estimada BETWEEN m.mant_fecha_desde AND m.mant_fecha_hasta " +
+                               "UNION ALL " +
+                               "SELECT rv.rv_crucero FROM [TIRANDO_QUERIES].Ruta_Viaje rv " +
+                               "WHERE @fecha_desde BETWEEN rv.rv_fecha_salida AND rv.rv_fecha_llegada_estimada " +
+                               "AND @fecha_hasta_estimada BETWEEN rv.rv_fecha_salida AND rv.rv_fecha_llegada_estimada) ", conn);
+
+            DataTable dataTable = new DataTable();
+
+            comando.Parameters.AddWithValue("@fecha_desde", fecha_Inicio.Value);
+            comando.Parameters.AddWithValue("@fecha_hasta_estimada", fecha_Fin_Estimada.Value);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
+            };
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+                List<Crucero> cruceros = new List<Crucero>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idCrucero = int.Parse(fila["cruc_codigo"].ToString());
+                    var idFabricante = int.Parse(fila["cruc_fabricante"].ToString());
+                    var idModelo = int.Parse(fila["cruc_modelo"].ToString());
+
+                    var crucero = new Crucero
+                    {
+                        Cod_Crucero = idCrucero,
+                        Cabinas = CabinaDAO.GetAllForId(idCrucero),
+                        Identificador = fila["cruc_identificador"].ToString(),
+                        Fabricante = FabricanteDAO.GetByID(idFabricante),
+                        Modelo_Crucero = ModeloCruceroDAO.GetByID(idModelo),
+                        Activo = bool.Parse(fila["cruc_activo"].ToString())
+                    };
+
+                    cruceros.Add(crucero);
+                }
+
+                return cruceros;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los fabricantes", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
         }
     }
 }

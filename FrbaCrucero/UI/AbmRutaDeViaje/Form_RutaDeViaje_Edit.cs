@@ -25,8 +25,16 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
             _OnEditSuccess = onEditSuccess;
 
             //obtengo el recorrido de la base y lo mapeo a un viewmodel
-            _ViewModel = new RutaDeViajeViewModel((new RutaDeViajeDAO()).GetByID(idRecorrido));
-
+            try
+            {
+                _ViewModel = new RutaDeViajeViewModel((new RutaDeViajeDAO()).GetByID(idRecorrido));
+            }
+            catch (Exception ex)
+            {
+                _ViewModel = new RutaDeViajeViewModel();
+                MessageBox.Show(ex.Message);
+            }
+            LoadDropdowns();
             //bindeo las propiedades del viewmodel a los controles
             BindViewModel();
         }
@@ -66,7 +74,14 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         private void btnBuscarCruceros_Click(object sender, EventArgs e)
         {
-            _ViewModel.BuscarCruceros();
+            try
+            {
+                _ViewModel.BuscarCruceros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

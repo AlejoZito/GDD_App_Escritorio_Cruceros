@@ -63,7 +63,14 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         private void btnBuscarCruceros_Click(object sender, EventArgs e)
         {
-            _ViewModel.BuscarCruceros();
+            try
+            {
+                _ViewModel.BuscarCruceros();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
     }
 }

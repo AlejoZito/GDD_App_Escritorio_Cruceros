@@ -26,8 +26,8 @@ namespace FrbaCrucero.BL.ViewModels
             MapFromDomainObject(r);
             BuscarCruceros();
 
-            Fecha_Inicio = DateTime.Now;
-            Fecha_Fin_Estimada = DateTime.Now.AddDays(10);
+            //Fecha_Inicio = DateTime.Now;
+            //Fecha_Fin_Estimada = DateTime.Now.AddDays(10);
         }
 
         [Listable(description: "Id")]
@@ -105,13 +105,18 @@ namespace FrbaCrucero.BL.ViewModels
         public void BuscarCruceros()
         {
             CrucerosDisponibles.Clear();
-            List<Crucero> cruceros = CruceroDAO.GetAll(); //CruceroDAO.GetAll(Fecha_Inicio, Fecha_Fin_Estimada);
-            foreach (var crucero in cruceros)
+            if (!Fecha_Inicio.HasValue || !Fecha_Fin_Estimada.HasValue)
+                throw new Exception("Ingrese una fecha de inicio y una de fin estimada");
+            else
             {
-                CrucerosDisponibles.Add(new CruceroViewModel(crucero));
+                List<Crucero> cruceros = CruceroDAO.GetAllByFechas(Fecha_Inicio, Fecha_Fin_Estimada);
+                foreach (var crucero in cruceros)
+                {
+                    CrucerosDisponibles.Add(new CruceroViewModel(crucero));
+                }
+                //Seleccionar la primera opcion
+                IdCrucero = (cruceros.Count > 0) ? cruceros[0].Cod_Crucero : 0;
             }
-            //Seleccionar la primera opcion
-            IdCrucero = (cruceros.Count > 0) ? cruceros[0].Cod_Crucero : 0;
         }
 
         public bool IsValid()
