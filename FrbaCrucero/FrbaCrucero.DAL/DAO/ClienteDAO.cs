@@ -14,7 +14,7 @@ namespace FrbaCrucero.DAL.DAO
         public static Cliente GetByDNI(string dni)
         {
             var conn = Repository.GetConnection();
-            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cliente WHERE clie_dni = '{0}' AND clie_invalido = 1", dni);
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cliente WHERE clie_dni = '{0}' AND clie_invalido = 0", dni);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
