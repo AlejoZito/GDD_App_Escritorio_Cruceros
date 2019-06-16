@@ -62,6 +62,7 @@ GO
 
 -- sp_postergar_viajes
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_postergar_viajes') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_vencer_reservas') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas;
 GO
 
 --*************************************************************************************************************
@@ -658,7 +659,7 @@ GO
 --*************************************************************************************************************
 
 INSERT INTO [TIRANDO_QUERIES].[Estado_Reserva](er_estado,er_motivo)
-VALUES ('Vigente','Reserva vigente'),('Vencido','Supero la cantidad de dias'),('Pagado','Se realizo el pago'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
+VALUES ('Vigente','Reserva vigente'),('Vencida','Supero la cantidad de dias'),('Pagado','Se realizo el pago'),('Cancelado','Cliente desiste'),('Desconocido','Sin informacion')
 GO
 
 -- Para los datos migrados tomamos Desconocido como DEFAULT
@@ -710,10 +711,7 @@ GO
 --*************************************************************************************************************
 --*************************************************************************************************************
 
---*************************************************************************************************************
--- PROCEDURE POSTERGAR_VIAJES
---*************************************************************************************************************
-
+--Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero NUMERIC, @dias NUMERIC)
 AS
 BEGIN
@@ -721,6 +719,16 @@ BEGIN
 	SET [rv_fecha_salida] = DATEADD(dd,@dias,[rv_fecha_salida]), [rv_fecha_llegada_estimada] = DATEADD(dd,@dias,[rv_fecha_llegada_estimada])
 	WHERE rv_crucero=@crucero
 	AND rv_fecha_llegada IS NULL;
+END
+GO
+
+--Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas
+AS
+BEGIN
+	UPDATE [TIRANDO_QUERIES].Reserva
+	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Vencida')
+	WHERE rese_fecha <= GETDATE() - 4
 END
 GO
 
