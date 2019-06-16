@@ -53,10 +53,64 @@ namespace FrbaCrucero.DAL.DAO
 
         public static List<Cabina> GetByRutaDeViaje(int _RutaDeViajeSeleccionada)
         {
-            return new List<Cabina>(){
-                new Cabina(){Cod_Cabina = 1, Numero = 1, Piso = 1, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
-                new Cabina(){Cod_Cabina = 2, Numero = 2, Piso = 2, Tipo_Cabina = new TipoCabina(){Cod_Tipo = 1, Detalle = "A", Porc_Recargo = 1}},
+            var conn = Repository.GetConnection();
+            string comandofake = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cabina WHERE cabi_codigo = {0}", _RutaDeViajeSeleccionada);
+
+            SqlCommand comando = new SqlCommand(@"SELECT Cabina.[cabi_codigo], Cabina.[cabi_numero], Cabina.[cabi_piso], Cabina.[cabi_cod_tipo], Cabina.[cabi_crucero] " +
+                                                "FROM [TIRANDO_QUERIES].[Cabina] Cabina " +
+                                                "INNER JOIN [TIRANDO_QUERIES].[Tipo_Cabina] Tipo_Cabina ON Tipo_Cabina.[tc_codigo] = Cabina.cabi_cod_tipo " +
+                                                "WHERE " +
+                                                "	[cabi_crucero] = (SELECT [rv_crucero] FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_codigo]=@ruta_codigo) AND " +
+                                                "	[cabi_codigo] NOT IN ( " +
+                                                "		SELECT [pasa_cabina] FROM [TIRANDO_QUERIES].[Pasaje] " +
+                                                "		WHERE  " +
+                                                "			[pasa_ruta]=@ruta_codigo AND " +
+                                                "			[pasa_estado] IN (Select [ep_codigo] FROM [TIRANDO_QUERIES].[Estado_Pasaje] WHERE [ep_estado]='Vigente' OR [ep_estado]='Desconocido') " +
+                                                "	) AND " +
+                                                "	[cabi_codigo] NOT IN ( " +
+                                                "		SELECT [rese_cabina] FROM [TIRANDO_QUERIES].[Reserva] " +
+                                                "		WHERE " +
+                                                "			[rese_ruta]=@ruta_codigo AND " +
+                                                "			[rese_estado] IN (Select [er_codigo] FROM [TIRANDO_QUERIES].[Estado_Reserva] WHERE [er_estado]='Vigente' OR [er_estado]='Desconocido') " +
+                                                "	); ", conn);
+
+            DataTable dataTable = new DataTable();
+            comando.Parameters.AddWithValue("@ruta_codigo", _RutaDeViajeSeleccionada);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
             };
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+                List<Cabina> cabinas = new List<Cabina>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    var cabina = new Cabina()
+                    {
+                        Cod_Cabina = int.Parse(fila["cabi_codigo"].ToString()),
+                        Numero = int.Parse(fila["cabi_numero"].ToString()),
+                        Piso = int.Parse(fila["cabi_piso"].ToString()),
+                        Tipo_Cabina = TipoCabinaDAO.GetByID(int.Parse(fila["cabi_cod_tipo"].ToString())),
+                        IdCrucero = int.Parse(fila["cabi_crucero"].ToString())
+                    };
+
+                    cabinas.Add(cabina);
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return cabinas;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener las cabinas de la ruta", ex);
+            }
+
         }
 
         public static List<Cabina> GetAllForId(int idCrucero)

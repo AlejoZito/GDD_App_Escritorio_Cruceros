@@ -194,6 +194,7 @@ namespace FrbaCrucero.DAL.DAO
         {
             var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT " +
+                                                "    Ruta.rv_codigo rv_codigo, " +
                                                 "    Ruta.rv_recorrido rv_recorrido, " +
                                                 "    Ruta.rv_fecha_salida rv_fecha_salida, " +
                                                 "    Ruta.rv_fecha_llegada_estimada rv_fecha_llegada_estimada, " +
@@ -233,7 +234,7 @@ namespace FrbaCrucero.DAL.DAO
 
                     var rutaDeViaje = new RutaDeViaje()
                     {
-                        Cod_Ruta = int.Parse(fila["rv_recorrido"].ToString()),
+                        Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
                         Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = null,
