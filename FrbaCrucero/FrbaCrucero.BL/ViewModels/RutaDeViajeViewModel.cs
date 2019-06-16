@@ -146,5 +146,16 @@ namespace FrbaCrucero.BL.ViewModels
         {
             (new RutaDeViajeDAO()).Edit(this.MapToDomainObject());
         }
+
+        public decimal CalcularCostoDeRuta()
+        {
+            if (IdRecorrido != 0)
+            {
+                RecorridoViewModel recorrido = new RecorridoViewModel(RecorridoDAO.GetByID(IdRecorrido));
+                return recorrido.CalcularCostoDeRecorrido();
+            }
+            else
+                return 0;
+        }
     }
 }

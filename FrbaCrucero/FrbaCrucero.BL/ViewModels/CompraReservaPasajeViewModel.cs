@@ -6,10 +6,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows;
 namespace FrbaCrucero.BL.ViewModels
 {
-    public class CompraReservaPasajeViewModel
+    public class CompraReservaPasajeViewModel : INotifyPropertyChanged
     {
         public CompraReservaPasajeViewModel()
         {
@@ -42,6 +42,7 @@ namespace FrbaCrucero.BL.ViewModels
                 _RutaDeViajeSeleccionada = value;
                 //Al actualizar ruta de viaje, actualizar listado de cabinas
                 BuscarCabinas();
+                ActualizarMontoCalculado();
             }
         }
 
@@ -54,6 +55,30 @@ namespace FrbaCrucero.BL.ViewModels
         public ClienteViewModel Cliente { get; set; }
 
         public PagoViewModel MedioDePago { get; set; }
+
+        decimal _Monto;
+        public decimal Monto { 
+            get { return _Monto; } 
+            set { _Monto = value;
+            InvokePropertyChanged(new PropertyChangedEventArgs("Monto"));
+            }
+        }
+
+        private void ActualizarMontoCalculado()
+        {
+            decimal montoTotal = 0;
+            decimal costoRuta = 0;
+            if (RutaDeViajeSeleccionada.HasValue && Viajes.Count > 0)
+                costoRuta = Viajes.FirstOrDefault(x => x.IdRutaDeViaje == _RutaDeViajeSeleccionada).CalcularCostoDeRuta();
+            if (IdsCabinasSeleccionadas != null && IdsCabinasSeleccionadas.Count > 0)
+            {
+                foreach (var cabina in Cabinas.Where(x => IdsCabinasSeleccionadas.Contains(x.IdCabina)))
+                {
+                    montoTotal += cabina.PorcentajeRecargo * costoRuta;
+                }
+            }
+            Monto = montoTotal;
+        }
 
         /// <summary>
         /// Busca los viajes segun la fecha de partida, puerto de salida y de llegada,
@@ -133,5 +158,35 @@ namespace FrbaCrucero.BL.ViewModels
                 }
             }
         }
+
+        public void SeleccionarCabinas(List<string> selectedValues)
+        {
+            foreach (string selectedValue in selectedValues)
+            {
+                var cabinaToAdd = this.Cabinas.FirstOrDefault(x => x.Descripcion == selectedValue);
+                this.IdsCabinasSeleccionadas.Add(cabinaToAdd.IdCabina);                
+            }
+            ActualizarMontoCalculado();
+        }
+
+
+        #region Implementation of INotifyPropertyChanged
+
+        /// <summary>
+        /// Evento que se dispara cuando el valor de la propiedad cambia
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Llamar desde el setter de una propiedad para disparar el evento <see cref="PropertyChanged"/>
+        /// </summary>
+        /// <param name="e"></param>
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, e);
+        }
+
+        #endregion
     }
 }

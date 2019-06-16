@@ -27,6 +27,7 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
         private void BindControls()
         {
             datePickerDeparture.Input.DataBindings.Add("Value", _ViewModel, "FechaPartida", true, DataSourceUpdateMode.OnPropertyChanged);
+            labelMonto.DataBindings.Add("Text", _ViewModel, "Monto", true, DataSourceUpdateMode.OnPropertyChanged);
             dropdownPuertoDesde.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdPuertoSalida", true, DataSourceUpdateMode.OnPropertyChanged);
             dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdPuertoLlegada", true, DataSourceUpdateMode.OnPropertyChanged);
 
@@ -103,11 +104,12 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             }
             else
             {
+                List<string> selectedValues = new List<string>();
                 foreach (ListViewItem listItem in listViewCabinas.SelectedItems)
                 {
-                    var cabinaToAdd = _ViewModel.Cabinas.FirstOrDefault(x => x.Descripcion == listItem.Text);
-                    _ViewModel.IdsCabinasSeleccionadas.Add(cabinaToAdd.IdCabina);
+                    selectedValues.Add(listItem.Text);
                 }
+                _ViewModel.SeleccionarCabinas(selectedValues);
             }
         }
     }

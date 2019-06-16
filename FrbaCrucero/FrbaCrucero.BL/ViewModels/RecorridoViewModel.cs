@@ -60,5 +60,18 @@ namespace FrbaCrucero.BL.ViewModels
                 Tramos = this.Tramos.Select(t => t.MapToDomainObject()).ToList().OrderBy(x => x.Orden).ToList()
             };
         }
+
+        public decimal CalcularCostoDeRecorrido()
+        {
+            if (Tramos != null && Tramos.Count > 0)
+            {
+                decimal costo = 0;
+                foreach (var tramo in Tramos)
+                    costo += tramo.Precio;
+                return costo;
+            }
+            else
+                return 0;
+        }
     }
 }
