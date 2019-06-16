@@ -1,4 +1,5 @@
-﻿using FrbaCrucero.DAL.Domain;
+﻿using FrbaCrucero.DAL.DAO;
+using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,37 @@ namespace FrbaCrucero.BL.ViewModels
 {
     public class ClienteViewModel : ViewModel<Cliente>
     {
-        public ClienteViewModel(){}
+        public ClienteViewModel() { }
 
         public ClienteViewModel(Cliente o)
         {
             MapFromDomainObject(o);
         }
 
-        public string DNI { get; set; }
+        string _DNI;
+        public string DNI
+        {
+            get { return _DNI; }
+            set
+            {
+                //Only update if value is new (to avoid recursion)
+                if (_DNI != value)
+                {
+                    _DNI = value;
+                    //Actualizar cliente cuando se ingresa dni
+                    if (!string.IsNullOrEmpty(_DNI))
+                    {
+                        try
+                        {
+                            MapFromDomainObject(ClienteDAO.GetByDNI(_DNI));
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+            }
+        }
 
         public string Nombre { get; set; }
 
@@ -28,6 +52,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public string Mail { get; set; }
 
+        DateTime _FechaNacimiento;
         public DateTime FechaNacimiento { get; set; }
 
         public override void MapFromDomainObject(Cliente o)
@@ -57,7 +82,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public bool IsValid()
         {
-            return  !string.IsNullOrWhiteSpace(DNI) &&
+            return !string.IsNullOrWhiteSpace(DNI) &&
                     !string.IsNullOrWhiteSpace(Nombre) &&
                     !string.IsNullOrWhiteSpace(Apellido) &&
                     !string.IsNullOrWhiteSpace(Direccion) &&
