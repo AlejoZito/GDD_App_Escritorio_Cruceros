@@ -1,19 +1,21 @@
 ﻿using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class PasajeDAO
+    public static class PasajeDAO
     {
         /// <summary>
         /// Realizar pago de pasaje y retornar voucher de compra
         /// </summary>
         /// <returns></returns>
-        public string ComprarPasaje(
+        public static string ComprarPasaje(
             int idCabina,
             int idMedioDePago,
             int idRutaDeViaje,
@@ -32,7 +34,7 @@ namespace FrbaCrucero.DAL.DAO
         /// Realizar reserva de pasaje y retornar voucher de reserva (codigo de reserva)
         /// </summary>
         /// <returns></returns>
-        public string ReservarPasaje(
+        public static string ReservarPasaje(
             int idCabina,
             int idRutaDeViaje,
             string nombreCliente,
@@ -50,7 +52,7 @@ namespace FrbaCrucero.DAL.DAO
         /// Realizar pago de reserva y retornar voucher de compra
         /// </summary>
         /// <returns></returns>
-        public string PagarReserva(
+        public static string PagarReserva(
             int idReserva,
             int idMedioDePago)
         {
@@ -61,14 +63,27 @@ namespace FrbaCrucero.DAL.DAO
         /// Obtener reserva por ID.
         /// </summary>
         /// <returns></returns>
-        public Reserva GetReservaByID()
+        public static Reserva GetReservaByID()
         {
             return new Reserva();
         }
 
-        public void VencerReservasVencidas()
+        public static void ActualizarReservasVencidas()
         {
-
+            try
+            {
+                SqlConnection conn = Repository.GetConnection();
+                SqlCommand cmd = new SqlCommand("TIRANDO_QUERIES.sp_vencer_reservas", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar actualizar reservar vencidas", ex);
+            }
         }
 
         //    public List<Cabina> ObtenerCabinasDisponibles()

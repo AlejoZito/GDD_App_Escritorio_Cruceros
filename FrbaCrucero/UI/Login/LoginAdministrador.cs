@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaCrucero.DAL.DAO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +40,7 @@ namespace FrbaCrucero.UI.Login
                 };
 
                 MenuPrincipal menu = new MenuPrincipal();
+                PasajeDAO.ActualizarReservasVencidas();
                 Program.Navigation.GoToPage(menu, false);
             }
         }

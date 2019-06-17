@@ -728,7 +728,7 @@ AS
 BEGIN
 	UPDATE [TIRANDO_QUERIES].Reserva
 	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Vencida')
-	WHERE rese_fecha <= GETDATE() - 4
+	WHERE rese_estado <> 2 AND rese_fecha <= GETDATE() - 4
 END
 GO
 

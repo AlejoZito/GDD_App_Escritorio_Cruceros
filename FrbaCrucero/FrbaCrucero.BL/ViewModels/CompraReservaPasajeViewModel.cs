@@ -144,7 +144,7 @@ namespace FrbaCrucero.BL.ViewModels
             {
                 foreach (var cabina in IdsCabinasSeleccionadas)
                 {
-                    (new PasajeDAO()).ComprarPasaje(
+                    PasajeDAO.ComprarPasaje(
                         cabina,
                         MedioDePago.IDMedioDePago,
                         RutaDeViajeSeleccionada.Value,
