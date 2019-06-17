@@ -14,7 +14,7 @@ namespace FrbaCrucero.DAL.DAO
         public static Cliente GetByDNI(string dni)
         {
             var conn = Repository.GetConnection();
-            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cliente WHERE clie_dni = CAST('{0}' as DECIMAL(18,0))", dni);
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Cliente WHERE clie_dni = {0}", dni);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
