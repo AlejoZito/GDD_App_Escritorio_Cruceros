@@ -19,12 +19,20 @@ namespace FrbaCrucero
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            UsuarioLoggeado = new Usuario();
-            Navigation = new Form_Main();
-            Application.Run(Navigation);
+                UsuarioLoggeado = new Usuario();
+                Navigation = new Form_Main();
+                Application.Run(Navigation);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

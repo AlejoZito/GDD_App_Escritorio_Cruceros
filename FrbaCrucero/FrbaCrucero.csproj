@@ -86,11 +86,23 @@
     <Compile Include="UI\AbmCrucero\Form_Crucero_Index.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\AbmCrucero\Form_DemorarViaje.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_DemorarViaje.Designer.cs">
+      <DependentUpon>Form_DemorarViaje.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmCrucero\Form_Mantenimiento.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\AbmCrucero\Form_Mantenimiento.Designer.cs">
       <DependentUpon>Form_Mantenimiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.Designer.cs">
+      <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmPuerto\AltaPuerto.cs">
       <SubType>Form</SubType>
@@ -250,8 +262,14 @@
     <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Add.resx">
       <DependentUpon>Form_Crucero_Add.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_DemorarViaje.resx">
+      <DependentUpon>Form_DemorarViaje.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmCrucero\Form_Mantenimiento.resx">
       <DependentUpon>Form_Mantenimiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_MantenimientoConViajes.resx">
+      <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>

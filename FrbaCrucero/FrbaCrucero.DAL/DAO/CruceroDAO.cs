@@ -255,5 +255,43 @@ namespace FrbaCrucero.DAL.DAO
             }
 
         }
+
+        public static void DemorarViajes(int IDCrucero, int diasADemorar)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"[TIRANDO_QUERIES].sp_postergar_viajes", conn);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@crucero", IDCrucero);
+            comando.Parameters.AddWithValue("@dias", diasADemorar);
+
+            try
+            {
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al ejecutar el store procedure sp_postergar_viajes", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        public static void CancelarViajes(int IDCrucero)
+        {
+            
+        }
+
+        public static List<Pasaje> ObtenerPasajesSinFinalizar(int IDCrucero)
+        {
+            return new List<Pasaje>()
+            {
+                new Pasaje()
+            };
+        }
     }
 }

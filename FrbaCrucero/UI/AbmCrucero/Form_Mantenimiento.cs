@@ -28,7 +28,6 @@ namespace FrbaCrucero.UI.AbmCrucero
         private void BindViewModel()
         {
             //bindear inputs
-            datePickerDesde.Input.DataBindings.Add("Value", _ViewModel, "FechaDesde", true, DataSourceUpdateMode.OnPropertyChanged);
             datePickerHasta.Input.DataBindings.Add("Value", _ViewModel, "FechaHasta", true, DataSourceUpdateMode.OnPropertyChanged);
             //bindear listview
             listMantenimientos.SetDataBinding(_ViewModel.Mantenimientos, "Descripcion");
@@ -38,10 +37,21 @@ namespace FrbaCrucero.UI.AbmCrucero
         {
             try
             {
-
                 if (_ViewModel.IsValid())
                 {
-                    _ViewModel.AgregarMantenimiento();
+                    if (_ViewModel.NoTieneViajes())
+                    {
+                        _ViewModel.AgregarMantenimiento();
+                    }
+                    else
+                    {
+                        Program.Navigation.PopUpPage(
+                            new Form_MantenimientoConViajes(
+                                vm: this._ViewModel,
+                                onDemorarViajesSuccess: () => _ViewModel.AgregarMantenimiento(),
+                                onCancelarViajesSuccess: () =>_ViewModel.AgregarMantenimiento()                          
+                                ));
+                    }
                 }
                 else
                 {
@@ -59,5 +69,7 @@ namespace FrbaCrucero.UI.AbmCrucero
         {
             this.Close();
         }
+
+        public Button PopUpFormDemora { get; set; }
     }
 }
