@@ -138,8 +138,17 @@ namespace FrbaCrucero.DAL.DAO
 
             if (!string.IsNullOrWhiteSpace(exactFilter))
             {
-                comando.CommandText += "AND (puer_codigo like @exactFilter)";
-                comando.Parameters.AddWithValue("@exactFilter", exactFilter);
+                int codigoPuerto;
+                if (int.TryParse(exactFilter, out codigoPuerto))
+                {
+                    comando.CommandText += "AND (puer_codigo = @exactFilter)";
+                    comando.Parameters.AddWithValue("@exactFilter", codigoPuerto);
+                }
+                else
+                {
+                    throw new Exception("El filtro exacto solo admite codigos de puertos");
+                }
+
             }
 
             if (idDropdown != null && idDropdown != 0)
