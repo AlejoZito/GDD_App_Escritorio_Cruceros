@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace FrbaCrucero.DAL.DAO
 {
-    public class RolDAO
+    public static class RolDAO
     {
-        public List<Rol> GetAllForID(int idUsuario)
+        public static List<Rol> GetAllForID(int idUsuario)
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
@@ -31,7 +31,7 @@ namespace FrbaCrucero.DAL.DAO
                 {
                     var codigoRol = int.Parse(fila["ru_rol_codigo"].ToString());
 
-                    var rolUsuario = this.GetByID(codigoRol);
+                    var rolUsuario = RolDAO.GetByID(codigoRol);
 
                     roles.Add(rolUsuario);
                 }
@@ -48,7 +48,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public Rol GetByID(int id) 
+        public static Rol GetByID(int id) 
         {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_codigo = {0}", id);

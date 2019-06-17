@@ -1,4 +1,5 @@
 ﻿using FrbaCrucero.DAL.DAO;
+using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,16 +33,25 @@ namespace FrbaCrucero.UI.Login
             }
             else 
             {
-                //check a base de datos para ver si existe el usuario
-                this.Close();
-                Program.UsuarioLoggeado = new DAL.Domain.Usuario 
+                try
                 {
-                    Username = UsuarioTextBox.Text
-                };
+                    var usuario = new Usuario
+                    {
+                        Username = UsuarioTextBox.Text,
+                        Password = PasswordTextBox.Text
+                    };
 
-                MenuPrincipal menu = new MenuPrincipal();
-                PasajeDAO.ActualizarReservasVencidas();
-                Program.Navigation.GoToPage(menu, false);
+                    Program.UsuarioLoggeado = UsuarioDAO.AuthenticateUser(usuario);
+
+                    this.Close();
+                    MenuPrincipal menu = new MenuPrincipal();
+                    PasajeDAO.ActualizarReservasVencidas();
+                    Program.Navigation.GoToPage(menu, false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error al Ingresar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
