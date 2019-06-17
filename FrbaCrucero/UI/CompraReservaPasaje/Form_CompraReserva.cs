@@ -87,6 +87,12 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             }
         }
 
+        private void btnPagarReserva_Click(object sender, EventArgs e)
+        {
+            Program.Navigation.PopUpPage(new Form_PagoReserva(
+                onSuccess: (pago) => _ViewModel.MedioDePago = pago));
+        }
+
         private void listViewViajes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listViewViajes.SelectedItems == null || listViewViajes.SelectedItems.Count == 0)
