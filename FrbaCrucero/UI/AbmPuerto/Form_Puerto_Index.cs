@@ -31,7 +31,7 @@ namespace FrbaCrucero.UI.AbmPuerto
 
         protected override List<PuertoViewModel> GetData()
         {
-            return PuertoDAO.GetAllWithFilters().Select(x => new PuertoViewModel(x)).ToList();
+            return PuertoDAO.GetAllWithFilters("Abu", null, null).Select(x => new PuertoViewModel(x)).ToList();
         }
     }
 }

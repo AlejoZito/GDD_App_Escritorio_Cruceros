@@ -121,17 +121,36 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static IList<Puerto> GetAllWithFilters()//ToDo agregar filtros
+        public static IList<Puerto> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)//ToDo agregar filtros
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
             SqlConnection conn = Repository.GetConnection();
-            string comando = @"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1";
+            SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1", conn);
+
+            if (!string.IsNullOrWhiteSpace(likeFilter))
+            {
+                comando.CommandText += "AND (puer_codigo like '%' + @likeParameter + '%' OR " +
+                                            "puer_nombre like '%' + @likeParameter + '%' ) ";
+                comando.Parameters.AddWithValue("@likeParameter", likeFilter);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exactFilter))
+            {
+                comando.CommandText += "AND (puer_codigo like @exactFilter)";
+                comando.Parameters.AddWithValue("@exactFilter", exactFilter);
+            }
+
+            if (idDropdown != null && idDropdown != 0)
+            {
+                comando.CommandText += "AND puer_codigo = @codigoPuerto ";
+                comando.Parameters.AddWithValue("@codigoPuerto", idDropdown.Value);
+            }
 
             try
             {
-                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataAdapter = new SqlDataAdapter(comando);
                 dataTable = new DataTable();
 
                 dataAdapter.Fill(dataTable);
