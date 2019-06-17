@@ -18,6 +18,8 @@ namespace FrbaCrucero.UI.AbmCrucero
         public Form_Crucero_Index()
             : base()
         {
+            
+
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Crucero_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));
 
@@ -25,12 +27,40 @@ namespace FrbaCrucero.UI.AbmCrucero
                     onEditSuccess: (c) => this.OnAddOrEditSuccess(),
                     idCrucero: id));
 
-            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+            _OnClickDelete = (id) => BajaCrucero(id);
 
             _OnTableItemSelected = SeleccionarCrucero;
 
             Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { },
                 buttonA: new FilterButton("Mantenimiento", AbrirMantenimiento));
+        }
+
+        private void BajaCrucero(int id)
+        {
+            List<RutaDeViaje> viajesFuturosCrucero = RutaDeViajeDAO.GetAllByIDCrucero(id);
+            if (viajesFuturosCrucero.Count > 0)
+            {
+                DialogResult dialogResult = MessageBox.Show(String.Format("Hay {0} viajes programados con este crucero. ¿Desea reemplazar el crucero de estos viajes? Si selecciona \"No\" se anularán.", viajesFuturosCrucero.Count), "Baja de crucero", MessageBoxButtons.YesNoCancel);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //do something
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    //do something else
+                }
+            }
+            else
+            {
+                DialogResult dialogResult = MessageBox.Show("No hay viajes futuros programados con este crucero, por lo que puede ser dado de baja de manera directa. ¿Confirma que desea continuar?", "Baja de crucero", MessageBoxButtons.OKCancel);
+                if (dialogResult == DialogResult.OK)
+                {
+                    //CruceroDAO.CancelarViajes(id);
+                    //CruceroDAO.Delete(id);
+                    MessageBox.Show("El crucero fue dado de baja", "Baja de crucero", MessageBoxButtons.OK);
+                }
+            }
+
         }
 
         public void OnAddOrEditSuccess()
