@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaCrucero.DAL.DAO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,9 +25,23 @@ namespace FrbaCrucero.UI.Login
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-            LoginAdministrador admForm = new LoginAdministrador();
-            admForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            Program.Navigation.PopUpPage(admForm);
+            try
+            {
+                if (UsuarioDAO.RolUsuarioAdministradorExistente())
+                {
+                    LoginAdministrador admForm = new LoginAdministrador();
+                    admForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+                    Program.Navigation.PopUpPage(admForm);
+                }
+                else
+                {
+                    MessageBox.Show("No existe usuario administrativo", "Error al Ingresar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error al Ingresar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCliente_Click(object sender, EventArgs e)
