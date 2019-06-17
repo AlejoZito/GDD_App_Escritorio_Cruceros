@@ -7,11 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmCrucero
 {
     public class Form_Crucero_Index : FrbaCrucero.UI.Form_Base_Index<CruceroViewModel, Crucero>
     {
+        public int _IdCruceroSeleccionado;
+
         public Form_Crucero_Index()
             : base()
         {
@@ -23,6 +26,11 @@ namespace FrbaCrucero.UI.AbmCrucero
                     idCrucero: id));
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+
+            _OnTableItemSelected = SeleccionarCrucero;
+
+            Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { },
+                buttonA: new FilterButton("Mantenimiento", AbrirMantenimiento));
         }
 
         public void OnAddOrEditSuccess()
@@ -34,6 +42,23 @@ namespace FrbaCrucero.UI.AbmCrucero
         protected override List<CruceroViewModel> GetData()
         {
             return CruceroDAO.GetAll().Select(x=> new CruceroViewModel(x)).ToList();
+        }
+
+        public void SeleccionarCrucero(int id)
+        {
+            _IdCruceroSeleccionado = id;
+        }
+
+        public void AbrirMantenimiento()
+        {
+            try
+            {
+                Program.Navigation.PopUpPage(new Form_Mantenimiento(_IdCruceroSeleccionado));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
     }
 }

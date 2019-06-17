@@ -100,7 +100,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public List<RutaDeViaje> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
+        public List<RutaDeViaje> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown, List<DateTime> fechasEntre)
         {
             var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje " +
@@ -127,6 +127,12 @@ namespace FrbaCrucero.DAL.DAO
             {
                 comando.CommandText += "AND cruc_codigo = @codigoCrucero ";
                 comando.Parameters.AddWithValue("@codigoCrucero", idDropdown.Value);
+            }
+
+            //ToDo
+            if (fechasEntre != null && fechasEntre.Count > 0)
+            {
+                //Filtrar entre fechas. El primer item de la lista es DESDE, el segundo es HASTA
             }
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter()

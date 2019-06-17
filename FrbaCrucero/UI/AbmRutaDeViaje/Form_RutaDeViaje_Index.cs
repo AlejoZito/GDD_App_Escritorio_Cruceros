@@ -1,6 +1,7 @@
 ﻿using FrbaCrucero.BL.ViewModels;
 using FrbaCrucero.DAL.DAO;
 using FrbaCrucero.DAL.Domain;
+using FrbaCrucero.UI._Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,11 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
 
             Filters = new FiltersViewModel(
-                CruceroDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
-                "Ingrese un ID de ruta de viaje",
-                "Ingrese un identificador de crucero",
-                "Seleccione un crucero");
+                dropdownOptions: CruceroDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
+                exactFilter: "Cód. de Ruta",
+                likeFilter: "*",
+                dropdownFilter: "Cruceros",
+                filtro: new FilterButton("Entre Fechas", AbrirFiltroDeFechas));
         }
 
         public void OnAddOrEditSuccess()
@@ -35,12 +37,19 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
             this.PopulateDataGridView();
         }
 
+        public void AbrirFiltroDeFechas()
+        {
+            Program.Navigation.PopUpPage(new Form_FechasEntre(
+                (fechas, desc) => Filters.Button_Filtro_Seleccionar(fechas, desc)));
+        }
+
         protected override List<RutaDeViajeViewModel> GetData()
         {
             return (new RutaDeViajeDAO()).GetAllWithFilters(
                 this.Filters.LikeFilter,
                 this.Filters.ExactFilter,
-                this.Filters.DropdownFilterSelectedOption
+                this.Filters.DropdownFilterSelectedOption,
+                (List<DateTime>)this.Filters.Button_Filtro_Seleccion
                 ).Select(x => new RutaDeViajeViewModel(x)).ToList();
         }
     }

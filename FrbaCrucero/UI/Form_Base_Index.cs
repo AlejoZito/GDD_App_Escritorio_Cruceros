@@ -21,6 +21,7 @@ namespace FrbaCrucero.UI
         public OnButtonClickDelegate _OnClickAdd;
         public OnButtonClickWithIDDelegate _OnClickEdit;
         public OnButtonClickWithIDDelegate _OnClickDelete;
+        public OnButtonClickWithIDDelegate _OnTableItemSelected;
         private FiltersViewModel _Filters;
         protected FiltersViewModel Filters
         {
@@ -34,20 +35,26 @@ namespace FrbaCrucero.UI
                 dropdownFilter.DisplayMember = "Value";
                 dropdownFilter.ValueMember = "Key";
                 dropdownFilter.DataBindings.Add("SelectedValue", _Filters, "DropdownFilterSelectedOption", true, DataSourceUpdateMode.OnPropertyChanged);
-                if (!string.IsNullOrWhiteSpace(_Filters.DropdownFilterTooltip))
-                    dropdownFilterTooltip.SetToolTip(dropdownFilter, _Filters.DropdownFilterTooltip);
+                labelFiltroDropdown.DataBindings.Add("Text", _Filters, "DropdownFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
 
                 likeFilter.DataBindings.Add("Text", _Filters, "LikeFilter", true, DataSourceUpdateMode.OnPropertyChanged);
-                if (!string.IsNullOrWhiteSpace(_Filters.LikeFilterTooltip))
-                    likeFilterTooltip.SetToolTip(likeFilter, _Filters.LikeFilterTooltip);
-
+                label_filtroLibre.DataBindings.Add("Text", _Filters, "LikeFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
+                
                 exactFilter.DataBindings.Add("Text", _Filters, "ExactFilter", true, DataSourceUpdateMode.OnPropertyChanged);
-                if (!string.IsNullOrWhiteSpace(_Filters.ExactFilterToolTip))
-                    exactFilterTooltip.SetToolTip(exactFilter, _Filters.ExactFilterToolTip);
+                label_FiltroExacto.DataBindings.Add("Text", _Filters, "ExactFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
 
-                //ToDo DateTime
-                //datepickerDesde.Input.DataBindings.Add("Value", _ViewModel, "Fecha_Inicio", true, DataSourceUpdateMode.OnPropertyChanged);
+                btnFiltroComodin.DataBindings.Add("Text", _Filters, "Button_Filtro.Text", true, DataSourceUpdateMode.OnPropertyChanged);
+                btnFiltroComodin.DataBindings.Add("Visible", _Filters, "Button_Filtro.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
+                labelFiltroComodin.DataBindings.Add("Text", _Filters, "Button_Filtro.Text", true, DataSourceUpdateMode.OnPropertyChanged);
+                labelFiltroComodin.DataBindings.Add("Visible", _Filters, "Button_Filtro.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
+                filtroComodinValue.DataBindings.Add("Text", _Filters, "Button_Filtro_Seleccion_Descripcion", true, DataSourceUpdateMode.OnPropertyChanged);
+                filtroComodinValue.DataBindings.Add("Visible", _Filters, "Button_Filtro.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
 
+                buttonA.DataBindings.Add("Text", _Filters, "Button_A.Text", true, DataSourceUpdateMode.OnPropertyChanged);
+                buttonA.DataBindings.Add("Visible", _Filters, "Button_A.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
+
+                buttonB.DataBindings.Add("Text", _Filters, "Button_B.Text", true, DataSourceUpdateMode.OnPropertyChanged);
+                buttonB.DataBindings.Add("Visible", _Filters, "Button_B.Visible", true, DataSourceUpdateMode.OnPropertyChanged);      
             }
         }
 
@@ -115,6 +122,12 @@ namespace FrbaCrucero.UI
         /// <param name="e"></param>
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //if (_OnTableItemSelected != null)
+            //{
+            //    if(indexDataGridView.SelectedRows.Count > 0)
+            //        _OnTableItemSelected(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
+            //}
+
             if (e.ColumnIndex == indexDataGridView.Columns["colEdit"].Index)
             {
                 _OnClickEdit(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
@@ -125,6 +138,20 @@ namespace FrbaCrucero.UI
             }
         }
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            if (dgv == null)
+                return;
+            if (dgv.CurrentRow.Selected)
+            {
+                if (_OnTableItemSelected != null)
+                {
+                    if (indexDataGridView.SelectedRows.Count > 0)
+                        _OnTableItemSelected(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
+                }
+            }
+        }
         private void Agregar_Click(object sender, EventArgs e)
         {
             _OnClickAdd();
@@ -209,6 +236,21 @@ namespace FrbaCrucero.UI
 
             }
             return columns;
+        }
+
+        private void btnFiltroSeleccionar_Click(object sender, EventArgs e)
+        {
+            _Filters.Button_Filtro.Action();
+        }
+
+        private void buttonA_Click(object sender, EventArgs e)
+        {
+            _Filters.Button_A.Action();
+        }
+
+        private void buttonB_Click(object sender, EventArgs e)
+        {
+            _Filters.Button_B.Action();
         }
     }
 }

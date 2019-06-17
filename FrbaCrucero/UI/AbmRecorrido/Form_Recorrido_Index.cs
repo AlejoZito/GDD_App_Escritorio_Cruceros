@@ -23,6 +23,8 @@ namespace FrbaCrucero.UI.AbmRecorrido
                     idRecorrido: id));
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+
+            Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { });
         }
 
         public void OnAddOrEditSuccess()
