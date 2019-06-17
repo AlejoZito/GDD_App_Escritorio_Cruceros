@@ -330,7 +330,7 @@ CREATE TABLE [TIRANDO_QUERIES].[Usuario] (
 	[usua_username] [NVARCHAR](255) NOT NULL,
 	[usua_password] [NVARCHAR](255) NOT NULL,
 	[usua_login_fallidos] INT NOT NULL DEFAULT 0,
-	[usua_fecha_inhabilitaicon] DATETIME2(3)
+	[usua_fecha_inhabilitacion] DATETIME2(3)
 )
 GO
 
