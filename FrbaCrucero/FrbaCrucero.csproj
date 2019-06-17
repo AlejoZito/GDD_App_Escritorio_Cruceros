@@ -86,6 +86,12 @@
     <Compile Include="UI\AbmCrucero\Form_Crucero_Index.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\AbmCrucero\Form_DemorarViaje.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_DemorarViaje.Designer.cs">
+      <DependentUpon>Form_DemorarViaje.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmCrucero\Form_Mantenimiento.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,11 @@
     </Compile>
     <Compile Include="UI\AbmCrucero\reemplazarCrucero.Designer.cs">
       <DependentUpon>reemplazarCrucero.cs</DependentUpon>
+    <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.Designer.cs">
+      <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmPuerto\AltaPuerto.cs">
       <SubType>Form</SubType>
@@ -148,6 +159,12 @@
     </Compile>
     <Compile Include="UI\CompraReservaPasaje\Form_Pago.Designer.cs">
       <DependentUpon>Form_Pago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PagoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PagoReserva.Designer.cs">
+      <DependentUpon>Form_PagoReserva.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\CompraReservaPasaje\Form_PasajeExitoso.cs">
       <SubType>Form</SubType>
@@ -256,8 +273,14 @@
     <EmbeddedResource Include="UI\AbmCrucero\Form_Crucero_Add.resx">
       <DependentUpon>Form_Crucero_Add.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_DemorarViaje.resx">
+      <DependentUpon>Form_DemorarViaje.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmCrucero\Form_Mantenimiento.resx">
       <DependentUpon>Form_Mantenimiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_MantenimientoConViajes.resx">
+      <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
@@ -282,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_Pago.resx">
       <DependentUpon>Form_Pago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PagoReserva.resx">
+      <DependentUpon>Form_PagoReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PasajeExitoso.resx">
       <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>

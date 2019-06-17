@@ -63,7 +63,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             string errorMessage = "";
 
-            if(FechaDesde < DateTime.Now)
+            if (FechaDesde < DateTime.Now)
                 errorMessage += "Debe ingresar una fecha desde superior a hoy" + Environment.NewLine;
 
             if (FechaHasta < FechaDesde)
@@ -91,6 +91,31 @@ namespace FrbaCrucero.BL.ViewModels
                     Cod_Crucero = this.IDCrucero
                 }
             };
+        }
+
+        public void DemorarViajes(int diasADemorar)
+        {
+            CruceroDAO.DemorarViajes(IDCrucero, diasADemorar);
+        }
+
+        public void CancelarViajes()
+        {
+            CruceroDAO.CancelarViajes(IDCrucero);
+        }
+
+        public bool NoTieneViajes()
+        {
+            //FechaDesde está hardcodeada con la fecha de hoy
+            try
+            {
+                List<Pasaje> cruceros = CruceroDAO.ObtenerPasajesSinFinalizar(IDCrucero);
+                return cruceros.Count == 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

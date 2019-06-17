@@ -34,7 +34,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.datePickerHasta = new FrbaCrucero.UI.Components.DatePickerControl();
-            this.datePickerDesde = new FrbaCrucero.UI.Components.DatePickerControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +41,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.listMantenimientos);
-            this.groupBox1.Location = new System.Drawing.Point(29, 195);
+            this.groupBox1.Location = new System.Drawing.Point(32, 161);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(441, 300);
             this.groupBox1.TabIndex = 0;
@@ -61,7 +60,7 @@
             // 
             // buttonVolver
             // 
-            this.buttonVolver.Location = new System.Drawing.Point(383, 514);
+            this.buttonVolver.Location = new System.Drawing.Point(386, 467);
             this.buttonVolver.Name = "buttonVolver";
             this.buttonVolver.Size = new System.Drawing.Size(87, 31);
             this.buttonVolver.TabIndex = 1;
@@ -73,17 +72,16 @@
             // 
             this.groupBox2.Controls.Add(this.btnAceptar);
             this.groupBox2.Controls.Add(this.datePickerHasta);
-            this.groupBox2.Controls.Add(this.datePickerDesde);
             this.groupBox2.Location = new System.Drawing.Point(32, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(436, 174);
+            this.groupBox2.Size = new System.Drawing.Size(436, 140);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Programar mantenimiento";
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(309, 124);
+            this.btnAceptar.Location = new System.Drawing.Point(309, 88);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(113, 36);
             this.btnAceptar.TabIndex = 2;
@@ -96,26 +94,16 @@
             this.datePickerHasta.BackColor = System.Drawing.Color.Transparent;
             this.datePickerHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.datePickerHasta.LabelText = "Hasta";
-            this.datePickerHasta.Location = new System.Drawing.Point(37, 75);
+            this.datePickerHasta.Location = new System.Drawing.Point(37, 39);
             this.datePickerHasta.Name = "datePickerHasta";
             this.datePickerHasta.Size = new System.Drawing.Size(385, 43);
             this.datePickerHasta.TabIndex = 1;
-            // 
-            // datePickerDesde
-            // 
-            this.datePickerDesde.BackColor = System.Drawing.Color.Transparent;
-            this.datePickerDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.datePickerDesde.LabelText = "Desde";
-            this.datePickerDesde.Location = new System.Drawing.Point(37, 26);
-            this.datePickerDesde.Name = "datePickerDesde";
-            this.datePickerDesde.Size = new System.Drawing.Size(385, 43);
-            this.datePickerDesde.TabIndex = 0;
             // 
             // Form_Mantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 557);
+            this.ClientSize = new System.Drawing.Size(502, 508);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.groupBox1);
@@ -133,7 +121,6 @@
         private _Components.DataListViewControl listMantenimientos;
         private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.GroupBox groupBox2;
-        private Components.DatePickerControl datePickerDesde;
         private System.Windows.Forms.Button btnAceptar;
         private Components.DatePickerControl datePickerHasta;
     }
