@@ -44,6 +44,7 @@
     <Compile Include="DAO\CabinaDAO.cs" />
     <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\CruceroDAO.cs" />
+    <Compile Include="DAO\EstadoReservaDAO.cs" />
     <Compile Include="DAO\FabricanteDAO.cs" />
     <Compile Include="DAO\MantenimientoDAO.cs" />
     <Compile Include="DAO\MedioDePagoDAO.cs" />

@@ -140,7 +140,7 @@ namespace FrbaCrucero.DAL.DAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrió un error al intentar editar el crucero");
+                throw new Exception("Ocurrió un error al intentar editar el crucero", ex);
             }
         }
 
