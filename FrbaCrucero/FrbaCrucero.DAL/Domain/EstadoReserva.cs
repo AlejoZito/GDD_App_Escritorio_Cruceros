@@ -9,6 +9,8 @@ namespace FrbaCrucero.DAL.Domain
     {
         public int Cod_Estado_Reserva { get; set; }
 
-        public string Detalle { get; set; }
+        public string Estado { get; set; }
+
+        public string Motivo { get; set; }
     }
 }

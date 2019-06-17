@@ -63,9 +63,51 @@ namespace FrbaCrucero.DAL.DAO
         /// Obtener reserva por ID.
         /// </summary>
         /// <returns></returns>
-        public static Reserva GetReservaByID()
+        
+        public static Reserva GetReservaByID(int idReserva)
         {
-            return new Reserva();
+            var conn = Repository.GetConnection();
+            string comando = string.Format(@"SELECT * FROM [TIRANDO_QUERIES].[Reserva] WHERE [rese_codigo] = {0}", idReserva);
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+
+                DataRow registroReserva = dataTable.Rows[0];
+
+                int cod_reserva = int.Parse(registroReserva["rese_codigo"].ToString());
+                decimal precio = decimal.Parse(registroReserva["cabi_crucero"].ToString());
+                DateTime fecha = DateTime.Parse(registroReserva["rese_fecha"].ToString());
+                int cod_cabina = int.Parse(registroReserva["rese_cabina"].ToString());
+                int cod_cliente = int.Parse(registroReserva["rese_cliente"].ToString());
+                int cod_estado = int.Parse(registroReserva["rese_estado"].ToString());
+                int cod_ruta = int.Parse(registroReserva["rese_ruta"].ToString());
+
+                var reserva = new Reserva
+                {
+                    Cod_Reserva = cod_reserva,
+                    Precio = precio,
+                    Fecha_Reserva = fecha,
+                    Cabina = CabinaDAO.GetByID(cod_cabina),
+                    Cliente = ClienteDAO.GetByID(cod_cliente),
+                    Estado = EstadoReservaDAO.GetByID(cod_estado),
+                    Ruta = (new RutaDeViajeDAO()).GetByID(cod_ruta)
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return reserva;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener la cabina", ex);
+            }
         }
 
         public static void ActualizarReservasVencidas()
@@ -86,26 +128,5 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        //    public List<Cabina> ObtenerCabinasDisponibles()
-        //{
-
-        //    "SELECT Cabina.[cabi_codigo], Cabina.[cabi_numero], Cabina.[cabi_piso], Tipo_Cabina.[tc_porc_recargo] " +
-        //    " FROM [TIRANDO_QUERIES].[Cabina] Cabina " +
-        //    " INNER JOIN [TIRANDO_QUERIES].[Tipo_Cabina] Tipo_Cabina ON Tipo_Cabina.[tc_codigo] = Cabina.cabi_cod_tipo " +
-        //    " WHERE " +
-        //    " 	[cabi_crucero] = (SELECT [rv_crucero] FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_codigo]=@ruta_codigo) AND " +
-        //    " 	[cabi_codigo] NOT IN ( " +
-        //    " 		SELECT [pasa_cabina] FROM [TIRANDO_QUERIES].[Pasaje] " +
-        //    " 		WHERE  " +
-        //    " 			[pasa_ruta]=@ruta_codigo AND " +
-        //    " 			[pasa_estado] IN (Select [ep_codigo] FROM [TIRANDO_QUERIES].[Estado_Pasaje] WHERE [ep_estado]='Vigente' OR [ep_estado]='Desconocido') " +
-        //    " 	) AND " +
-        //    " 	[cabi_codigo] NOT IN ( " +
-        //    " 		SELECT [rese_cabina] FROM [TIRANDO_QUERIES].[Reserva] " +
-        //    " 		WHERE " +
-        //    " 			[rese_ruta]=@ruta_codigo AND " +
-        //    " 			[rese_estado] IN (Select [er_codigo] FROM [TIRANDO_QUERIES].[Estado_Reserva] WHERE [er_estado]='Vigente' OR [er_estado]='Desconocido') " +
-        //    " 	);";
-        //}
     }
 }
