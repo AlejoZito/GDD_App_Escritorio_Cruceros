@@ -89,8 +89,6 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
         private void btnPagarReserva_Click(object sender, EventArgs e)
         {
-            _ViewModel.CargarUsuario();
-
             Program.Navigation.PopUpPage(new Form_PagoReserva(
                 onSuccess: (pago) => _ViewModel.MedioDePago = pago));
         }
