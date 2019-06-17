@@ -105,5 +105,35 @@ namespace FrbaCrucero.DAL.DAO
         {
 
         }
+
+        public static void ActualizarOCargar(Cliente cliente)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"[TIRANDO_QUERIES].sp_actualizar_cliente", conn);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+			comando.Parameters.AddWithValue("@cli_nombre", cliente.Nombre);
+            comando.Parameters.AddWithValue("@cli_apellido", cliente.Apellido);
+            comando.Parameters.AddWithValue("@cli_dni", cliente.Dni);
+            comando.Parameters.AddWithValue("@cli_telefono", cliente.Telefono);
+            comando.Parameters.AddWithValue("@cli_direccion", cliente.Direccion);
+            comando.Parameters.AddWithValue("@cli_mail", cliente.Mail);
+            comando.Parameters.AddWithValue("@cli_fecha_nac", cliente.Fecha_Nac);
+
+            try
+            {
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al ejecutar el store procedure sp_actualizar_cliente", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
     }
 }

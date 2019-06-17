@@ -18,7 +18,7 @@ namespace FrbaCrucero.DAL.DAO
             }
             catch (Exception ex) 
             {
-                throw new Exception("Ocurrio un error al intentar establecer conexión con la base");
+                throw new Exception("Ocurrio un error al intentar establecer conexión con la base", ex);
             }
         }
     }

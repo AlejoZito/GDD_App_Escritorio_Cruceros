@@ -138,6 +138,16 @@ namespace FrbaCrucero.BL.ViewModels
                 Cliente != null && Cliente.IsValid();
         }
 
+        public void CargarUsuario()
+        {
+            if (Cliente != null && Cliente.IsValid())
+            {
+                Cliente clienteACargar = Cliente.MapToDomainObject();
+                ClienteDAO.ActualizarOCargar(clienteACargar);
+                Cliente.MapFromDomainObject(ClienteDAO.GetByDNI(Cliente.DNI));
+            }
+        }
+
         public void ComprarPasaje()
         {
             if (IsValid())
