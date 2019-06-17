@@ -65,6 +65,7 @@ IF OBJECT_ID('[TIRANDO_QUERIES].sp_postergar_viajes') IS NOT NULL DROP PROCEDURE
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_vencer_reservas') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_autenticar_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario;
 GO
 
 --*************************************************************************************************************
@@ -731,21 +732,62 @@ GO
 --*************************************************************************************************************
 --*************************************************************************************************************
 
+--SP que autentica usuario y devuelve distintos códigos dependiendo de sí fue exitoso o en que fallo
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario(@username nvarchar(255) , @password nvarchar(255))
+AS
+ BEGIN
+	
+	--Valido sí el usuario existe y si no está bloqueado
+	IF ((SELECT TIRANDO_QUERIES.fn_existe_usuario(@username)) = 0)
+		RETURN -2 --Usuario inexistente
+
+	DECLARE @codigo_de_bloqueo INT;
+	EXEC TIRANDO_QUERIES.sp_esta_bloqueado_usuario @username, @codigo_de_bloqueo OUTPUT
+	IF (@codigo_de_bloqueo = 1)
+		RETURN -3 --Usuario bloqueado
+ 	
+	--Convierto la pass en hashed para poder autenticar
+	DECLARE @hashedPassword nvarchar(255)
+	DECLARE @usua_codigo numeric(18,0)
+
+	SET @hashedPassword = HASHBYTES('SHA2_256', @password)
+	SET @usua_codigo = (SELECT usua_codigo FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username AND usua_password = @hashedPassword)
+
+	IF (@usua_codigo IS NOT NULL)
+		BEGIN 
+			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = 0 WHERE usua_username = @username
+			RETURN 1 --Usuario ok
+		END
+	ELSE 	
+		BEGIN 
+			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = usua_login_fallidos + 1 WHERE usua_username = @username
+			IF ((SELECT usua_login_fallidos FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) >= 3)
+			BEGIN
+				UPDATE TIRANDO_QUERIES.Usuario SET usua_fecha_inhabilitacion = GETDATE() WHERE usua_username = @username
+			END
+			RETURN -1 --Usuario o contraseña incorrectos
+		END
+END
+GO
+
 --SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último login fallido y actualiza su contador
-CREATE PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario(@username nvarchar(255))
+CREATE PROCEDURE [TIRANDO_QUERIES].[sp_esta_bloqueado_usuario](@username nvarchar(255), @codigo INT OUTPUT)
 AS
  BEGIN
 	IF ((SELECT usua_login_fallidos FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) >= 3)
 		IF((SELECT usua_fecha_inhabilitacion FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) < DATEADD(minute, -10, GETDATE()))
 		BEGIN
 			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = 0 WHERE usua_username = @username
-			RETURN 0
+			SET @codigo = 0
+			RETURN @codigo
 		END
 		ELSE
 		BEGIN
-			RETURN 1
+			SET @codigo = 1
+			RETURN @codigo
 		END
-	RETURN 0
+	SET @codigo = 0
+	RETURN @codigo
  END	
 GO
 
