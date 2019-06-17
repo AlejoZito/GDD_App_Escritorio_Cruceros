@@ -66,6 +66,7 @@ IF OBJECT_ID('[TIRANDO_QUERIES].sp_vencer_reservas') IS NOT NULL DROP PROCEDURE 
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_autenticar_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_pago_reserva') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva;
 GO
 
 --*************************************************************************************************************
@@ -81,9 +82,10 @@ GO
 -- Realizo un DROP de los triggers previo a su creación en caso existan
 --*************************************************************************************************************
 
-IF OBJECT_ID('[TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto];
-IF OBJECT_ID('[TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido];
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_baja_recorrido_por_baja_puerto]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto];
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_cancelar_pasajes_vigentes_por_baja_recorrido]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido];
 GO
+
 
 --*************************************************************************************************************
 --*************************************************************************************************************
@@ -96,7 +98,6 @@ BEGIN
 	EXEC ('CREATE SCHEMA [TIRANDO_QUERIES] AUTHORIZATION gdCruceros2019')
 END
 GO
-
 
 
 --*************************************************************************************************************
@@ -290,7 +291,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Pasaje] (
 	[pasa_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[pasa_precio]  [DECIMAL](18,2) NOT NULL,
+	[pasa_precio] [DECIMAL](18,2) NOT NULL,
 	[pasa_cabina] [NUMERIC] NOT NULL,
 	[pasa_cliente] [NUMERIC] NOT NULL,
 	[pasa_estado] [NUMERIC] NOT NULL,
@@ -620,6 +621,8 @@ GO
 -- TABLE PASAJE
 --*************************************************************************************************************
 
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Pasaje] ON
+
 --Creo un índice para performar la migraicón de la tabla pasaje
 CREATE INDEX index_clientes ON TIRANDO_QUERIES.Cliente(clie_dni,clie_nombre,clie_apellido)
 
@@ -628,8 +631,8 @@ DECLARE @cod_pago_desconocido NUMERIC
 SET @cod_estado_desconocido = (SELECT  ep.ep_codigo FROM [TIRANDO_QUERIES].Estado_Pasaje ep WHERE ep.ep_estado = 'Desconocido')
 SET @cod_pago_desconocido = (SELECT  p.pago_codigo FROM [TIRANDO_QUERIES].Pago p WHERE p.pago_medio_pago = 'Desconocido')
 
-INSERT INTO [TIRANDO_QUERIES].[Pasaje](pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
-SELECT DISTINCT m.recorrido_precio_base,
+INSERT INTO [TIRANDO_QUERIES].[Pasaje](pasa_codigo,pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
+SELECT DISTINCT m.pasaje_codigo,m.recorrido_precio_base,
 
 (SELECT c.cabi_codigo FROM [TIRANDO_QUERIES].Cabina c
  JOIN [TIRANDO_QUERIES].Tipo_Cabina tc ON c.cabi_cod_tipo = tc.tc_codigo
@@ -655,6 +658,9 @@ m.pasaje_fecha_compra
  
 FROM gd_esquema.Maestra m
 WHERE m.reserva_codigo IS NULL AND m.reserva_fecha IS NULL
+
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Pasaje] OFF
+
 GO
 
 
@@ -672,11 +678,13 @@ GO
 -- TABLE RESERVA
 --*************************************************************************************************************
 
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Reserva] ON
+
 DECLARE @cod_estado_desconocido NUMERIC
 SET @cod_estado_desconocido = (SELECT  er.er_codigo FROM [TIRANDO_QUERIES].Estado_Reserva er WHERE er.er_estado = 'Desconocido')
 
-INSERT INTO [TIRANDO_QUERIES].[Reserva](rese_precio,rese_cabina,rese_cliente,rese_estado,rese_ruta,rese_fecha)
-SELECT DISTINCT m.recorrido_precio_base,
+INSERT INTO [TIRANDO_QUERIES].[Reserva](rese_codigo,rese_precio,rese_cabina,rese_cliente,rese_estado,rese_ruta,rese_fecha)
+SELECT DISTINCT m.reserva_codigo,m.recorrido_precio_base,
 
 (SELECT c.cabi_codigo FROM [TIRANDO_QUERIES].Cabina c
  JOIN [TIRANDO_QUERIES].Tipo_Cabina tc ON c.cabi_cod_tipo = tc.tc_codigo
@@ -701,6 +709,9 @@ m.reserva_fecha
  
 FROM gd_esquema.Maestra m
 WHERE m.reserva_codigo IS NOT NULL AND m.reserva_fecha IS NOT NULL
+
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Reserva] OFF
+
 GO
 
 --*************************************************************************************************************
@@ -708,6 +719,8 @@ GO
 -- FIN DE MIGRACION DE DATOS
 --*************************************************************************************************************
 --*************************************************************************************************************
+
+
 
 --*************************************************************************************************************
 --*************************************************************************************************************
@@ -732,7 +745,13 @@ GO
 --*************************************************************************************************************
 --*************************************************************************************************************
 
---SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último login fallido y actualiza su contador
+
+--*************************************************************************************************************
+-- CREACION DE SP_ESTA_BLOQUEADO_USUARIO
+-- SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último 
+-- login fallido y actualiza su contador
+--*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].[sp_esta_bloqueado_usuario](@username nvarchar(255), @codigo INT OUTPUT)
 AS
  BEGIN
@@ -753,7 +772,11 @@ AS
  END	
 GO
 
---SP que autentica usuario y devuelve distintos códigos dependiendo de sí fue exitoso o en que fallo
+--*************************************************************************************************************
+-- CREACION DE SP_AUTENTICAR_USUARIO
+-- SP que autentica usuario y devuelve distintos códigos dependiendo de sí fue exitoso o en que fallo
+--*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario(@username nvarchar(255) , @password nvarchar(255))
 AS
  BEGIN
@@ -791,7 +814,12 @@ AS
 END
 GO
 
---Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
+--*************************************************************************************************************
+-- CREACIÓN DE SP_POSTERGAR_VIAJES
+-- Desplazo una cantidad N de dias los pasajes
+-- Uso: reprogramacion cuando un crucero en mantenimiento
+--*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero NUMERIC, @dias NUMERIC)
 AS
 BEGIN
@@ -802,7 +830,29 @@ BEGIN
 END
 GO
 
---Cuando una reserva se vence
+--*************************************************************************************************************
+-- CREACIÓN DE SP_PAGO_RESERVA
+-- Pago de una reserva
+--*************************************************************************************************************
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva @reserva_id NUMERIC, @metodo_pago NUMERIC
+AS
+BEGIN
+	INSERT INTO [TIRANDO_QUERIES].Pasaje (pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
+	SELECT rese_precio,rese_cabina,rese_cliente,1,@metodo_pago,rese_ruta,GETDATE()
+	FROM [TIRANDO_QUERIES].Reserva WHERE rese_codigo = @reserva_id
+
+	UPDATE [TIRANDO_QUERIES].Reserva
+	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Pagada')
+	WHERE rese_codigo = @reserva_id
+
+END
+GO
+
+--*************************************************************************************************************
+-- CREACIÓN DE SP_VENCER_RESERVAS
+-- Cuando una reserva se vence
+--*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas
 AS
 BEGIN
@@ -812,7 +862,11 @@ BEGIN
 END
 GO
 
---Cuando quiero actualizar un Cliente y no se si existe
+--*************************************************************************************************************
+-- CREACIÓN DE SP_ACTUALIZAR_CLIENTE
+-- Actualizamos un cliente cuando se compra un pasaje
+--*************************************************************************************************************
+
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente(@cli_nombre nvarchar(255), @cli_apellido nvarchar(255), @cli_dni numeric(18,0), @cli_telefono int, @cli_direccion nvarchar(255), @cli_mail nvarchar(255), @cli_fecha_nac datetime2(3))
 AS
     if exists(Select TOP 1 [clie_dni] From [TIRANDO_QUERIES].[Cliente] WHERE clie_dni = @cli_dni AND clie_duplicado=0)
@@ -835,6 +889,8 @@ AS
 		END
 GO
 
+
+
 --*************************************************************************************************************
 --*************************************************************************************************************
 -- CREACION TRIGGERS
@@ -842,8 +898,13 @@ GO
 --*************************************************************************************************************
 
 
---Cuando ponemos un puerto como inactivo, se deben poner los recorridos que tienen tramos con dichos puertos también como inactivos.
-CREATE TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto] ON [TIRANDO_QUERIES].[Puerto] AFTER UPDATE
+--*************************************************************************************************************
+-- CREACION TRG_BAJA_RECORRIDO_POR_BAJA_PUERTO
+-- Cuando ponemos un puerto como inactivo, se deben poner los recorridos que tienen tramos con dichos puertos
+-- también como inactivos
+--*************************************************************************************************************
+
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_baja_recorrido_por_baja_puerto] ON [TIRANDO_QUERIES].[Puerto] AFTER UPDATE
 AS
 BEGIN
 
@@ -870,8 +931,14 @@ DEALLOCATE cursor_puerto
 END
 GO
 
---Cuando ponemos un puerto como inactivo, cancelar pasajes que no hayan iniciado
-CREATE TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido] ON [TIRANDO_QUERIES].[Recorrido] AFTER UPDATE
+
+--*************************************************************************************************************
+-- CREACION TRG_CANCELAR_PASAJES_VIGENTES_POR_BAJA_RECORRIDO
+-- Cuando ponemos un recorrido como inactivo, cancelar pasajes que no hayan iniciado
+--*************************************************************************************************************
+
+
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_cancelar_pasajes_vigentes_por_baja_recorrido] ON [TIRANDO_QUERIES].[Recorrido] AFTER UPDATE
 AS
 BEGIN
 	DECLARE cursor_recorrido CURSOR FOR
@@ -902,14 +969,14 @@ GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
--- Agrego dummy data para testeo
+-- DATOS DUMMY PARA TEST
 --*************************************************************************************************************
 --*************************************************************************************************************
 
 INSERT INTO [TIRANDO_QUERIES].[Ruta_Viaje](rv_recorrido, rv_crucero, [rv_fecha_salida], [rv_fecha_llegada_estimada])
 VALUES(43820882, 23, '2019-07-25 09:00:00.000', '2019-08-25 09:00:00.000');
-
 GO
+
 INSERT INTO [TIRANDO_QUERIES].[Pasaje]([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta])
 VALUES(400, 4, 155985, 4, 5, 4957);
 GO
