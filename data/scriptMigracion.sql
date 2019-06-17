@@ -63,6 +63,7 @@ GO
 -- sp_postergar_viajes
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_postergar_viajes') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_vencer_reservas') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
 GO
 
@@ -71,7 +72,8 @@ GO
 -- Realizo un DROP de las funciones previo a su creación en caso existan
 --*************************************************************************************************************
 
--- TODO
+IF OBJECT_ID('[TIRANDO_QUERIES].fn_existe_usuario') IS NOT NULL DROP FUNCTION [TIRANDO_QUERIES].[fn_existe_usuario];
+GO
 
 --*************************************************************************************************************
 -- DROP TRIGGERS
@@ -713,7 +715,7 @@ GO
 --*************************************************************************************************************
 
 --Función que sirve para saber sí un usuario existe
-CREATE FUNCTION TIRANDO_QUERIES.fn_existe_usuario(@username nvarchar(255))
+CREATE FUNCTION [TIRANDO_QUERIES].fn_existe_usuario(@username nvarchar(255))
 RETURNS bit
 AS
  BEGIN
@@ -728,6 +730,24 @@ GO
 --CREACIÓN DE STORED PROCEDURES
 --*************************************************************************************************************
 --*************************************************************************************************************
+
+--SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último login fallido y actualiza su contador
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario(@username nvarchar(255))
+AS
+ BEGIN
+	IF ((SELECT usua_login_fallidos FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) >= 3)
+		IF((SELECT usua_fecha_inhabilitacion FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) < DATEADD(minute, -10, GETDATE()))
+		BEGIN
+			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = 0 WHERE usua_username = @username
+			RETURN 0
+		END
+		ELSE
+		BEGIN
+			RETURN 1
+		END
+	RETURN 0
+ END	
+GO
 
 --Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes(@crucero NUMERIC, @dias NUMERIC)
