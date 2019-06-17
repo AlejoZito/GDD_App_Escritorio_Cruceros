@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="UI\AbmCrucero\reemplazarCrucero.Designer.cs">
       <DependentUpon>reemplazarCrucero.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.cs">
       <SubType>Form</SubType>
     </Compile>
