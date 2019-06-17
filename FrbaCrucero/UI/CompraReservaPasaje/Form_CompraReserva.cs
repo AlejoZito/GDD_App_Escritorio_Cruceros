@@ -22,6 +22,7 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             _ViewModel = new CompraReservaPasajeViewModel();
             BindControls();
             LoadDropDowns();
+            PasajeDAO.ActualizarReservasVencidas();
         }
 
         private void BindControls()
