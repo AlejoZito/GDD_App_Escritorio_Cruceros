@@ -64,6 +64,7 @@ GO
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_postergar_viajes') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_postergar_viajes;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_vencer_reservas') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_esta_bloqueado_usuario;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
 GO
 
 --*************************************************************************************************************
@@ -770,7 +771,7 @@ END
 GO
 
 --Cuando quiero actualizar un Cliente y no se si existe
-CREATE PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente(@crucero NUMERIC, @dias NUMERIC)
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente(@cli_nombre nvarchar(255), @cli_apellido nvarchar(255), @cli_dni numeric(18,0), @cli_telefono int, @cli_direccion nvarchar(255), @cli_mail nvarchar(255), @cli_fecha_nac datetime2(3))
 AS
     if exists(Select TOP 1 [clie_dni] From [TIRANDO_QUERIES].[Cliente] WHERE clie_dni = @cli_dni AND clie_duplicado=0)
 		BEGIN
