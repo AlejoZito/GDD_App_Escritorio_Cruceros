@@ -143,6 +143,12 @@
     <Compile Include="UI\CompraReservaPasaje\Form_Pago.Designer.cs">
       <DependentUpon>Form_Pago.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PagoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CompraReservaPasaje\Form_PagoReserva.Designer.cs">
+      <DependentUpon>Form_PagoReserva.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\CompraReservaPasaje\Form_PasajeExitoso.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_Pago.resx">
       <DependentUpon>Form_Pago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PagoReserva.resx">
+      <DependentUpon>Form_PagoReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PasajeExitoso.resx">
       <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>
