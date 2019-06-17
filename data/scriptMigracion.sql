@@ -739,7 +739,7 @@ BEGIN
 END
 GO
 
---Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
+--Cuando una reserva se vence
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_vencer_reservas
 AS
 BEGIN
@@ -747,6 +747,29 @@ BEGIN
 	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Vencida')
 	WHERE rese_estado <> 2 AND rese_fecha <= GETDATE() - 4
 END
+GO
+
+--Cuando quiero actualizar un Cliente y no se si existe
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente(@crucero NUMERIC, @dias NUMERIC)
+AS
+    if exists(Select TOP 1 [clie_dni] From [TIRANDO_QUERIES].[Cliente] WHERE clie_dni = @cli_dni AND clie_duplicado=0)
+		BEGIN
+			UPDATE [TIRANDO_QUERIES].[Cliente] 
+			SET
+				[clie_nombre] = @cli_nombre,
+				[clie_apellido] = @cli_apellido, 
+				[clie_dni] = @cli_dni, 
+				[clie_telefono] = @cli_telefono, 
+				[clie_direccion] = @cli_direccion, 
+				[clie_mail] = @cli_mail, 
+				[clie_fecha_nac] = @cli_fecha_nac
+			WHERE clie_dni = @cli_dni AND clie_duplicado=0
+		END
+	ELSE
+		BEGIN
+			INSERT INTO [TIRANDO_QUERIES].[Cliente] ([clie_nombre], [clie_apellido], [clie_dni], [clie_telefono], [clie_direccion], [clie_mail], [clie_fecha_nac])
+			VALUES (@cli_nombre, @cli_apellido, @cli_dni, @cli_telefono, @cli_direccion, @cli_mail, @cli_fecha_nac);
+		END
 GO
 
 --*************************************************************************************************************
