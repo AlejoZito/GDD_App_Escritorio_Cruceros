@@ -732,6 +732,27 @@ GO
 --*************************************************************************************************************
 --*************************************************************************************************************
 
+--SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último login fallido y actualiza su contador
+CREATE PROCEDURE [TIRANDO_QUERIES].[sp_esta_bloqueado_usuario](@username nvarchar(255), @codigo INT OUTPUT)
+AS
+ BEGIN
+	IF ((SELECT usua_login_fallidos FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) >= 3)
+		IF((SELECT usua_fecha_inhabilitacion FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) < DATEADD(minute, -10, GETDATE()))
+		BEGIN
+			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = 0 WHERE usua_username = @username
+			SET @codigo = 0
+			RETURN @codigo
+		END
+		ELSE
+		BEGIN
+			SET @codigo = 1
+			RETURN @codigo
+		END
+	SET @codigo = 0
+	RETURN @codigo
+ END	
+GO
+
 --SP que autentica usuario y devuelve distintos códigos dependiendo de sí fue exitoso o en que fallo
 CREATE PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario(@username nvarchar(255) , @password nvarchar(255))
 AS
@@ -768,27 +789,6 @@ AS
 			RETURN -1 --Usuario o contraseña incorrectos
 		END
 END
-GO
-
---SP que devuelve 1 si esta bloqueado el usuario, 0 si no lo esta o sí pasaron 10 minutos luego de su último login fallido y actualiza su contador
-CREATE PROCEDURE [TIRANDO_QUERIES].[sp_esta_bloqueado_usuario](@username nvarchar(255), @codigo INT OUTPUT)
-AS
- BEGIN
-	IF ((SELECT usua_login_fallidos FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) >= 3)
-		IF((SELECT usua_fecha_inhabilitacion FROM TIRANDO_QUERIES.Usuario WHERE usua_username = @username) < DATEADD(minute, -10, GETDATE()))
-		BEGIN
-			UPDATE TIRANDO_QUERIES.Usuario SET usua_login_fallidos = 0 WHERE usua_username = @username
-			SET @codigo = 0
-			RETURN @codigo
-		END
-		ELSE
-		BEGIN
-			SET @codigo = 1
-			RETURN @codigo
-		END
-	SET @codigo = 0
-	RETURN @codigo
- END	
 GO
 
 --Cuando pongo en mantenimiento un crucero y decido desplazar una cantidad N de días los pasajes programados para ese crucero
