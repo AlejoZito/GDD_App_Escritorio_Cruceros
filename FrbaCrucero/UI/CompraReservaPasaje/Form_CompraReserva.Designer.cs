@@ -31,15 +31,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBuscarViajes = new System.Windows.Forms.Button();
-            this.datePickerDeparture = new FrbaCrucero.UI.Components.DatePickerControl();
-            this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
-            this.dropdownPuertoDesde = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listViewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
-            this.listViewViajes = new FrbaCrucero.UI._Components.DataListViewControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -54,7 +49,11 @@
             this.inputApellido = new FrbaCrucero.UI.Components.InputTextControl();
             this.inputNombre = new FrbaCrucero.UI.Components.InputTextControl();
             this.inputDni = new FrbaCrucero.UI.Components.InputTextControl();
-            this.btnPagarReserva = new System.Windows.Forms.Button();
+            this.listViewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
+            this.listViewViajes = new FrbaCrucero.UI._Components.DataListViewControl();
+            this.datePickerDeparture = new FrbaCrucero.UI.Components.DatePickerControl();
+            this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
+            this.dropdownPuertoDesde = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -73,15 +72,14 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnPagarReserva);
             this.groupBox1.Controls.Add(this.btnBuscarViajes);
             this.groupBox1.Controls.Add(this.datePickerDeparture);
             this.groupBox1.Controls.Add(this.dropdownPuertoHasta);
             this.groupBox1.Controls.Add(this.dropdownPuertoDesde);
             this.groupBox1.Location = new System.Drawing.Point(30, 49);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(874, 88);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
@@ -90,46 +88,13 @@
             // btnBuscarViajes
             // 
             this.btnBuscarViajes.Location = new System.Drawing.Point(746, 60);
-            this.btnBuscarViajes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBuscarViajes.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscarViajes.Name = "btnBuscarViajes";
             this.btnBuscarViajes.Size = new System.Drawing.Size(116, 28);
             this.btnBuscarViajes.TabIndex = 5;
             this.btnBuscarViajes.Text = "Buscar viajes";
             this.btnBuscarViajes.UseVisualStyleBackColor = true;
             this.btnBuscarViajes.Click += new System.EventHandler(this.btnBuscarViajes_Click);
-            // 
-            // datePickerDeparture
-            // 
-            this.datePickerDeparture.BackColor = System.Drawing.Color.Transparent;
-            this.datePickerDeparture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.datePickerDeparture.LabelText = "Fecha de Partida";
-            this.datePickerDeparture.Location = new System.Drawing.Point(0, 20);
-            this.datePickerDeparture.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.datePickerDeparture.Name = "datePickerDeparture";
-            this.datePickerDeparture.Size = new System.Drawing.Size(289, 43);
-            this.datePickerDeparture.TabIndex = 0;
-            // 
-            // dropdownPuertoHasta
-            // 
-            this.dropdownPuertoHasta.BackColor = System.Drawing.Color.Transparent;
-            this.dropdownPuertoHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.dropdownPuertoHasta.LabelText = "Puerto Llegada";
-            this.dropdownPuertoHasta.Location = new System.Drawing.Point(580, 20);
-            this.dropdownPuertoHasta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.dropdownPuertoHasta.Name = "dropdownPuertoHasta";
-            this.dropdownPuertoHasta.Size = new System.Drawing.Size(289, 67);
-            this.dropdownPuertoHasta.TabIndex = 4;
-            // 
-            // dropdownPuertoDesde
-            // 
-            this.dropdownPuertoDesde.BackColor = System.Drawing.Color.Transparent;
-            this.dropdownPuertoDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.dropdownPuertoDesde.LabelText = "Puerto Salida";
-            this.dropdownPuertoDesde.Location = new System.Drawing.Point(293, 20);
-            this.dropdownPuertoDesde.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.dropdownPuertoDesde.Name = "dropdownPuertoDesde";
-            this.dropdownPuertoDesde.Size = new System.Drawing.Size(289, 67);
-            this.dropdownPuertoDesde.TabIndex = 3;
             // 
             // groupBox2
             // 
@@ -139,9 +104,9 @@
             this.groupBox2.Controls.Add(this.listViewCabinas);
             this.groupBox2.Controls.Add(this.listViewViajes);
             this.groupBox2.Location = new System.Drawing.Point(29, 150);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(880, 182);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
@@ -177,33 +142,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Viajes";
             // 
-            // listViewCabinas
-            // 
-            this.listViewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewCabinas.HideSelection = false;
-            this.listViewCabinas.Location = new System.Drawing.Point(436, 47);
-            this.listViewCabinas.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.listViewCabinas.Name = "listViewCabinas";
-            this.listViewCabinas.Size = new System.Drawing.Size(435, 119);
-            this.listViewCabinas.TabIndex = 1;
-            this.listViewCabinas.UseCompatibleStateImageBehavior = false;
-            this.listViewCabinas.View = System.Windows.Forms.View.Details;
-            this.listViewCabinas.SelectedIndexChanged += new System.EventHandler(this.listViewCabinas_SelectedIndexChanged);
-            // 
-            // listViewViajes
-            // 
-            this.listViewViajes.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewViajes.HideSelection = false;
-            this.listViewViajes.Location = new System.Drawing.Point(12, 47);
-            this.listViewViajes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.listViewViajes.MultiSelect = false;
-            this.listViewViajes.Name = "listViewViajes";
-            this.listViewViajes.Size = new System.Drawing.Size(392, 119);
-            this.listViewViajes.TabIndex = 0;
-            this.listViewViajes.UseCompatibleStateImageBehavior = false;
-            this.listViewViajes.View = System.Windows.Forms.View.Details;
-            this.listViewViajes.SelectedIndexChanged += new System.EventHandler(this.listViewViajes_SelectedIndexChanged);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.panel1);
@@ -217,9 +155,9 @@
             this.groupBox3.Controls.Add(this.inputNombre);
             this.groupBox3.Controls.Add(this.inputDni);
             this.groupBox3.Location = new System.Drawing.Point(28, 349);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(880, 162);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
@@ -233,7 +171,7 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.labelMonto);
             this.panel1.Location = new System.Drawing.Point(389, 104);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(132, 54);
             this.panel1.TabIndex = 10;
@@ -276,7 +214,7 @@
             // btnReservar
             // 
             this.btnReservar.Location = new System.Drawing.Point(608, 108);
-            this.btnReservar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnReservar.Margin = new System.Windows.Forms.Padding(2);
             this.btnReservar.Name = "btnReservar";
             this.btnReservar.Size = new System.Drawing.Size(129, 48);
             this.btnReservar.TabIndex = 8;
@@ -288,7 +226,7 @@
             // 
             this.btnComprar.BackColor = System.Drawing.Color.Green;
             this.btnComprar.Location = new System.Drawing.Point(742, 108);
-            this.btnComprar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnComprar.Margin = new System.Windows.Forms.Padding(2);
             this.btnComprar.Name = "btnComprar";
             this.btnComprar.Size = new System.Drawing.Size(129, 48);
             this.btnComprar.TabIndex = 7;
@@ -373,15 +311,65 @@
             this.inputDni.Size = new System.Drawing.Size(289, 43);
             this.inputDni.TabIndex = 0;
             // 
-            // btnPagarReserva
+            // listViewCabinas
             // 
-            this.btnPagarReserva.Location = new System.Drawing.Point(588, 60);
-            this.btnPagarReserva.Name = "btnPagarReserva";
-            this.btnPagarReserva.Size = new System.Drawing.Size(117, 28);
-            this.btnPagarReserva.TabIndex = 6;
-            this.btnPagarReserva.Text = "Pagar Reserva";
-            this.btnPagarReserva.UseVisualStyleBackColor = true;
-            this.btnPagarReserva.Click += new System.EventHandler(this.btnPagarReserva_Click);
+            this.listViewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listViewCabinas.HideSelection = false;
+            this.listViewCabinas.Location = new System.Drawing.Point(436, 47);
+            this.listViewCabinas.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewCabinas.Name = "listViewCabinas";
+            this.listViewCabinas.Size = new System.Drawing.Size(435, 119);
+            this.listViewCabinas.TabIndex = 1;
+            this.listViewCabinas.UseCompatibleStateImageBehavior = false;
+            this.listViewCabinas.View = System.Windows.Forms.View.Details;
+            this.listViewCabinas.SelectedIndexChanged += new System.EventHandler(this.listViewCabinas_SelectedIndexChanged);
+            // 
+            // listViewViajes
+            // 
+            this.listViewViajes.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listViewViajes.HideSelection = false;
+            this.listViewViajes.Location = new System.Drawing.Point(12, 47);
+            this.listViewViajes.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewViajes.MultiSelect = false;
+            this.listViewViajes.Name = "listViewViajes";
+            this.listViewViajes.Size = new System.Drawing.Size(392, 119);
+            this.listViewViajes.TabIndex = 0;
+            this.listViewViajes.UseCompatibleStateImageBehavior = false;
+            this.listViewViajes.View = System.Windows.Forms.View.Details;
+            this.listViewViajes.SelectedIndexChanged += new System.EventHandler(this.listViewViajes_SelectedIndexChanged);
+            // 
+            // datePickerDeparture
+            // 
+            this.datePickerDeparture.BackColor = System.Drawing.Color.Transparent;
+            this.datePickerDeparture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.datePickerDeparture.LabelText = "Fecha de Partida";
+            this.datePickerDeparture.Location = new System.Drawing.Point(0, 20);
+            this.datePickerDeparture.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.datePickerDeparture.Name = "datePickerDeparture";
+            this.datePickerDeparture.Size = new System.Drawing.Size(289, 43);
+            this.datePickerDeparture.TabIndex = 0;
+            // 
+            // dropdownPuertoHasta
+            // 
+            this.dropdownPuertoHasta.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownPuertoHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownPuertoHasta.LabelText = "Puerto Llegada";
+            this.dropdownPuertoHasta.Location = new System.Drawing.Point(580, 20);
+            this.dropdownPuertoHasta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dropdownPuertoHasta.Name = "dropdownPuertoHasta";
+            this.dropdownPuertoHasta.Size = new System.Drawing.Size(289, 67);
+            this.dropdownPuertoHasta.TabIndex = 4;
+            // 
+            // dropdownPuertoDesde
+            // 
+            this.dropdownPuertoDesde.BackColor = System.Drawing.Color.Transparent;
+            this.dropdownPuertoDesde.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dropdownPuertoDesde.LabelText = "Puerto Salida";
+            this.dropdownPuertoDesde.Location = new System.Drawing.Point(293, 20);
+            this.dropdownPuertoDesde.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dropdownPuertoDesde.Name = "dropdownPuertoDesde";
+            this.dropdownPuertoDesde.Size = new System.Drawing.Size(289, 67);
+            this.dropdownPuertoDesde.TabIndex = 3;
             // 
             // Form_CompraReserva
             // 
@@ -393,7 +381,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form_CompraReserva";
             this.Text = "Pasaje";
             this.groupBox1.ResumeLayout(false);
@@ -435,7 +423,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnPagarReserva;
 
     }
 }

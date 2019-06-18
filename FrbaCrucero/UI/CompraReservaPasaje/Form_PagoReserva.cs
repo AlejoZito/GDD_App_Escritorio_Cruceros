@@ -15,13 +15,11 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 {
     public partial class Form_PagoReserva : Form
     {
-        OnAddSuccessDelegate<PagoViewModel> _OnSuccessDelegate;
         PagoViewModel _ViewModel;
 
-        public Form_PagoReserva(OnAddSuccessDelegate<PagoViewModel> onSuccess)
+        public Form_PagoReserva()
         {
             InitializeComponent();
-            _OnSuccessDelegate = onSuccess;
             _ViewModel = new PagoViewModel();
             BindViewModel();
             LoadDropdowns();
@@ -41,7 +39,6 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-            _OnSuccessDelegate(_ViewModel);
             this.Close();
         }
 
