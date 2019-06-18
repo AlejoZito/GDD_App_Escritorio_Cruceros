@@ -47,6 +47,7 @@
     <Compile Include="ViewModels\CompraReservaPasajeViewModel.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
     <Compile Include="ViewModels\MantenimientoViewModel.cs" />
+    <Compile Include="ViewModels\PagoReservaViewModel.cs" />
     <Compile Include="ViewModels\PagoViewModel.cs" />
     <Compile Include="ViewModels\RutaDeViajeViewModel.cs" />
     <Compile Include="ViewModels\CruceroViewModel.cs" />

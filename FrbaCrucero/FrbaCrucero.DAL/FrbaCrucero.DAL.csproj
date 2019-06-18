@@ -74,12 +74,14 @@
     <Compile Include="Domain\Puerto.cs" />
     <Compile Include="Domain\Recorrido.cs" />
     <Compile Include="Domain\Reserva.cs" />
+    <Compile Include="Domain\ReservaAPagar.cs" />
     <Compile Include="Domain\Rol.cs" />
     <Compile Include="Domain\RutaDeViaje.cs" />
     <Compile Include="Domain\TipoCabina.cs" />
     <Compile Include="Domain\Tramo.cs" />
     <Compile Include="Domain\Usuario.cs" />
     <Compile Include="Enums\CodigosErrorLogAdministrador.cs" />
+    <Compile Include="Enums\EstadoDeReserva.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
