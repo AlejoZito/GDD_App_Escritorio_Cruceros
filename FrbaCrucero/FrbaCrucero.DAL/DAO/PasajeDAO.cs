@@ -57,6 +57,25 @@ namespace FrbaCrucero.DAL.DAO
             int idReserva,
             int idMedioDePago)
         {
+            PasajeDAO.ValidarEstadoReserva(idReserva);
+
+            try
+            {
+                var conn = Repository.GetConnection();
+                SqlCommand cmd = new SqlCommand("TIRANDO_QUERIES.sp_vencer_reservas", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@reserva_id", idReserva);
+                cmd.Parameters.AddWithValue("@metodo_pago", idMedioDePago);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error durante el pago de la reserva, por favor intente nuevamente", ex);
+            }
+
             return "";
         }
 
@@ -118,6 +137,8 @@ namespace FrbaCrucero.DAL.DAO
                         throw new Exception("La reserva esta cancelada, por favor realice una nueva reserva o una compra nueva");
                     case (int)EstadoDeReserva.Pagado:
                         throw new Exception("La reserva ya se encuentra pagada");
+                    case (int)EstadoDeReserva.Desconocido:
+                        throw new Exception("La reserva no se encuentra disponible, por favor realice una nueva reserva o una compra nueva");
                     default:
                         break;
                 }
@@ -168,5 +189,31 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
+        private static void ValidarEstadoReserva(int idReserva)
+        {
+            var conn = Repository.GetConnection();
+            string comando = string.Format(@"SELECT rese_estado FROM TIRANDO_QUERIES.Reserva WHERE rese_codigo = {0}", idReserva);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(comando, conn);
+            DataTable dataTable = new DataTable();
+
+            dataAdapter.Fill(dataTable);
+
+            conn.Close();
+            conn.Dispose();
+
+            if (dataTable.Rows.Count == 0)
+            {
+                throw new Exception("La reserva no existe, por favor haga una nueva reserva o compre un pasaje nuevo");
+            }
+
+            DataRow registroReserva = dataTable.Rows[0];
+            int estadoReserva = int.Parse(registroReserva["rese_estado"].ToString());
+
+            if (estadoReserva != (int)EstadoDeReserva.Vigente)
+            {
+                throw new Exception("La reserva no se encuentre vigente, por favor haga una nueva reserva o compre un pasaje nuevo");
+            }
+        }
     }
 }

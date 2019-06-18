@@ -44,11 +44,6 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             dropdownMediosDePago.Input.ValueMember = "Cod_Medio_De_Pago";
         }
 
-        private void btnPagar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -63,6 +58,21 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Reserva no encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnPagarReserva_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _ViewModel.PagarReserva();
+
+                //Aca se debería hacer que el Form pasaje exitoso reciba el/los idDePasaje comprado así lo muestra al cliente
+                Program.Navigation.PopUpPage(new Form_PasajeExitoso());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Reserva no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
