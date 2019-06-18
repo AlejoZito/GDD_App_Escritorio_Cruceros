@@ -1,4 +1,0 @@
-C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.DAL\bin\Release\FrbaCrucero.DAL.dll
-C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.DAL\bin\Release\FrbaCrucero.DAL.pdb
-C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.DAL\obj\Release\FrbaCrucero.DAL.dll
-C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.DAL\obj\Release\FrbaCrucero.DAL.pdb

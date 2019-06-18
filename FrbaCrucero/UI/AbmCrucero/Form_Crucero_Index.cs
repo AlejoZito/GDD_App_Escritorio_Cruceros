@@ -57,7 +57,7 @@ namespace FrbaCrucero.UI.AbmCrucero
                 DialogResult dialogResult = MessageBox.Show("No hay viajes futuros programados con este crucero, por lo que puede ser dado de baja de manera directa. ¿Confirma que desea continuar?", "Baja de crucero", MessageBoxButtons.OKCancel);
                 if (dialogResult == DialogResult.OK)
                 {
-                    CruceroDAO.DeleteByID(id);
+                    CruceroDAO.DeleteByID (id);
                     MessageBox.Show("El crucero fue dado de baja", "Baja de crucero", MessageBoxButtons.OK);
                 }
             }
