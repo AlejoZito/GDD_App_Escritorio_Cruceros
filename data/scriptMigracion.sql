@@ -834,7 +834,7 @@ GO
 -- CREACIÓN DE SP_PAGO_RESERVA
 -- Pago de una reserva
 --*************************************************************************************************************
-CREATE PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva @reserva_id NUMERIC, @metodo_pago NUMERIC
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva(@reserva_id NUMERIC, @metodo_pago NUMERIC)
 AS
 BEGIN
 	INSERT INTO [TIRANDO_QUERIES].Pasaje (pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
