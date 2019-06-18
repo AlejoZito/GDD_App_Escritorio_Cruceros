@@ -834,16 +834,22 @@ GO
 -- CREACIÓN DE SP_PAGO_RESERVA
 -- Pago de una reserva
 --*************************************************************************************************************
-CREATE PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva(@reserva_id NUMERIC, @metodo_pago NUMERIC)
+
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva(@reserva_id NUMERIC, @metodo_pago NUMERIC, @pasaje_id NUMERIC OUTPUT)
 AS
 BEGIN
+	
 	INSERT INTO [TIRANDO_QUERIES].Pasaje (pasa_precio,pasa_cabina,pasa_cliente,pasa_estado,pasa_pago,pasa_ruta,pasa_fecha_pago)
 	SELECT rese_precio,rese_cabina,rese_cliente,1,@metodo_pago,rese_ruta,GETDATE()
 	FROM [TIRANDO_QUERIES].Reserva WHERE rese_codigo = @reserva_id
 
+	SET @pasaje_id = SCOPE_IDENTITY()
+
 	UPDATE [TIRANDO_QUERIES].Reserva
-	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Pagada')
+	SET rese_estado = (SELECT er_codigo FROM [TIRANDO_QUERIES].Estado_Reserva WHERE er_estado = 'Pagado')
 	WHERE rese_codigo = @reserva_id
+
+	RETURN @pasaje_id
 
 END
 GO
