@@ -47,8 +47,9 @@ namespace FrbaCrucero.UI.AbmCrucero
                 }
                 else if (dialogResult == DialogResult.No)
                 {
-                    //CruceroDAO.CancelarViajes(id);
-                    //CruceroDAO.Delete(id);
+                    int rows = CruceroDAO.CancelarViajes(id);
+                    //MessageBox.Show(String.Format("{0} pasajes fueron dados de baja satisfactoriamente", rows), "Baja de crucero", MessageBoxButtons.OK);
+                    CruceroDAO.DeleteByID(id);
                 }
             }
             else
@@ -56,7 +57,7 @@ namespace FrbaCrucero.UI.AbmCrucero
                 DialogResult dialogResult = MessageBox.Show("No hay viajes futuros programados con este crucero, por lo que puede ser dado de baja de manera directa. ¿Confirma que desea continuar?", "Baja de crucero", MessageBoxButtons.OKCancel);
                 if (dialogResult == DialogResult.OK)
                 {
-                    //CruceroDAO.Delete(id);
+                    CruceroDAO.DeleteByID(id);
                     MessageBox.Show("El crucero fue dado de baja", "Baja de crucero", MessageBoxButtons.OK);
                 }
             }

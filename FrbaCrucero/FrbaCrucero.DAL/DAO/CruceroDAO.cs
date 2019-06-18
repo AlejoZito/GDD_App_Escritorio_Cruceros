@@ -149,9 +149,29 @@ namespace FrbaCrucero.DAL.DAO
             try
             {
                 var conn = Repository.GetConnection();
-                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Crucero SET cruc_activo = 0 WHERE cruc_codigo = @idCrucero");
-                comando.Parameters.Add("@idCrucero");
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Crucero SET cruc_activo = 0 WHERE cruc_codigo = @idCrucero", conn);
+                comando.Parameters.Add("@idCrucero", SqlDbType.Int);
                 comando.Parameters["@idCrucero"].Value = crucero.Cod_Crucero;
+                comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar eliminar el crucero", ex);
+            }
+        }
+
+        public static void DeleteByID(int id)
+        {
+            try
+            {
+                var conn = Repository.GetConnection();
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Crucero SET cruc_activo = 0 WHERE cruc_codigo = @idCrucero", conn);
+                comando.Parameters.Add("@idCrucero", SqlDbType.Int);
+                comando.Parameters["@idCrucero"].Value = id;
                 comando.ExecuteNonQuery();
 
                 conn.Close();
@@ -281,9 +301,27 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static void CancelarViajes(int IDCrucero)
+        public static int CancelarViajes(int IDCrucero)
         {
-            
+
+                var conn = Repository.GetConnection();
+                SqlCommand comando = new SqlCommand(String.Format(@"UPDATE TIRANDO_QUERIES.Pasaje SET " +
+                                                    "pasa_estado=(SELECT ep_codigo FROM [TIRANDO_QUERIES].[Estado_Pasaje] WHERE ep_motivo='Crucero completo VU') " +
+                                                    "WHERE pasa_ruta IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE rv_crucero={0} AND [rv_fecha_llegada] IS NULL)", IDCrucero), conn);
+            try
+            {
+                int rows = comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
+
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar cancelar los pasajes del crucero", ex);
+            }
         }
 
         public static List<Pasaje> ObtenerPasajesSinFinalizar(int IDCrucero)
