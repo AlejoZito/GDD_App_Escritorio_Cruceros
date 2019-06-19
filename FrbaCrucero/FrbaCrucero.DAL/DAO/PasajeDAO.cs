@@ -57,26 +57,33 @@ namespace FrbaCrucero.DAL.DAO
             int idReserva,
             int idMedioDePago)
         {
+            if (idMedioDePago == 0)
+            {
+                throw new Exception("Falta seleccionar medio de pago");
+            }
+
             PasajeDAO.ValidarEstadoReserva(idReserva);
 
             try
             {
                 var conn = Repository.GetConnection();
-                SqlCommand cmd = new SqlCommand("TIRANDO_QUERIES.sp_vencer_reservas", conn);
+                SqlCommand cmd = new SqlCommand("TIRANDO_QUERIES.sp_pago_reserva", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@reserva_id", idReserva);
                 cmd.Parameters.AddWithValue("@metodo_pago", idMedioDePago);
-                cmd.ExecuteNonQuery();
+                SqlParameter codigoPasaje = new SqlParameter();
+                codigoPasaje.Direction = ParameterDirection.ReturnValue;
+                cmd.Parameters.Add(codigoPasaje);
+                cmd.ExecuteReader();
                 cmd.Dispose();
                 conn.Close();
                 conn.Dispose();
+                return codigoPasaje.Value.ToString();
             }
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error durante el pago de la reserva, por favor intente nuevamente", ex);
             }
-
-            return "";
         }
 
         /// <summary>
@@ -115,6 +122,8 @@ namespace FrbaCrucero.DAL.DAO
 
             try
             {
+                PasajeDAO.ValidarEstadoReserva(idReserva);
+
                 dataAdapter = new SqlDataAdapter(comando, conn);
                 dataTable = new DataTable();
 
@@ -126,22 +135,6 @@ namespace FrbaCrucero.DAL.DAO
                 }
 
                 DataRow registroReserva = dataTable.Rows[0];
-
-                int estadoReserva = int.Parse(registroReserva["rese_estado"].ToString());
-
-                switch (estadoReserva)
-                {
-                    case (int)EstadoDeReserva.Vencida:
-                        throw new Exception("La reserva esta vencida, por favor realice una nueva reserva o una compra nueva");
-                    case (int)EstadoDeReserva.Cancelado:
-                        throw new Exception("La reserva esta cancelada, por favor realice una nueva reserva o una compra nueva");
-                    case (int)EstadoDeReserva.Pagado:
-                        throw new Exception("La reserva ya se encuentra pagada");
-                    case (int)EstadoDeReserva.Desconocido:
-                        throw new Exception("La reserva no se encuentra disponible, por favor realice una nueva reserva o una compra nueva");
-                    default:
-                        break;
-                }
 
                 decimal precio = decimal.Parse(registroReserva["precio"].ToString());
                 string fechaSalida = registroReserva["fecha_salida"].ToString();
@@ -210,9 +203,18 @@ namespace FrbaCrucero.DAL.DAO
             DataRow registroReserva = dataTable.Rows[0];
             int estadoReserva = int.Parse(registroReserva["rese_estado"].ToString());
 
-            if (estadoReserva != (int)EstadoDeReserva.Vigente)
+            switch (estadoReserva)
             {
-                throw new Exception("La reserva no se encuentre vigente, por favor haga una nueva reserva o compre un pasaje nuevo");
+                case (int)EstadoDeReserva.Vencida:
+                    throw new Exception("La reserva esta vencida, por favor realice una nueva reserva o una compra nueva");
+                case (int)EstadoDeReserva.Cancelado:
+                    throw new Exception("La reserva esta cancelada, por favor realice una nueva reserva o una compra nueva");
+                case (int)EstadoDeReserva.Pagado:
+                    throw new Exception("La reserva ya se encuentra pagada");
+                case (int)EstadoDeReserva.Desconocido:
+                    throw new Exception("La reserva no se encuentra disponible, por favor realice una nueva reserva o una compra nueva");
+                default:
+                    break;
             }
         }
     }

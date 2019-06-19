@@ -104,9 +104,10 @@ namespace FrbaCrucero.BL.ViewModels
             MapFromDomainObject(PasajeDAO.GetReservaAPagarByID(this.IDReserva));
         }
 
-        public void PagarReserva()
+        public string PagarReserva()
         {
-            PasajeDAO.PagarReserva(this.IDReserva, this.IDMedioDePago);
+            string codigoPasaje = PasajeDAO.PagarReserva(this.IDReserva, this.IDMedioDePago);
+            return codigoPasaje;
         }
 
         public void MapFromDomainObject(ReservaAPagar o)

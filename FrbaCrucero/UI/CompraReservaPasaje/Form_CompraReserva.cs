@@ -83,7 +83,8 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
                 _ViewModel.ComprarPasaje();
 
-                Program.Navigation.PopUpPage(new Form_PasajeExitoso());
+                //El código de compra podemos tomar alguno de los códigos de pasaje o ver sí mostramos todos
+                Program.Navigation.PopUpPage(new Form_PasajeExitoso("Agregar código de compra"));
             }
         }
 

@@ -65,14 +65,14 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
         {
             try
             {
-                _ViewModel.PagarReserva();
+                string codigoPasaje = _ViewModel.PagarReserva();
 
                 //Aca se debería hacer que el Form pasaje exitoso reciba el/los idDePasaje comprado así lo muestra al cliente
-                Program.Navigation.PopUpPage(new Form_PasajeExitoso());
+                Program.Navigation.PopUpPage(new Form_PasajeExitoso(codigoPasaje));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Reserva no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ex.Message, "Pago de Reserva no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

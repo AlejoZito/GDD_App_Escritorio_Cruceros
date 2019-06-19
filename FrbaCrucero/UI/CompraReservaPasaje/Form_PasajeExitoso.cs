@@ -12,9 +12,15 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 {
     public partial class Form_PasajeExitoso : Form
     {
-        public Form_PasajeExitoso()
+        public Form_PasajeExitoso(string codigoPasaje)
         {
             InitializeComponent();
+            LoadCodigoPasaje(codigoPasaje);
+        }
+
+        private void LoadCodigoPasaje(string codigoPasaje)
+        {
+            labelCodigo.Text = codigoPasaje;
         }
 
         private void button1_Click(object sender, EventArgs e)
