@@ -16,5 +16,7 @@ namespace FrbaCrucero.BL.ViewModels
             
         }
         public BindingList<RutaDeViajeViewModel> Viajes { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
