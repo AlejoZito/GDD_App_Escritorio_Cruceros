@@ -87,5 +87,10 @@ namespace FrbaCrucero
             this.UsernameLabel.Text = String.IsNullOrEmpty(Program.UsuarioLoggeado.Username) ? "Cliente" : Program.UsuarioLoggeado.Username;
         }
 
+        private void btnPagarReserva_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.CompraReservaPasaje.Form_PagoReserva());
+        }
+
     }
 }
