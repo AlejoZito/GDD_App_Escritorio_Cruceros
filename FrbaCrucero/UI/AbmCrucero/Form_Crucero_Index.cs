@@ -43,7 +43,7 @@ namespace FrbaCrucero.UI.AbmCrucero
                 DialogResult dialogResult = MessageBox.Show(String.Format("Hay {0} viajes programados con este crucero. ¿Desea reemplazar el crucero de estos viajes? Si selecciona \"No\" se anularán.", viajesFuturosCrucero.Count), "Baja de crucero", MessageBoxButtons.YesNoCancel);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    Program.Navigation.PopUpPage(new Form_Mantenimiento(_IdCruceroSeleccionado));
+                    Program.Navigation.PopUpPage(new Form_ReemplazoCrucero(id, viajesFuturosCrucero));
                 }
                 else if (dialogResult == DialogResult.No)
                 {

@@ -98,11 +98,11 @@
     <Compile Include="UI\AbmCrucero\Form_Mantenimiento.Designer.cs">
       <DependentUpon>Form_Mantenimiento.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\AbmCrucero\reemplazarCrucero.cs">
+    <Compile Include="UI\AbmCrucero\Form_ReemplazoCrucero.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AbmCrucero\reemplazarCrucero.Designer.cs">
-      <DependentUpon>reemplazarCrucero.cs</DependentUpon>
+    <Compile Include="UI\AbmCrucero\Form_ReemplazoCrucero.Designer.cs">
+      <DependentUpon>Form_ReemplazoCrucero.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.cs">
       <SubType>Form</SubType>
@@ -282,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmCrucero\Form_MantenimientoConViajes.resx">
       <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_ReemplazoCrucero.resx">
+      <DependentUpon>Form_ReemplazoCrucero.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
