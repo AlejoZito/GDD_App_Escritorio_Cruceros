@@ -80,5 +80,44 @@ namespace FrbaCrucero.DAL.DAO
                 throw new Exception("Ocurrió un error al listar los permisos del rol", ex);
             }
         }
+
+        public static List<Permiso> GetAll()
+        {
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+            var conn = Repository.GetConnection();
+
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Permiso";
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<Permiso> permisos = new List<Permiso>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var permiso = new Permiso
+                    {
+                        Cod_Permiso = int.Parse(fila["perm_codigo"].ToString()),
+                        Nombre = fila["perm_nombre"].ToString()
+                    };
+
+                    permisos.Add(permiso);
+                }
+
+                dataAdapter.Dispose();
+                conn.Dispose();
+                conn.Close();
+
+                return permisos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al listar los permisos", ex);
+            }
+        }
     }
 }

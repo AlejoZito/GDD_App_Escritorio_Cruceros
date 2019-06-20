@@ -310,6 +310,9 @@
     <EmbeddedResource Include="UI\AbmRecorrido\Form_Tramo_Add.resx">
       <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRol\Form_Rol_Add.resx">
+      <DependentUpon>Form_Rol_Add.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRol\Form_Rol_Index.resx">
       <DependentUpon>Form_Rol_Index.cs</DependentUpon>
     </EmbeddedResource>

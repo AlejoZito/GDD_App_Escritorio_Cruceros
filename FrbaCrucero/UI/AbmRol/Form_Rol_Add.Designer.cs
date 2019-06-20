@@ -32,8 +32,8 @@
             this.tbNombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.listViewPermisos = new FrbaCrucero.UI._Components.DataListViewControl();
             this.btnAgregar = new System.Windows.Forms.Button();
+            this.listViewPermisos = new FrbaCrucero.UI._Components.DataListViewControl();
             this.SuspendLayout();
             // 
             // label1
@@ -71,6 +71,16 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "Seleccione más de 1 permiso utilizando ctrl o shift";
             // 
+            // btnAgregar
+            // 
+            this.btnAgregar.Location = new System.Drawing.Point(248, 278);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(92, 29);
+            this.btnAgregar.TabIndex = 7;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
+            // 
             // listViewPermisos
             // 
             this.listViewPermisos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
@@ -82,15 +92,7 @@
             this.listViewPermisos.TabIndex = 6;
             this.listViewPermisos.UseCompatibleStateImageBehavior = false;
             this.listViewPermisos.View = System.Windows.Forms.View.Details;
-            // 
-            // btnAgregar
-            // 
-            this.btnAgregar.Location = new System.Drawing.Point(248, 278);
-            this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(92, 29);
-            this.btnAgregar.TabIndex = 7;
-            this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.listViewPermisos.SelectedIndexChanged += new System.EventHandler(this.listViewPermisos_SelectedIndexChanged);
             // 
             // Form_Rol_Add
             // 
