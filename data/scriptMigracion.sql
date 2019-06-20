@@ -957,7 +957,7 @@ BEGIN
 	BEGIN
 		UPDATE [TIRANDO_QUERIES].Recorrido SET reco_activo = 0 WHERE reco_codigo IN 
 		(SELECT DISTINCT tram_recorrido FROM [TIRANDO_QUERIES].Tramo WHERE @puerto_id = tram_puerto_desde OR @puerto_id = tram_puerto_hasta)
-		FETCH cursor_componentes INTO @puerto_id
+		FETCH cursor_puerto INTO @puerto_id
 	END
 
 CLOSE cursor_puerto
@@ -996,8 +996,8 @@ BEGIN
 		FETCH cursor_recorrido INTO @recorrido_id
 	END
 
-CLOSE cursor_puerto
-DEALLOCATE cursor_puerto
+CLOSE cursor_recorrido
+DEALLOCATE cursor_recorrido
 END
 GO
 
