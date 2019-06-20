@@ -20,6 +20,7 @@ namespace FrbaCrucero.BL.ViewModels
         public int Numero { get; set; }
         public int Piso { get; set; }
         public int IdTipo { get; set; }
+        public string Tipo { get; set; }
         public int IdCrucero { get; set; }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             get
             {
-                return "Num: " + Numero + " / Piso: " + Piso + " / IDTipo: " + IdTipo;
+                return "Tipo: " + Tipo + " / Piso: " + Piso + " / Num: " + Numero  ;
             }
         }
 
@@ -53,6 +54,7 @@ namespace FrbaCrucero.BL.ViewModels
             this.Numero = c.Numero;
             this.Piso = c.Piso;
             this.IdTipo = c.Tipo_Cabina.Cod_Tipo;
+            this.Tipo = c.Tipo_Cabina.Detalle;
             this.PorcentajeRecargo = c.Tipo_Cabina.Porc_Recargo;
             //this.IdCrucero = c.Crucero.Cod_Crucero;
         }
