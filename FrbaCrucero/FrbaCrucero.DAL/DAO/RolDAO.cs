@@ -85,7 +85,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static IList<Rol> GetAll()
+        public static List<Rol> GetAll()
         {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_activo = 1");
