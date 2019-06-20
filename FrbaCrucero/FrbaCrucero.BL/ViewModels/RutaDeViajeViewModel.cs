@@ -123,9 +123,9 @@ namespace FrbaCrucero.BL.ViewModels
         {
             ErrorMessage = "";
 
-            if (IdCrucero == null || IdCrucero == 0)
+            if (IdCrucero == 0)
                 ErrorMessage += "Debe seleccionar un crucero. " + System.Environment.NewLine;
-            if(IdRecorrido == null || IdRecorrido == 0)
+            if(IdRecorrido == 0)
                 ErrorMessage += "Debe seleccionar un recorrido. " + System.Environment.NewLine;
             if(Fecha_Inicio == null)
                 ErrorMessage += "Debe ingresar una fecha de inicio. " + System.Environment.NewLine;

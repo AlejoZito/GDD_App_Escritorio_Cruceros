@@ -1,5 +1,6 @@
 ﻿using FrbaCrucero.BL.ViewModels;
 using FrbaCrucero.DAL.DAO;
+using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -83,8 +84,21 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
                 _ViewModel.ComprarPasaje();
 
-                //El código de compra podemos tomar alguno de los códigos de pasaje o ver sí mostramos todos
-                Program.Navigation.PopUpPage(new Form_PasajeExitoso("Agregar código de compra"));
+                string compras = "";
+                foreach (Pasaje pasaje in _ViewModel.PasajesComprados)
+                {
+                    compras += Environment.NewLine + "Voucher: " + pasaje.Cod_Pasaje + " - Tipo: " + pasaje.Cabina.Tipo_Cabina.Detalle + " / Piso: " + pasaje.Cabina.Piso + " / Num: " + pasaje.Cabina.Numero;
+                }
+
+                string compra = _ViewModel.PasajesComprados.Count.ToString() + " pasajes comprados. " + Environment.NewLine;
+
+                MessageBox.Show(compra+compras, "Pasajes comprados!", MessageBoxButtons.OK);
+                _ViewModel.IdsCabinasSeleccionadas.Clear();
+                _ViewModel.PasajesComprados.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Faltan datos. Por favor, seleccione ruta, cabinas, y complete todos los datos del cliente.", "Baja de crucero", MessageBoxButtons.OK);
             }
         }
 

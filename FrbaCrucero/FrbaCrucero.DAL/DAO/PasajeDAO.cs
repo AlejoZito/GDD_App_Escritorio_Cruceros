@@ -16,19 +16,55 @@ namespace FrbaCrucero.DAL.DAO
         /// Realizar pago de pasaje y retornar voucher de compra
         /// </summary>
         /// <returns></returns>
-        public static string ComprarPasaje(
+        public static int ComprarPasaje(
+            decimal monto,
             int idCabina,
             int idMedioDePago,
             int idRutaDeViaje,
-            string nombreCliente,
-            string apellidoCliente,
-            string dniCliente,
-            string telefonoCliente,
-            string direccionCliente,
-            string mailCliente,
-            DateTime fechaNacimientoCliente)
+            string dniCliente)
         {
-            return "";
+            try
+            {
+
+                Cliente Cliente = ClienteDAO.GetByDNI(dniCliente);
+                var conn = Repository.GetConnection();
+
+                //Inserto la cabina y obtengo el id
+                SqlCommand comando = new SqlCommand(@"INSERT INTO [TIRANDO_QUERIES].[Pasaje] " +
+                                                    "([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta], [pasa_fecha_pago]) " +
+                                                    "VALUES (@pasa_precio, @cabina, @cliente, (SELECT [ep_codigo] FROM [TIRANDO_QUERIES].[Estado_Pasaje] WHERE ep_estado='Vigente'), @pago, @ruta, (SELECT getdate())); " +
+                                                    "SELECT CAST(scope_identity() AS int)", conn);
+
+                //comando.Parameters.AddWithValue("@asd", );
+
+                comando.Parameters.Add("@pasa_precio", SqlDbType.Decimal);
+                comando.Parameters["@pasa_precio"].Value = monto;
+
+                comando.Parameters.Add("@cabina", SqlDbType.Int);
+                comando.Parameters["@cabina"].Value = idCabina;
+
+                comando.Parameters.Add("@cliente", SqlDbType.Int);
+                comando.Parameters["@cliente"].Value = Cliente.Cod_Cliente;
+
+                comando.Parameters.Add("@pago", SqlDbType.Int);
+                comando.Parameters["@pago"].Value = idMedioDePago;
+
+                comando.Parameters.Add("@ruta", SqlDbType.Int);
+                comando.Parameters["@ruta"].Value = idRutaDeViaje;
+
+                int idPasaje = Convert.ToInt32(comando.ExecuteScalar());
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                return idPasaje;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear el crucero", ex);
+            }
         }
 
         /// <summary>

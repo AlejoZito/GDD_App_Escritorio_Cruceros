@@ -16,6 +16,7 @@ namespace FrbaCrucero.BL.ViewModels
             Viajes = new BindingList<RutaDeViajeViewModel>();
             Cabinas = new BindingList<CabinaViewModel>();
             IdsCabinasSeleccionadas = new List<int>();
+            PasajesComprados = new List<Pasaje>();
             Cliente = new ClienteViewModel();
 
             //TestData
@@ -55,6 +56,8 @@ namespace FrbaCrucero.BL.ViewModels
         public ClienteViewModel Cliente { get; set; }
 
         public PagoViewModel MedioDePago { get; set; }
+
+        public List<Pasaje> PasajesComprados { get; set; }
 
         decimal _Monto;
         public decimal Monto { 
@@ -148,29 +151,40 @@ namespace FrbaCrucero.BL.ViewModels
             }
         }
 
-        public void ComprarPasaje()
+        public List<Pasaje> ComprarPasaje()
         {
             if (IsValid())
             {
                 foreach (var cabina in IdsCabinasSeleccionadas)
                 {
-                    PasajeDAO.ComprarPasaje(
+                    int cod_pasaje = PasajeDAO.ComprarPasaje(
+                        _Monto,
                         cabina,
                         MedioDePago.IDMedioDePago,
                         RutaDeViajeSeleccionada.Value,
-                        Cliente.Nombre,
-                        Cliente.Apellido,
-                        Cliente.DNI,
-                        Cliente.Telefono,
-                        Cliente.Direccion,
-                        Cliente.Mail,
-                        Cliente.FechaNacimiento);
+                        Cliente.DNI
+                        );
+                    Pasaje pasaje = new Pasaje()
+                    {
+                        Cabina = CabinaDAO.GetByID(cabina),
+                        Cliente = null,
+                        Cod_Pasaje = cod_pasaje,
+                        Estado = null,
+                        Pago = null,
+                        Precio = _Monto,
+                        Ruta = null
+                    };
+                    this.PasajesComprados.Add(pasaje);
                 }
+                return PasajesComprados;
+            } else {
+                return null;
             }
         }
 
         public void SeleccionarCabinas(List<string> selectedValues)
         {
+            this.IdsCabinasSeleccionadas.Clear();
             foreach (string selectedValue in selectedValues)
             {
                 var cabinaToAdd = this.Cabinas.FirstOrDefault(x => x.Descripcion == selectedValue);
