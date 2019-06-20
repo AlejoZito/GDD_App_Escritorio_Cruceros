@@ -226,7 +226,7 @@ GO
 --*************************************************************************************************************
 
 CREATE TABLE [TIRANDO_QUERIES].[Recorrido] (
-	[reco_codigo] [NUMERIC] PRIMARY KEY,
+	[reco_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[reco_activo] BIT NOT NULL DEFAULT 1,
 	[reco_invalido] BIT NOT NULL DEFAULT 0
 )
@@ -560,10 +560,13 @@ GO
 --*************************************************************************************************************
 -- TABLE RECORRIDO
 --*************************************************************************************************************
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Recorrido] ON
 
 INSERT INTO [TIRANDO_QUERIES].Recorrido(reco_codigo)
 SELECT DISTINCT m.recorrido_codigo FROM gd_esquema.Maestra m
 WHERE m.recorrido_codigo IS NOT NULL
+
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Recorrido] OFF
 GO
 
 --*************************************************************************************************************
