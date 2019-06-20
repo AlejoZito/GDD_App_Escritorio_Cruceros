@@ -31,7 +31,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.inputPrecio = new FrbaCrucero.UI.Components.InputTextControl();
-            this.inputOrden = new FrbaCrucero.UI.Components.InputTextControl();
             this.dropdownPuertoHasta = new FrbaCrucero.UI.Components.DropdownControl();
             this.dropdownPuertoDesde = new FrbaCrucero.UI.Components.DropdownControl();
             this.SuspendLayout();
@@ -47,7 +46,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(266, 377);
+            this.btnAdd.Location = new System.Drawing.Point(267, 279);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(129, 32);
             this.btnAdd.TabIndex = 5;
@@ -60,20 +59,10 @@
             this.inputPrecio.BackColor = System.Drawing.Color.Transparent;
             this.inputPrecio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.inputPrecio.LabelText = "Precio";
-            this.inputPrecio.Location = new System.Drawing.Point(11, 279);
+            this.inputPrecio.Location = new System.Drawing.Point(16, 220);
             this.inputPrecio.Name = "inputPrecio";
             this.inputPrecio.Size = new System.Drawing.Size(385, 53);
             this.inputPrecio.TabIndex = 4;
-            // 
-            // inputOrden
-            // 
-            this.inputOrden.BackColor = System.Drawing.Color.Transparent;
-            this.inputOrden.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.inputOrden.LabelText = "Orden";
-            this.inputOrden.Location = new System.Drawing.Point(12, 220);
-            this.inputOrden.Name = "inputOrden";
-            this.inputOrden.Size = new System.Drawing.Size(385, 53);
-            this.inputOrden.TabIndex = 3;
             // 
             // dropdownPuertoHasta
             // 
@@ -99,10 +88,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 434);
+            this.ClientSize = new System.Drawing.Size(408, 332);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.inputPrecio);
-            this.Controls.Add(this.inputOrden);
             this.Controls.Add(this.dropdownPuertoHasta);
             this.Controls.Add(this.dropdownPuertoDesde);
             this.Controls.Add(this.label1);
@@ -118,7 +106,6 @@
         private System.Windows.Forms.Label label1;
         private Components.DropdownControl dropdownPuertoDesde;
         private Components.DropdownControl dropdownPuertoHasta;
-        private Components.InputTextControl inputOrden;
         private Components.InputTextControl inputPrecio;
         private System.Windows.Forms.Button btnAdd;
     }

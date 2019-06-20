@@ -29,17 +29,16 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         private void BindViewModel()
         {
-            inputOrden.Input.DataBindings.Add("Text", _ViewModel, "Orden", true, DataSourceUpdateMode.OnPropertyChanged);
             inputPrecio.Input.DataBindings.Add("Text", _ViewModel, "Precio", true, DataSourceUpdateMode.OnPropertyChanged);
             
             //ToDo: Revisar este tema, si bindeo ID y Texto, se rompe el binding.
             //Convendria hacerlo por ID para persistencia, pero sin bindear el nombre no puedo mostrar los nombres de puertos
             //en la pantalla de creacion de recorrido
 
-            //dropdownPuertoDesde.Input.DataBindings.Add("SelectedValue", _ViewModel, "PuertoDesde.IdPuerto", true, DataSourceUpdateMode.OnPropertyChanged);
-            dropdownPuertoDesde.Input.DataBindings.Add("Text", _ViewModel, "PuertoDesde.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
-            //dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "PuertoHasta.IdPuerto", true, DataSourceUpdateMode.OnPropertyChanged);
-            dropdownPuertoHasta.Input.DataBindings.Add("Text", _ViewModel, "PuertoHasta.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+            dropdownPuertoDesde.Input.DataBindings.Add("SelectedValue", _ViewModel, "PuertoDesde.IdPuerto", true, DataSourceUpdateMode.OnPropertyChanged);
+            //dropdownPuertoDesde.Input.DataBindings.Add("Text", _ViewModel, "PuertoDesde.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+            dropdownPuertoHasta.Input.DataBindings.Add("SelectedValue", _ViewModel, "PuertoHasta.IdPuerto", true, DataSourceUpdateMode.OnPropertyChanged);
+            //dropdownPuertoHasta.Input.DataBindings.Add("Text", _ViewModel, "PuertoHasta.Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
 
         }
 
@@ -56,8 +55,16 @@ namespace FrbaCrucero.UI.AbmRecorrido
         
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            _OnAddSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                _ViewModel.CargarPuertos();//Este metodo es necesario porque no puedo bindear doblemente los dropdowns de puertos.
+                _OnAddSuccess(_ViewModel);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)

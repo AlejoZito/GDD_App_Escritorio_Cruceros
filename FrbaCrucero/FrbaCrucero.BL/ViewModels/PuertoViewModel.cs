@@ -54,7 +54,12 @@ namespace FrbaCrucero.BL.ViewModels
 
         public override Puerto MapToDomainObject()
         {
-            throw new NotImplementedException();
+            return new Puerto()
+            {
+                Cod_Puerto = this.IDPuerto,
+                Nombre = this.Nombre,
+                Activo = this.Activo
+            };
         }
     }
 }
