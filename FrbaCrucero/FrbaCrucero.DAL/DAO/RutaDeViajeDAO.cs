@@ -219,11 +219,11 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
-                        Crucero = CruceroDAO.GetByID(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = CruceroDAO.GetByIDSinCabinas(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
-                        Recorrido = RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                        Recorrido = new Recorrido()//RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
                     };
 
                     recorridos.Add(rutaDeViaje);

@@ -127,7 +127,8 @@ namespace FrbaCrucero.DAL.DAO
             SqlDataAdapter dataAdapter;
 
             SqlConnection conn = Repository.GetConnection();
-            SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_activo = 1", conn);
+            SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Puerto where 1 = 1", conn);
+            //WHERE puer_activo = 1", conn); Mostrar los inactivos tambien, para poder activarlos.
 
             if (!string.IsNullOrWhiteSpace(likeFilter))
             {

@@ -21,7 +21,7 @@ namespace FrbaCrucero.UI.AbmPuerto
 
         private void CrearButton_Click(object sender, EventArgs e)
         {
-            Program.Navigation.PopUpPage(new AltaPuerto());
+            //Program.Navigation.PopUpPage(new AltaPuerto());
         }
 
         private void Form_Puerto_Index_Load(object sender, EventArgs e)

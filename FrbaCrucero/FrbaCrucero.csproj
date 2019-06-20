@@ -117,6 +117,12 @@
     <Compile Include="UI\AbmPuerto\AltaPuerto.Designer.cs">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AbmPuerto\Form_Puerto_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmPuerto\Form_Puerto_Edit.Designer.cs">
+      <DependentUpon>Form_Puerto_Edit.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmPuerto\Form_Puerto_Index.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -313,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmPuerto\Form_Puerto_Edit.resx">
+      <DependentUpon>Form_Puerto_Edit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRecorrido\Form_Recorrido_Edit.resx">
       <DependentUpon>Form_Recorrido_Edit.cs</DependentUpon>
