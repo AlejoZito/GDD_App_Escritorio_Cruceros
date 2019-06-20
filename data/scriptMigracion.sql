@@ -85,6 +85,7 @@ GO
 
 IF OBJECT_ID('[TIRANDO_QUERIES].[trg_baja_recorrido_por_baja_puerto]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto];
 IF OBJECT_ID('[TIRANDO_QUERIES].[trg_cancelar_pasajes_vigentes_por_baja_recorrido]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido];
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica];
 GO
 
 
@@ -866,7 +867,8 @@ AS
 BEGIN
 	UPDATE [TIRANDO_QUERIES].Reserva
 	SET rese_estado = (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Vencida')
-	WHERE rese_estado <> 2 AND rese_fecha <= GETDATE() - 4
+	WHERE rese_estado <> (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Vencida') AND rese_estado <> (SELECT er_codigo FROM Estado_Reserva WHERE er_estado = 'Desconocido')
+	AND rese_fecha <= GETDATE() - 4
 END
 GO
 
@@ -995,6 +997,40 @@ CLOSE cursor_puerto
 DEALLOCATE cursor_puerto
 END
 GO
+
+
+--*************************************************************************************************************
+-- CREACION TRG_QUITAR_ROL_DE_USUARIO_POR_BAJA_LOGICA
+-- Cuando hacemos una baja lógica de un rol, elimino de la tabla Rol_Usuario todas las asignaciones existentes
+--*************************************************************************************************************
+
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica] ON [TIRANDO_QUERIES].[Rol] AFTER UPDATE
+AS
+BEGIN
+	DECLARE cursor_rol CURSOR FOR
+	SELECT i.rol_codigo FROM inserted i
+	JOIN deleted d ON i.rol_codigo = d.rol_codigo
+	WHERE i.rol_activo = 0 AND d.rol_activo = 1
+	--Hago el JOIN para ver que cambio el estado y solo asi pegarle a la base solo cuando es necesario
+	
+	OPEN cursor_rol
+	DECLARE @rol_id NUMERIC
+	
+	FETCH cursor_recorrido INTO @rol_id
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM [TIRANDO_QUERIES].Rol_Usuario
+		WHERE ru_rol_codigo = @rol_id
+		
+		FETCH cursor_rol INTO @rol_id
+	END
+
+CLOSE cursor_rol
+DEALLOCATE cursor_rol
+END
+GO
+
 
 --*************************************************************************************************************
 --*************************************************************************************************************

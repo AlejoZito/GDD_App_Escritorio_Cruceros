@@ -92,5 +92,10 @@ namespace FrbaCrucero
             GoToPage(new UI.CompraReservaPasaje.Form_PagoReserva());
         }
 
+        private void btnAbmRol_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.AbmRol.Form_Rol_Index());
+        }
+
     }
 }

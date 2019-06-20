@@ -90,7 +90,7 @@ namespace FrbaCrucero.DAL.DAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrió un error al intentar crear el crucero", ex);
+                throw new Exception("Ocurrió un error al intentar agregar el mantenimiento", ex);
             }
         }
     }
