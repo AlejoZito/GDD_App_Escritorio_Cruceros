@@ -331,5 +331,59 @@ namespace FrbaCrucero.DAL.DAO
                 new Pasaje()
             };
         }
+
+        public static List<Crucero> GetAllByCruceroReemplazo(int IDCrucero)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"[TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo", conn);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            DataTable dataTable = new DataTable();
+
+            comando.Parameters.AddWithValue("@crucero_a_reemplazar", IDCrucero);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
+            };
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+                List<Crucero> cruceros = new List<Crucero>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idCrucero = int.Parse(fila["cruc_codigo"].ToString());
+                    var idFabricante = int.Parse(fila["cruc_fabricante"].ToString());
+                    var idModelo = int.Parse(fila["cruc_modelo"].ToString());
+
+                    var crucero = new Crucero
+                    {
+                        Cod_Crucero = idCrucero,
+                        Cabinas = null,
+                        Identificador = fila["cruc_identificador"].ToString(),
+                        Fabricante = null,
+                        Modelo_Crucero = null,
+                        Activo = bool.Parse(fila["cruc_activo"].ToString())
+                    };
+
+                    cruceros.Add(crucero);
+                }
+
+                return cruceros;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los fabricantes", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+        }
     }
 }

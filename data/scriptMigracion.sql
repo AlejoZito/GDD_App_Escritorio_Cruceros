@@ -67,6 +67,7 @@ IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PRO
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_autenticar_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_pago_reserva') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo;
 GO
 
 --*************************************************************************************************************
@@ -896,7 +897,28 @@ AS
 		END
 GO
 
-
+--*************************************************************************************************************
+-- CREACIÓN DE SP_ENCONTRAR_CRUCEROS_REEMPLAZO
+-- Devuelve todos los cruceros que son válidos para reemplazar a otro.
+--*************************************************************************************************************
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo(@crucero_a_reemplazar int)
+AS
+BEGIN
+	SELECT * FROM [TIRANDO_QUERIES].[Crucero] C
+	WHERE C.cruc_codigo NOT IN (
+		SELECT V2.rv_crucero
+		FROM [TIRANDO_QUERIES].[Ruta_Viaje] V1, [TIRANDO_QUERIES].[Ruta_Viaje] V2
+		WHERE
+			V1.rv_crucero = @crucero_a_reemplazar AND
+			V1.rv_fecha_llegada IS NULL AND
+			V2.rv_fecha_llegada IS NULL AND
+			(V1.[rv_fecha_salida] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada] OR
+			V1.[rv_fecha_llegada_estimada] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada])
+		) AND
+		C.cruc_activo = 1
+	ORDER BY C.cruc_codigo;
+END
+GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
@@ -983,7 +1005,26 @@ GO
 INSERT INTO [TIRANDO_QUERIES].[Ruta_Viaje](rv_recorrido, rv_crucero, [rv_fecha_salida], [rv_fecha_llegada_estimada])
 VALUES(43820882, 23, '2019-07-25 09:00:00.000', '2019-08-25 09:00:00.000');
 GO
-
 INSERT INTO [TIRANDO_QUERIES].[Pasaje]([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta])
 VALUES(400, 4, 155985, 4, 5, 4957);
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 23, '2019-04-25 03:00:00.000', '2019-04-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-02-25 03:00:00.000', '2019-02-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-07-25 03:00:00.000', '2019-07-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 2, '2019-08-25 8:00:00.000', '2019-09-26 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 3, '2019-07-24 03:00:00.000', '2019-07-24 10:00:00.000')
 GO
