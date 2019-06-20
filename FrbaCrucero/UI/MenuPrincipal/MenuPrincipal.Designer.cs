@@ -31,6 +31,8 @@ namespace FrbaCrucero
         {
             this.button_AbmPuerto = new System.Windows.Forms.Button();
             this.Nav_Panel = new System.Windows.Forms.Panel();
+            this.btnAbmRol = new System.Windows.Forms.Button();
+            this.btnPagarReserva = new System.Windows.Forms.Button();
             this.btnPasaje = new System.Windows.Forms.Button();
             this.button_RutasDeViaje = new System.Windows.Forms.Button();
             this.button_AbmRecorridos = new System.Windows.Forms.Button();
@@ -39,7 +41,6 @@ namespace FrbaCrucero
             this.button_CerrarSesion = new System.Windows.Forms.Button();
             this.button_AbmCruceros = new System.Windows.Forms.Button();
             this.Content = new System.Windows.Forms.Panel();
-            this.btnPagarReserva = new System.Windows.Forms.Button();
             this.Nav_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@ namespace FrbaCrucero
             // 
             this.Nav_Panel.AutoSize = true;
             this.Nav_Panel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Nav_Panel.Controls.Add(this.btnAbmRol);
             this.Nav_Panel.Controls.Add(this.btnPagarReserva);
             this.Nav_Panel.Controls.Add(this.btnPasaje);
             this.Nav_Panel.Controls.Add(this.button_RutasDeViaje);
@@ -72,6 +74,26 @@ namespace FrbaCrucero
             this.Nav_Panel.Name = "Nav_Panel";
             this.Nav_Panel.Size = new System.Drawing.Size(961, 48);
             this.Nav_Panel.TabIndex = 1;
+            // 
+            // btnAbmRol
+            // 
+            this.btnAbmRol.Location = new System.Drawing.Point(533, 5);
+            this.btnAbmRol.Name = "btnAbmRol";
+            this.btnAbmRol.Size = new System.Drawing.Size(57, 32);
+            this.btnAbmRol.TabIndex = 9;
+            this.btnAbmRol.Text = "ABM Rol";
+            this.btnAbmRol.UseVisualStyleBackColor = true;
+            this.btnAbmRol.Click += new System.EventHandler(this.btnAbmRol_Click);
+            // 
+            // btnPagarReserva
+            // 
+            this.btnPagarReserva.Location = new System.Drawing.Point(440, 5);
+            this.btnPagarReserva.Name = "btnPagarReserva";
+            this.btnPagarReserva.Size = new System.Drawing.Size(87, 32);
+            this.btnPagarReserva.TabIndex = 8;
+            this.btnPagarReserva.Text = "Pagar Reserva";
+            this.btnPagarReserva.UseVisualStyleBackColor = true;
+            this.btnPagarReserva.Click += new System.EventHandler(this.btnPagarReserva_Click);
             // 
             // btnPasaje
             // 
@@ -110,7 +132,7 @@ namespace FrbaCrucero
             this.UsernameLabel.AutoSize = true;
             this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.UsernameLabel.Location = new System.Drawing.Point(720, 11);
+            this.UsernameLabel.Location = new System.Drawing.Point(780, 11);
             this.UsernameLabel.Name = "UsernameLabel";
             this.UsernameLabel.Size = new System.Drawing.Size(0, 18);
             this.UsernameLabel.TabIndex = 4;
@@ -120,7 +142,7 @@ namespace FrbaCrucero
             this.welcomeLabel.AutoSize = true;
             this.welcomeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.welcomeLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.welcomeLabel.Location = new System.Drawing.Point(643, 11);
+            this.welcomeLabel.Location = new System.Drawing.Point(701, 11);
             this.welcomeLabel.Name = "welcomeLabel";
             this.welcomeLabel.Size = new System.Drawing.Size(80, 18);
             this.welcomeLabel.TabIndex = 3;
@@ -128,7 +150,7 @@ namespace FrbaCrucero
             // 
             // button_CerrarSesion
             // 
-            this.button_CerrarSesion.Location = new System.Drawing.Point(828, 5);
+            this.button_CerrarSesion.Location = new System.Drawing.Point(845, 5);
             this.button_CerrarSesion.Name = "button_CerrarSesion";
             this.button_CerrarSesion.Size = new System.Drawing.Size(106, 33);
             this.button_CerrarSesion.TabIndex = 2;
@@ -156,16 +178,6 @@ namespace FrbaCrucero
             this.Content.Name = "Content";
             this.Content.Size = new System.Drawing.Size(961, 556);
             this.Content.TabIndex = 2;
-            // 
-            // btnPagarReserva
-            // 
-            this.btnPagarReserva.Location = new System.Drawing.Point(440, 5);
-            this.btnPagarReserva.Name = "btnPagarReserva";
-            this.btnPagarReserva.Size = new System.Drawing.Size(87, 32);
-            this.btnPagarReserva.TabIndex = 8;
-            this.btnPagarReserva.Text = "Pagar Reserva";
-            this.btnPagarReserva.UseVisualStyleBackColor = true;
-            this.btnPagarReserva.Click += new System.EventHandler(this.btnPagarReserva_Click);
             // 
             // MenuPrincipal
             // 
@@ -200,6 +212,7 @@ namespace FrbaCrucero
         private System.Windows.Forms.Button button_RutasDeViaje;
         private System.Windows.Forms.Button btnPasaje;
         private System.Windows.Forms.Button btnPagarReserva;
+        private System.Windows.Forms.Button btnAbmRol;
     }
 }
 

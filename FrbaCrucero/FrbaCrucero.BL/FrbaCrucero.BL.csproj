@@ -50,6 +50,8 @@
     <Compile Include="ViewModels\MantenimientoViewModel.cs" />
     <Compile Include="ViewModels\PagoReservaViewModel.cs" />
     <Compile Include="ViewModels\PagoViewModel.cs" />
+    <Compile Include="ViewModels\PermisoViewModel.cs" />
+    <Compile Include="ViewModels\RolViewModel.cs" />
     <Compile Include="ViewModels\RutaDeViajeViewModel.cs" />
     <Compile Include="ViewModels\CruceroViewModel.cs" />
     <Compile Include="ViewModels\PuertoViewModel.cs" />
