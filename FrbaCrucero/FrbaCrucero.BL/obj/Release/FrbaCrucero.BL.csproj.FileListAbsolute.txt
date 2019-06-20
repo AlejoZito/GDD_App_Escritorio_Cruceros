@@ -1,0 +1,7 @@
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\bin\Release\FrbaCrucero.BL.dll
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\bin\Release\FrbaCrucero.BL.pdb
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\bin\Release\FrbaCrucero.DAL.dll
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\bin\Release\FrbaCrucero.DAL.pdb
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\obj\Release\FrbaCrucero.BL.csprojResolveAssemblyReference.cache
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\obj\Release\FrbaCrucero.BL.dll
+C:\Users\Lautaro\Documents\Code or Git\GDD_App_Escritorio_Cruceros\FrbaCrucero\FrbaCrucero.BL\obj\Release\FrbaCrucero.BL.pdb

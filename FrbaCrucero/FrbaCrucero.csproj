@@ -98,6 +98,12 @@
     <Compile Include="UI\AbmCrucero\Form_Mantenimiento.Designer.cs">
       <DependentUpon>Form_Mantenimiento.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AbmCrucero\Form_ReemplazoCrucero.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmCrucero\Form_ReemplazoCrucero.Designer.cs">
+      <DependentUpon>Form_ReemplazoCrucero.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AbmCrucero\Form_MantenimientoConViajes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,18 @@
     </Compile>
     <Compile Include="UI\AbmRecorrido\Form_Tramo_Add.Designer.cs">
       <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmRol\Form_Rol_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRol\Form_Rol_Add.Designer.cs">
+      <DependentUpon>Form_Rol_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AbmRol\Form_Rol_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AbmRol\Form_Rol_Edit.Designer.cs">
+      <DependentUpon>Form_Rol_Edit.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Edit.cs">
       <SubType>Form</SubType>
@@ -212,11 +230,11 @@
     <Compile Include="UI\AbmPuerto\Form_Puerto_Index_old.Designer.cs">
       <DependentUpon>Form_Puerto_Index_old.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\AbmRol\Form1.cs">
+    <Compile Include="UI\AbmRol\Form_Rol_Index.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AbmRol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="UI\AbmRol\Form_Rol_Index.Designer.cs">
+      <DependentUpon>Form_Rol_Index.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MenuPrincipal\MenuPrincipal.cs">
       <SubType>Form</SubType>
@@ -277,6 +295,9 @@
     <EmbeddedResource Include="UI\AbmCrucero\Form_MantenimientoConViajes.resx">
       <DependentUpon>Form_MantenimientoConViajes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmCrucero\Form_ReemplazoCrucero.resx">
+      <DependentUpon>Form_ReemplazoCrucero.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmPuerto\AltaPuerto.resx">
       <DependentUpon>AltaPuerto.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRecorrido\Form_Tramo_Add.resx">
       <DependentUpon>Form_Tramo_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AbmRol\Form_Rol_Index.resx">
+      <DependentUpon>Form_Rol_Index.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AbmRutaDeViaje\Form_RutaDeViaje_Edit.resx">
       <DependentUpon>Form_RutaDeViaje_Edit.cs</DependentUpon>

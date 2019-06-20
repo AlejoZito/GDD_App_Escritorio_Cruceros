@@ -15,14 +15,12 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 {
     public partial class Form_PagoReserva : Form
     {
-        OnAddSuccessDelegate<PagoViewModel> _OnSuccessDelegate;
-        PagoViewModel _ViewModel;
+        PagoReservaViewModel _ViewModel;
 
-        public Form_PagoReserva(OnAddSuccessDelegate<PagoViewModel> onSuccess)
+        public Form_PagoReserva()
         {
             InitializeComponent();
-            _OnSuccessDelegate = onSuccess;
-            _ViewModel = new PagoViewModel();
+            _ViewModel = new PagoReservaViewModel();
             BindViewModel();
             LoadDropdowns();
         }
@@ -30,6 +28,13 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
         private void BindViewModel()
         {
             dropdownMediosDePago.Input.DataBindings.Add("SelectedValue", _ViewModel, "IDMedioDePago", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbNombre.DataBindings.Add("Text", _ViewModel, "Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbApellido.DataBindings.Add("Text", _ViewModel, "Apellido", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbPuertoDesde.DataBindings.Add("Text", _ViewModel, "PuertoDesde", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbPuertoHasta.DataBindings.Add("Text", _ViewModel, "PuertoHasta", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbFechaSalida.DataBindings.Add("Text", _ViewModel, "FechaSalida", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbPrecio.DataBindings.Add("Text", _ViewModel, "Precio", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbIdReserva.DataBindings.Add("Text", _ViewModel, "IDReserva", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadDropdowns()
@@ -39,15 +44,36 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
             dropdownMediosDePago.Input.ValueMember = "Cod_Medio_De_Pago";
         }
 
-        private void btnPagar_Click(object sender, EventArgs e)
-        {
-            _OnSuccessDelegate(_ViewModel);
-            this.Close();
-        }
-
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnBuscarReserva_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _ViewModel.BuscarReserva();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Reserva no encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnPagarReserva_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string codigoPasaje = _ViewModel.PagarReserva();
+
+                //Aca se debería hacer que el Form pasaje exitoso reciba el/los idDePasaje comprado así lo muestra al cliente
+                Program.Navigation.PopUpPage(new Form_PasajeExitoso(codigoPasaje));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pago de Reserva no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

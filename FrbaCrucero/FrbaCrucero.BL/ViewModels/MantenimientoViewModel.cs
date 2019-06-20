@@ -100,7 +100,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public void CancelarViajes()
         {
-            CruceroDAO.CancelarViajes(IDCrucero);
+            CruceroDAO.CancelarViajesMantenimiento(IDCrucero);
         }
 
         public bool NoTieneViajes()
@@ -108,7 +108,7 @@ namespace FrbaCrucero.BL.ViewModels
             //FechaDesde está hardcodeada con la fecha de hoy
             try
             {
-                List<Pasaje> cruceros = CruceroDAO.ObtenerPasajesSinFinalizar(IDCrucero);
+                List<RutaDeViaje> cruceros = CruceroDAO.ObtenerPasajesSinFinalizar(IDCrucero);
                 return cruceros.Count == 0;
             }
             catch (Exception)
