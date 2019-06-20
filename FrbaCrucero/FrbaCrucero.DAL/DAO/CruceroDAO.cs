@@ -324,12 +324,79 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static List<Pasaje> ObtenerPasajesSinFinalizar(int IDCrucero)
+        public static int CancelarViajesMantenimiento(int IDCrucero)
         {
-            return new List<Pasaje>()
+
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(String.Format(@"UPDATE TIRANDO_QUERIES.Pasaje SET " +
+                                                "pasa_estado=(SELECT ep_codigo FROM [TIRANDO_QUERIES].[Estado_Pasaje] WHERE ep_motivo='Desperfecto tecnico en crucero') " +
+                                                "WHERE pasa_ruta IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE rv_crucero={0} AND [rv_fecha_llegada] IS NULL)", IDCrucero), conn);
+            try
             {
-                new Pasaje()
+                int rows = comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
+
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar cancelar los pasajes del crucero", ex);
+            }
+        }
+
+        public static List<RutaDeViaje> ObtenerPasajesSinFinalizar(int IDCrucero)
+        {
+            var conn = Repository.GetConnection();
+
+            SqlCommand comando = new SqlCommand(
+                              @"SELECT * FROM [TIRANDO_QUERIES].[Ruta_Viaje] " +
+                               "WHERE [rv_crucero] = @id_crucero AND [rv_fecha_llegada] IS NULL", conn);
+
+            DataTable dataTable = new DataTable();
+
+            comando.Parameters.AddWithValue("@id_crucero", IDCrucero);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
             };
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+                List<RutaDeViaje> viajes = new List<RutaDeViaje>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    var viaje = new RutaDeViaje
+                    {
+                        Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
+                        Crucero = new Crucero()
+                        {
+                            Cod_Crucero = IDCrucero
+                        },
+                        Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
+                        Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
+                        Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
+                        Recorrido = new Recorrido()
+                        {
+                            Cod_Recorrido = int.Parse(fila["rv_recorrido"].ToString())
+                        }
+                    };
+
+                    viajes.Add(viaje);
+                }
+
+                return viajes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener los pasajes del crucero", ex);
+            }
         }
 
         public static List<Crucero> GetAllByCruceroReemplazo(int IDCrucero)
