@@ -51,17 +51,59 @@ namespace FrbaCrucero.UI.AbmRecorrido
             }
         }
 
-        private void btn_actualizar_Click(object sender, EventArgs e)
+        private void btnRecorridoAdd_Click(object sender, EventArgs e)
         {
-            RecorridoDAO.Edit(_ViewModel.MapToDomainObject());
-            _OnEditSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                try
+                {
+                    _ViewModel.Edit();
+                    _OnEditSuccess(_ViewModel);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }                
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
         }
 
         private void btn_tramoAdd_Click_1(object sender, EventArgs e)
         {
             Program.Navigation.PopUpPage(new Form_Tramo_Add(
                 onAddSuccess: (tramo) => _ViewModel.Tramos.Add(tramo)));
+        }
+
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+            if (listTramos.SelectedItems == null || listTramos.SelectedItems.Count == 0)
+            {
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listTramos.SelectedItems)
+                {
+                    _ViewModel.SubirTramo(listItem.Text);
+                }
+            }
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+            if (listTramos.SelectedItems == null || listTramos.SelectedItems.Count == 0)
+            {
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listTramos.SelectedItems)
+                {
+                    _ViewModel.BajarTramo(listItem.Text);
+                }
+            }
         }
     }
 }

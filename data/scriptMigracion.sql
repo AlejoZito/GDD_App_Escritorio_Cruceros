@@ -226,7 +226,7 @@ GO
 --*************************************************************************************************************
 
 CREATE TABLE [TIRANDO_QUERIES].[Recorrido] (
-	[reco_codigo] [NUMERIC] PRIMARY KEY,
+	[reco_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[reco_activo] BIT NOT NULL DEFAULT 1,
 	[reco_invalido] BIT NOT NULL DEFAULT 0
 )
@@ -560,10 +560,13 @@ GO
 --*************************************************************************************************************
 -- TABLE RECORRIDO
 --*************************************************************************************************************
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Recorrido] ON
 
 INSERT INTO [TIRANDO_QUERIES].Recorrido(reco_codigo)
 SELECT DISTINCT m.recorrido_codigo FROM gd_esquema.Maestra m
 WHERE m.recorrido_codigo IS NOT NULL
+
+SET IDENTITY_INSERT [TIRANDO_QUERIES].[Recorrido] OFF
 GO
 
 --*************************************************************************************************************
@@ -954,7 +957,7 @@ BEGIN
 	BEGIN
 		UPDATE [TIRANDO_QUERIES].Recorrido SET reco_activo = 0 WHERE reco_codigo IN 
 		(SELECT DISTINCT tram_recorrido FROM [TIRANDO_QUERIES].Tramo WHERE @puerto_id = tram_puerto_desde OR @puerto_id = tram_puerto_hasta)
-		FETCH cursor_componentes INTO @puerto_id
+		FETCH cursor_puerto INTO @puerto_id
 	END
 
 CLOSE cursor_puerto
@@ -993,8 +996,8 @@ BEGIN
 		FETCH cursor_recorrido INTO @recorrido_id
 	END
 
-CLOSE cursor_puerto
-DEALLOCATE cursor_puerto
+CLOSE cursor_recorrido
+DEALLOCATE cursor_recorrido
 END
 GO
 

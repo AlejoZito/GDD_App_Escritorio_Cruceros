@@ -1,4 +1,5 @@
-﻿using FrbaCrucero.DAL.Domain;
+﻿using FrbaCrucero.DAL.DAO;
+using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,25 +18,22 @@ namespace FrbaCrucero.BL.ViewModels
 
         public TramoViewModel(Tramo t)
         {
-            MapFromDomainObject(t);
             PuertoDesde = new PuertoViewModel();
             PuertoHasta = new PuertoViewModel();
+            MapFromDomainObject(t);
         }
 
         public int IDRecorrido { get; set; }
-        PuertoViewModel _V;
-        public PuertoViewModel PuertoDesde { 
-            get { return _V; } 
-            set { _V = value; } }
-        public int IDPuertoDesde { get; set; }
+        public PuertoViewModel PuertoDesde { get; set; }
+        //public int IDPuertoDesde { get; set; }
         public PuertoViewModel PuertoHasta { get; set; }
-        public int IDPuertoHasta { get; set; }
+        //public int IDPuertoHasta { get; set; }
         public decimal Precio { get; set; }
         public int Orden { get; set; }
-
+        public string ErrorMessage { get; set; }
         public string Descripcion
         {
-            get { return PuertoDesde.Nombre + PuertoHasta.Nombre + Orden + Precio; }
+            get { return string.Format("{0} - {1} ${2}", PuertoDesde.Nombre, PuertoHasta.Nombre, Precio); }
         }
 
         public override void MapFromDomainObject(Tramo o)
@@ -54,11 +52,46 @@ namespace FrbaCrucero.BL.ViewModels
             return new Tramo()
             {
                 IdRecorrido = this.IDRecorrido,
-                Puerto_Desde = new Puerto() { Cod_Puerto = this.IDPuertoDesde },
-                Puerto_Hasta = new Puerto() { Cod_Puerto = this.IDPuertoHasta },
+                //Puerto_Desde = new Puerto() { Cod_Puerto = this.IDPuertoDesde },
+                //Puerto_Hasta = new Puerto() { Cod_Puerto = this.IDPuertoHasta },
+                Puerto_Desde = PuertoDesde.MapToDomainObject(),
+                Puerto_Hasta = PuertoHasta.MapToDomainObject(),
                 Orden = this.Orden,
                 Precio = this.Precio
             };
+        }
+
+        public bool IsValid()
+        {
+            ErrorMessage = "";
+            if (PuertoDesde == null || PuertoDesde.IDPuerto == 0 || PuertoHasta == null || PuertoHasta.IDPuerto == 0)
+            {
+                ErrorMessage += "Debe elegir un puerto de origen y uno de destino. " + System.Environment.NewLine;
+            }
+            else
+            {
+
+                if (PuertoDesde.IDPuerto == PuertoHasta.IDPuerto)
+                    ErrorMessage += "El puerto de origen no puede ser igual al puerto de destino. " + System.Environment.NewLine;
+            }
+
+            if (Precio <= 0)
+                ErrorMessage += "Debe indicar un precio, mantener una empresa de cruceros no es gratis. " + System.Environment.NewLine;
+
+            return ErrorMessage == "";
+        }
+
+        /// <summary>
+        /// Como en el dropdown solo pude bindear los IDS, traer el resto de la data de puertos y guardarla
+        /// en PuertoDesde y PuertoHasta
+        /// </summary>
+        public void CargarPuertos()
+        {
+            int puertoDesdeID = this.PuertoDesde.IDPuerto;
+            int puertoHastaID = this.PuertoHasta.IDPuerto;
+
+            PuertoDesde.MapFromDomainObject(PuertoDAO.GetByID(puertoDesdeID));
+            PuertoHasta.MapFromDomainObject(PuertoDAO.GetByID(puertoHastaID));
         }
     }
 }
