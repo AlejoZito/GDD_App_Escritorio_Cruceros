@@ -1005,7 +1005,26 @@ GO
 INSERT INTO [TIRANDO_QUERIES].[Ruta_Viaje](rv_recorrido, rv_crucero, [rv_fecha_salida], [rv_fecha_llegada_estimada])
 VALUES(43820882, 23, '2019-07-25 09:00:00.000', '2019-08-25 09:00:00.000');
 GO
-
 INSERT INTO [TIRANDO_QUERIES].[Pasaje]([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta])
 VALUES(400, 4, 155985, 4, 5, 4957);
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 23, '2019-04-25 03:00:00.000', '2019-04-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-02-25 03:00:00.000', '2019-02-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-07-25 03:00:00.000', '2019-07-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 2, '2019-08-25 8:00:00.000', '2019-09-26 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 3, '2019-07-24 03:00:00.000', '2019-07-24 10:00:00.000')
 GO
