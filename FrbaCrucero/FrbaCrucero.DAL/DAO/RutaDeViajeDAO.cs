@@ -342,5 +342,10 @@ namespace FrbaCrucero.DAL.DAO
                 conn.Dispose();
             }
         }
+
+        public void Edit(RutaDeViaje rutaDeViaje)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
