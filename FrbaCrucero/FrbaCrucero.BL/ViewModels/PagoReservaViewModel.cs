@@ -97,7 +97,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public int IDMedioDePago { get; set; }
 
-        public int IDReserva { get; set; }
+        public string IDReserva { get; set; }
 
         public void BuscarReserva()
         {
