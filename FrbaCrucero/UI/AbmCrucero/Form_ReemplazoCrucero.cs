@@ -21,11 +21,19 @@ namespace FrbaCrucero.UI.AbmCrucero
         {
             InitializeComponent();
             _ViewModel = new CruceroReemplazoViewModel(cruceroID);
+            listCrucerosReemplazo.SetDataBinding(_ViewModel.CrucerosReemplazo, "Descripcion"); 
         }
 
         private void Form_ReemplazoCrucero_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAceptarReemplazo_Click(object sender, EventArgs e)
+        {
+            RutaDeViajeDAO.ActualizarCrucero(_ViewModel.IDCruceroAReemplazar, _ViewModel.CrucerosReemplazo[listCrucerosReemplazo.SelectedIndices[0]].IDCrucero);
+            MessageBox.Show(String.Format("Crucero {0} ha tomado todos los viajes del crucero dado de baja.", _ViewModel.CrucerosReemplazo[listCrucerosReemplazo.SelectedIndices[0]].Identificador), "Baja de crucero", MessageBoxButtons.OK);
+            this.Close();
         }
     }
 }

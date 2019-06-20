@@ -13,10 +13,50 @@ namespace FrbaCrucero.BL.ViewModels
     {
         public CruceroReemplazoViewModel(int cruceroId)
         {
-            
+            this.IDCruceroAReemplazar = cruceroId;
+            CrucerosReemplazo = new BindingList<CruceroReemplazoViewModel>();
+            ActualizarReemplazos();
         }
-        public BindingList<RutaDeViajeViewModel> Viajes { get; set; }
+
+        public CruceroReemplazoViewModel(Crucero c)
+        {
+            this.MapFromDomainObject(c);
+        }
+
+        public int IDCruceroAReemplazar { get; set; }
+        public int IDCrucero { get; set; }
+        public string Identificador { get; set; }
+
+        public string Descripcion
+        {
+            get
+            {
+                return "ID: " + IDCrucero + " - " + Identificador;
+            }
+        }
+
+        public BindingList<CruceroReemplazoViewModel> CrucerosReemplazo { get; set; }
+
+        public void ActualizarReemplazos()
+        {
+            CrucerosReemplazo.Clear();
+
+            List<Crucero> crucerosReemplazo = CruceroDAO.GetAllByCruceroReemplazo(this.IDCruceroAReemplazar);
+            foreach (var c in crucerosReemplazo)
+            {
+                CruceroReemplazoViewModel asd = new CruceroReemplazoViewModel(c);
+                CrucerosReemplazo.Add(asd);
+            }
+        }
+
+        public void MapFromDomainObject(Crucero c)
+        {
+            this.IDCrucero = c.Cod_Crucero;
+            this.Identificador = c.Identificador;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
+
+
 }

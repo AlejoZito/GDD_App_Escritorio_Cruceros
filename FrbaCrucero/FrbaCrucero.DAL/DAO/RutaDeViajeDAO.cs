@@ -99,6 +99,28 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
+        public static void ActualizarCrucero(int crucero_a_reemplazar, int crucero_reemplazante)
+        {
+            try
+            {
+                var conn = Repository.GetConnection();
+                SqlCommand comando = new SqlCommand(@"UPDATE [TIRANDO_QUERIES].[Ruta_Viaje] SET [rv_crucero]=@crucero_reemplazante WHERE [rv_crucero]=@crucero_a_reemplazar AND [rv_fecha_llegada] IS NULL", conn);
+                comando.Parameters.Add("@crucero_a_reemplazar", SqlDbType.Int);
+                comando.Parameters["@crucero_a_reemplazar"].Value = crucero_a_reemplazar;
+                comando.Parameters.Add("@crucero_reemplazante", SqlDbType.Int);
+                comando.Parameters["@crucero_reemplazante"].Value = crucero_reemplazante;
+                comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar cambiar el crucero de rutas", ex);
+            }
+        }
+
         public List<RutaDeViaje> GetAll()
         {
             var conn = Repository.GetConnection();

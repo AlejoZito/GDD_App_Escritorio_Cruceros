@@ -28,18 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.crucerosReemplazantes = new System.Windows.Forms.ListBox();
             this.labelHint = new System.Windows.Forms.Label();
             this.btnAceptarReemplazo = new System.Windows.Forms.Button();
+            this.listCrucerosReemplazo = new FrbaCrucero.UI._Components.DataListViewControl();
             this.SuspendLayout();
-            // 
-            // crucerosReemplazantes
-            // 
-            this.crucerosReemplazantes.FormattingEnabled = true;
-            this.crucerosReemplazantes.Location = new System.Drawing.Point(12, 68);
-            this.crucerosReemplazantes.Name = "crucerosReemplazantes";
-            this.crucerosReemplazantes.Size = new System.Drawing.Size(229, 212);
-            this.crucerosReemplazantes.TabIndex = 0;
             // 
             // labelHint
             // 
@@ -58,15 +50,28 @@
             this.btnAceptarReemplazo.TabIndex = 2;
             this.btnAceptarReemplazo.Text = "Seleccionar";
             this.btnAceptarReemplazo.UseVisualStyleBackColor = true;
+            this.btnAceptarReemplazo.Click += new System.EventHandler(this.btnAceptarReemplazo_Click);
+            // 
+            // listCrucerosReemplazo
+            // 
+            this.listCrucerosReemplazo.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listCrucerosReemplazo.Location = new System.Drawing.Point(11, 65);
+            this.listCrucerosReemplazo.Margin = new System.Windows.Forms.Padding(2);
+            this.listCrucerosReemplazo.MultiSelect = false;
+            this.listCrucerosReemplazo.Name = "listCrucerosReemplazo";
+            this.listCrucerosReemplazo.Size = new System.Drawing.Size(231, 207);
+            this.listCrucerosReemplazo.TabIndex = 4;
+            this.listCrucerosReemplazo.UseCompatibleStateImageBehavior = false;
+            this.listCrucerosReemplazo.View = System.Windows.Forms.View.Details;
             // 
             // Form_ReemplazoCrucero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 338);
+            this.Controls.Add(this.listCrucerosReemplazo);
             this.Controls.Add(this.btnAceptarReemplazo);
             this.Controls.Add(this.labelHint);
-            this.Controls.Add(this.crucerosReemplazantes);
             this.Name = "Form_ReemplazoCrucero";
             this.Text = "reemplazarCrucero";
             this.Load += new System.EventHandler(this.Form_ReemplazoCrucero_Load);
@@ -77,8 +82,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox crucerosReemplazantes;
         private System.Windows.Forms.Label labelHint;
         private System.Windows.Forms.Button btnAceptarReemplazo;
+        private _Components.DataListViewControl listCrucerosReemplazo;
     }
 }
