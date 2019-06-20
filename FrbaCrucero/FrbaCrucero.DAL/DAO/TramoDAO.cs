@@ -16,50 +16,72 @@ namespace FrbaCrucero.DAL.DAO
             var conn = Repository.GetConnection();
             int orden = 1;
             SqlCommand comando = new SqlCommand();
-            
-            foreach (var tramo in tramos)
+            try
             {
-                comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Tramo(tram_recorrido, tram_puerto_desde, tram_puerto_hasta, tram_precio, tram_orden) VALUES(@cod_recorrido, @cod_puerto_desde, @cod_puerto_hasta, @precio, @orden)", conn);
-                comando.Parameters.Add("@tram_recorrido", SqlDbType.Int);
-                comando.Parameters["@tram_recorrido"].Value = idRecorrido;
-                comando.Parameters.Add("@tram_puerto_desde", SqlDbType.Int);
-                comando.Parameters["@tram_puerto_desde"].Value = tramo.Puerto_Desde.Cod_Puerto;
-                comando.Parameters.Add("@tram_puerto_hasta", SqlDbType.Int);
-                comando.Parameters["@tram_puerto_hasta"].Value = tramo.Puerto_Hasta.Cod_Puerto;
-                comando.Parameters.Add("@tram_precio", SqlDbType.Decimal);
-                comando.Parameters["@tram_precio"].Value = tramo.Precio;
-                comando.Parameters.Add("@tram_orden", SqlDbType.Int);
-                comando.Parameters["@tram_orden"].Value = orden;
-                orden++;
+                foreach (var tramo in tramos)
+                {
+                    comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Tramo(tram_recorrido, tram_puerto_desde, tram_puerto_hasta, tram_precio, tram_orden) VALUES(@cod_recorrido, @cod_puerto_desde, @cod_puerto_hasta, @precio, @orden)", conn);
+                    comando.Parameters.Add("@cod_recorrido", SqlDbType.Int);
+                    comando.Parameters["@cod_recorrido"].Value = idRecorrido;
 
-                comando.ExecuteNonQuery();
+                    comando.Parameters.Add("@cod_puerto_desde", SqlDbType.Int);
+                    comando.Parameters["@cod_puerto_desde"].Value = tramo.Puerto_Desde.Cod_Puerto;
+
+                    comando.Parameters.Add("@cod_puerto_hasta", SqlDbType.Int);
+                    comando.Parameters["@cod_puerto_hasta"].Value = tramo.Puerto_Hasta.Cod_Puerto;
+
+                    comando.Parameters.Add("@precio", SqlDbType.Decimal);
+                    comando.Parameters["@precio"].Value = tramo.Precio;
+
+                    comando.Parameters.Add("@orden", SqlDbType.Int);
+                    comando.Parameters["@orden"].Value = orden;
+                    orden++;
+
+                    comando.ExecuteNonQuery();
+                }
             }
-
-            comando.Dispose();
-            conn.Close();
-            conn.Dispose();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }      
         }
 
         public static void Edit(IList<Tramo> tramos, int idRecorrido)
         {
             var conn = Repository.GetConnection();
-            SqlCommand comando = new SqlCommand(@"DELETE TIRANDO_QUERIES.Tramo WHERE tram_recorrido = @idRecorrido");
-            comando.Parameters.Add("@tram_recorrido", SqlDbType.Int);
-            comando.Parameters["@tram_recorrido"].Value = idRecorrido;
-            comando.ExecuteNonQuery();
-            comando.Dispose();
-            conn.Close();
-            conn.Dispose();
 
-            TramoDAO.Add(tramos, idRecorrido);
+            SqlCommand comando = new SqlCommand(@"DELETE TIRANDO_QUERIES.Tramo WHERE tram_recorrido = @idRecorrido", conn);
+            comando.Parameters.Add("@idRecorrido", SqlDbType.Int);
+            comando.Parameters["@idRecorrido"].Value = idRecorrido;
+            try
+            {
+                comando.ExecuteNonQuery();
+                TramoDAO.Add(tramos, idRecorrido);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("No se pudo actualizar los tramos correctamente", ex);
+            }
+            finally
+            {
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
         }
 
-        public static IList<Tramo> GetAllForID(int idRecorrido) 
+        public static IList<Tramo> GetAllForID(int idRecorrido)
         {
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
             var conn = Repository.GetConnection();
-            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Tramo WHERE tram_recorrido = {0}", idRecorrido);
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Tramo WHERE tram_recorrido = {0} order by tram_orden asc", idRecorrido);
 
             try
             {
@@ -98,7 +120,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static void Delete(Tramo t) 
+        public static void Delete(Tramo t)
         {
             throw new NotImplementedException();
         }

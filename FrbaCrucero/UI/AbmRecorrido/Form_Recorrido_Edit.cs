@@ -51,13 +51,13 @@ namespace FrbaCrucero.UI.AbmRecorrido
             }
         }
 
-        private void btn_actualizar_Click(object sender, EventArgs e)
+        private void btnRecorridoAdd_Click(object sender, EventArgs e)
         {
             if (_ViewModel.IsValid())
             {
                 try
                 {
-                    RecorridoDAO.Edit(_ViewModel.MapToDomainObject());
+                    _ViewModel.Edit();
                     _OnEditSuccess(_ViewModel);
                     this.Close();
                 }

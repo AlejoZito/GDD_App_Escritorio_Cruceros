@@ -61,7 +61,7 @@ namespace FrbaCrucero.BL.ViewModels
             {
                 Cod_Recorrido = this.IdRecorrido,
                 Activo = this.Activo,
-                Tramos = this.Tramos.Select(t => t.MapToDomainObject()).ToList().OrderBy(x => x.Orden).ToList()
+                Tramos = this.Tramos.Select(t => t.MapToDomainObject()).ToList()
             };
         }
 

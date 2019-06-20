@@ -13,20 +13,17 @@ namespace FrbaCrucero.DAL.DAO
     {
         public static void Add(Recorrido recorrido)
         {
-            try
-            {
-                var conn = Repository.GetConnection();
+            var conn = Repository.GetConnection();
 
-                //Inserto el recorrido y obtengo el id
-                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(reco_activo) VALUES(@activo)", conn);
+            //Inserto el recorrido y obtengo el id
+            SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(reco_activo) VALUES(@activo); " +
+                                                 "SELECT CAST(scope_identity() AS int)", conn);
+            try
+            {                
                 recorrido.Activo = true;
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = recorrido.Activo;
                 int idRecorrido = Convert.ToInt32(comando.ExecuteScalar());
-
-                comando.Dispose();
-                conn.Close();
-                conn.Dispose();
 
                 //Inserto los tramos en base con el id de recorrido
                 TramoDAO.Add(recorrido.Tramos, idRecorrido);
@@ -36,17 +33,41 @@ namespace FrbaCrucero.DAL.DAO
             {
                 throw new Exception("Ocurrió un error al intentar crear el recorrido", ex);
             }
+            finally
+            {
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
         }
 
         public static void Edit(Recorrido recorridoModificado)
-        {
+        {            
+            var conn = Repository.GetConnection();
             try
             {
+
+                //Actualizo el campo activo
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Recorrido set reco_activo = @activo WHERE reco_codigo = @idRecorrido ", conn);
+
+                comando.Parameters.Add("@activo", SqlDbType.Bit);
+                comando.Parameters["@activo"].Value = recorridoModificado.Activo;
+
+                comando.Parameters.Add("@idRecorrido", SqlDbType.Int);
+                comando.Parameters["@idRecorrido"].Value = recorridoModificado.Cod_Recorrido;
+
+                comando.ExecuteNonQuery();
+
+                //Elimino y reinserto los tramos
                 TramoDAO.Edit(recorridoModificado.Tramos, recorridoModificado.Cod_Recorrido);
             }
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar modificar el recorrido", ex);
+            }
+            finally
+            {
+                conn.Dispose();
             }
         }
 
@@ -79,14 +100,16 @@ namespace FrbaCrucero.DAL.DAO
                     recorridos.Add(recorrido);
                 }
 
-                conn.Close();
-                conn.Dispose();
-
                 return recorridos;
             }
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar listar los recorridos", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
             }
         }
 

@@ -60,6 +60,7 @@
             this.btnRecorridoAdd.TabIndex = 10;
             this.btnRecorridoAdd.Text = "Actualizar";
             this.btnRecorridoAdd.UseVisualStyleBackColor = true;
+            this.btnRecorridoAdd.Click += new System.EventHandler(this.btnRecorridoAdd_Click);
             // 
             // btn_TramoDelete
             // 

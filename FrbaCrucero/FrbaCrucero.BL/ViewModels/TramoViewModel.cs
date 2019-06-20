@@ -64,9 +64,16 @@ namespace FrbaCrucero.BL.ViewModels
         public bool IsValid()
         {
             ErrorMessage = "";
+            if (PuertoDesde == null || PuertoDesde.IDPuerto == 0 || PuertoHasta == null || PuertoHasta.IDPuerto == 0)
+            {
+                ErrorMessage += "Debe elegir un puerto de origen y uno de destino. " + System.Environment.NewLine;
+            }
+            else
+            {
 
-            if (PuertoDesde.IDPuerto == PuertoHasta.IDPuerto)
-                ErrorMessage += "El puerto de origen no puede ser igual al puerto de destino. " + System.Environment.NewLine;
+                if (PuertoDesde.IDPuerto == PuertoHasta.IDPuerto)
+                    ErrorMessage += "El puerto de origen no puede ser igual al puerto de destino. " + System.Environment.NewLine;
+            }
 
             if (Precio <= 0)
                 ErrorMessage += "Debe indicar un precio, mantener una empresa de cruceros no es gratis. " + System.Environment.NewLine;
