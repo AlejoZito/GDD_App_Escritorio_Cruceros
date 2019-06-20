@@ -71,18 +71,51 @@ namespace FrbaCrucero.DAL.DAO
         /// Realizar reserva de pasaje y retornar voucher de reserva (codigo de reserva)
         /// </summary>
         /// <returns></returns>
-        public static string ReservarPasaje(
+        public static int ReservarPasaje(
+            decimal monto,
             int idCabina,
             int idRutaDeViaje,
-            string nombreCliente,
-            string apellidoCliente,
-            string dniCliente,
-            string telefonoCliente,
-            string direccionCliente,
-            string mailCliente,
-            DateTime fechaNacimientoCliente)
+            string dniCliente)
         {
-            return "";
+            try
+            {
+
+                Cliente Cliente = ClienteDAO.GetByDNI(dniCliente);
+                var conn = Repository.GetConnection();
+
+                //Inserto la cabina y obtengo el id
+                SqlCommand comando = new SqlCommand(@"INSERT INTO [TIRANDO_QUERIES].[Reserva] " +
+                                                    "( [rese_precio], [rese_cabina], [rese_cliente], [rese_estado], [rese_ruta]) " +
+                                                    "VALUES (@precio, @cabina, @cliente, (SELECT [er_codigo] FROM [TIRANDO_QUERIES].[Estado_Reserva] WHERE er_estado='Vigente'), @ruta); " +
+                                                    "SELECT CAST(scope_identity() AS int)", conn);
+
+                //comando.Parameters.AddWithValue("@asd", );
+
+                comando.Parameters.Add("@precio", SqlDbType.Decimal);
+                comando.Parameters["@precio"].Value = monto;
+
+                comando.Parameters.Add("@cabina", SqlDbType.Int);
+                comando.Parameters["@cabina"].Value = idCabina;
+
+                comando.Parameters.Add("@cliente", SqlDbType.Int);
+                comando.Parameters["@cliente"].Value = Cliente.Cod_Cliente;
+
+                comando.Parameters.Add("@ruta", SqlDbType.Int);
+                comando.Parameters["@ruta"].Value = idRutaDeViaje;
+
+                int idPasaje = Convert.ToInt32(comando.ExecuteScalar());
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                return idPasaje;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear el crucero", ex);
+            }
         }
 
         /// <summary>

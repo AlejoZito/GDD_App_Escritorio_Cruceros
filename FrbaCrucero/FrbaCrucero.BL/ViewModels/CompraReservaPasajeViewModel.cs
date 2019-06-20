@@ -17,6 +17,7 @@ namespace FrbaCrucero.BL.ViewModels
             Cabinas = new BindingList<CabinaViewModel>();
             IdsCabinasSeleccionadas = new List<int>();
             PasajesComprados = new List<Pasaje>();
+            PasajesReservados = new List<Reserva>();
             Cliente = new ClienteViewModel();
 
             //TestData
@@ -58,6 +59,8 @@ namespace FrbaCrucero.BL.ViewModels
         public PagoViewModel MedioDePago { get; set; }
 
         public List<Pasaje> PasajesComprados { get; set; }
+
+        public List<Reserva> PasajesReservados { get; set; }
 
         decimal _Monto;
         public decimal Monto { 
@@ -178,6 +181,37 @@ namespace FrbaCrucero.BL.ViewModels
                 }
                 return PasajesComprados;
             } else {
+                return null;
+            }
+        }
+
+        public List<Reserva> ReservarPasaje()
+        {
+            if (IsValid())
+            {
+                foreach (var cabina in IdsCabinasSeleccionadas)
+                {
+                    int cod_reserva = PasajeDAO.ReservarPasaje(
+                        _Monto,
+                        cabina,
+                        RutaDeViajeSeleccionada.Value,
+                        Cliente.DNI
+                        );
+                    Reserva reserva = new Reserva()
+                    {
+                        Cabina = CabinaDAO.GetByID(cabina),
+                        Cliente = null,
+                        Cod_Reserva = cod_reserva,
+                        Estado = null,
+                        Precio = _Monto,
+                        Ruta = null
+                    };
+                    this.PasajesReservados.Add(reserva);
+                }
+                return PasajesReservados;
+            }
+            else
+            {
                 return null;
             }
         }
