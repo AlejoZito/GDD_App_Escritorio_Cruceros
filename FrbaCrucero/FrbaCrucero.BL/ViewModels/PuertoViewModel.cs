@@ -1,4 +1,5 @@
 ﻿using FrbaCrucero.BL.Attributes;
+using FrbaCrucero.DAL.DAO;
 using FrbaCrucero.DAL.Domain;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,8 @@ namespace FrbaCrucero.BL.ViewModels
         [Listable("Activo")]
         public bool Activo { get; set; }
 
+        public string ErrorMessage { get; set; }
+
         public override void MapFromDomainObject(Puerto o)
         {
             this.IDPuerto = o.Cod_Puerto;
@@ -60,6 +63,26 @@ namespace FrbaCrucero.BL.ViewModels
                 Nombre = this.Nombre,
                 Activo = this.Activo
             };
+        }
+
+        public void Add()
+        {
+            PuertoDAO.Add(this.MapToDomainObject());
+        }
+
+        public void Edit()
+        {
+            PuertoDAO.Edit(this.MapToDomainObject());
+        }
+
+        public bool IsValid()
+        {
+            ErrorMessage = "";
+
+            if (string.IsNullOrEmpty(Nombre))
+                ErrorMessage += "Debe ingresar un nombre" + System.Environment.NewLine;
+
+            return string.IsNullOrEmpty(ErrorMessage);
         }
     }
 }

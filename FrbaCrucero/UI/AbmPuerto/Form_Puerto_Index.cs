@@ -14,12 +14,12 @@ namespace FrbaCrucero.UI.AbmPuerto
         public Form_Puerto_Index()
             : base()
         {
-            _OnClickAdd = () => Program.Navigation.PopUpPage(new AltaPuerto());
-                    //onAddSuccess: (c) => this.OnAddOrEditSuccess()));
+            _OnClickAdd = () => Program.Navigation.PopUpPage(new AltaPuerto(
+                onSuccess: OnAddOrEditSuccess));
 
-            //_OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Recorrido_Edit(
-            //        onEditSuccess: (c) => this.OnAddOrEditSuccess(),
-            //        idRecorrido: id));
+            _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Puerto_Edit(
+                    onEditSuccess: () => this.OnAddOrEditSuccess(),
+                    id: id));
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
         }
@@ -31,7 +31,7 @@ namespace FrbaCrucero.UI.AbmPuerto
 
         protected override List<PuertoViewModel> GetData()
         {
-            return PuertoDAO.GetAllWithFilters("Abu", null, null).Select(x => new PuertoViewModel(x)).ToList();
+            return PuertoDAO.GetAllWithFilters(null, null, null).Select(x => new PuertoViewModel(x)).ToList();
         }
     }
 }
