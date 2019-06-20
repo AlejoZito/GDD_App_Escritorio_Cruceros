@@ -156,26 +156,6 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        private static bool ValidarExistenciaRol(string nombre)
-        {
-            try
-            {
-                string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_nombre LIKE @nombre");
-                SqlConnection conn = Repository.GetConnection();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@nombre", nombre.Trim().ToUpper());
-                bool existeRol = cmd.ExecuteScalar() != null;
-                cmd.Dispose();
-                conn.Close();
-                conn.Dispose();
-                return existeRol;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Ocurrió un error al intentar validar el puerto", ex);
-            }
-        }
-
         public static void Edit(Rol rol)
         {
             var conn = Repository.GetConnection();
@@ -229,6 +209,26 @@ namespace FrbaCrucero.DAL.DAO
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error al intentar eliminar el puerto", ex);
+            }
+        }
+
+        private static bool ValidarExistenciaRol(string nombre)
+        {
+            try
+            {
+                string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_nombre LIKE @nombre");
+                SqlConnection conn = Repository.GetConnection();
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nombre", nombre.Trim().ToUpper());
+                bool existeRol = cmd.ExecuteScalar() != null;
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+                return existeRol;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar validar el puerto", ex);
             }
         }
     }

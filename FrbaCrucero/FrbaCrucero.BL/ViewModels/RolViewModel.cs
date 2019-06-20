@@ -42,6 +42,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public override void MapFromDomainObject(Rol o)
         {
+            this.IdRol = o.Cod_rol;
             this.Activo = o.Activo;
             this.Nombre = o.Nombre;
             this.Permisos = new BindingList<PermisoViewModel>();
