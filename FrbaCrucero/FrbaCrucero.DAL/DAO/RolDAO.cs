@@ -88,7 +88,7 @@ namespace FrbaCrucero.DAL.DAO
         public static List<Rol> GetAll()
         {
             var conn = Repository.GetConnection();
-            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_activo = 1");
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol");
             DataTable dataTable = new DataTable();
             SqlDataAdapter dataAdapter = new SqlDataAdapter(comando, conn);
             List<Rol> roles = new List<Rol>();
@@ -163,12 +163,14 @@ namespace FrbaCrucero.DAL.DAO
             try
             {
                 //Elimino los regitros de la tabla Permiso_Rol que tengan el rol_id a modificar
-                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_nombre = @nombre WHERE rol_codigo=@rol_id", conn);
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_nombre = @nombre, rol_activo = @activo WHERE rol_codigo=@rol_id", conn);
                 SqlCommand comando2 = new SqlCommand(@"DELETE TIRANDO_QUERIES.Permiso_Rol WHERE pr_rol_codigo=@rol_id", conn);
 
                 //updateo el nombre
                 comando.Parameters.AddWithValue("@rol_id", rol.Cod_rol);
                 comando.Parameters.AddWithValue("@nombre", rol.Nombre);
+                comando.Parameters.Add("@activo", SqlDbType.Bit);
+                comando.Parameters["@activo"].Value = rol.Activo;
                 comando.ExecuteNonQuery();
                 //elimino los registros existentes en Permiso_Rol
                 comando2.Parameters.AddWithValue("@rol_id", rol.Cod_rol);

@@ -37,6 +37,7 @@ namespace FrbaCrucero.UI.AbmRol
             if (dialogResult == DialogResult.Yes)
             {
                 RolDAO.Delete(id);
+                OnAddOrEditSuccess();
             }
         }
 
