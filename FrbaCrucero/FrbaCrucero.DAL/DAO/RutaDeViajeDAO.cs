@@ -194,10 +194,13 @@ namespace FrbaCrucero.DAL.DAO
                 comando.Parameters.AddWithValue("@codigoCrucero", idDropdown.Value);
             }
 
-            //ToDo
+            //Filtrar entre fechas. El primer item de la lista es DESDE, el segundo es HASTA
             if (fechasEntre != null && fechasEntre.Count > 0)
             {
-                //Filtrar entre fechas. El primer item de la lista es DESDE, el segundo es HASTA
+                comando.CommandText += "AND rv_fecha_salida BETWEEN @desde AND @hasta ";
+                comando.CommandText += "AND rv_fecha_llegada_estimada BETWEEN @desde AND @hasta ";
+                comando.Parameters.AddWithValue("@desde", (DateTime)fechasEntre[0]);
+                comando.Parameters.AddWithValue("@hasta", (DateTime)fechasEntre[1]);
             }
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter()
@@ -242,17 +245,31 @@ namespace FrbaCrucero.DAL.DAO
         public void Add(RutaDeViaje t)
         {
 
+            try
+            {
+                var conn = Repository.GetConnection();
+
+                //Inserto la ruta de viaje
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Ruta_Viaje(rv_recorrido,rv_crucero,rv_fecha_salida,rv_fecha_llegada_estimada) 
+                values(@recorrido,@crucero,@desde,@hasta_estimado)", conn);
+
+                comando.Parameters.AddWithValue("@crucero", t.Crucero);
+                comando.Parameters.AddWithValue("@recorrido", t.Recorrido);
+                comando.Parameters.AddWithValue("@desde", t.Fecha_Inicio);
+                comando.Parameters.AddWithValue("@hasta_estimado", t.Fecha_Fin_Estimada);
+                comando.ExecuteNonQuery();
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear la ruta de viaje", ex);
+            }
         }
 
-        public void Edit(RutaDeViaje t)
-        {
-
-        }
-
-        public void Delete(RutaDeViaje t)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Metodo llamado desde la vista de compra de pasajes
@@ -327,6 +344,11 @@ namespace FrbaCrucero.DAL.DAO
                 conn.Close();
                 conn.Dispose();
             }
+        }
+
+        public void Edit(RutaDeViaje rutaDeViaje)
+        {
+            throw new NotImplementedException();
         }
     }
 }
