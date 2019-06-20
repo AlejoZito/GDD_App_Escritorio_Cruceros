@@ -194,10 +194,13 @@ namespace FrbaCrucero.DAL.DAO
                 comando.Parameters.AddWithValue("@codigoCrucero", idDropdown.Value);
             }
 
-            //ToDo
+            //Filtrar entre fechas. El primer item de la lista es DESDE, el segundo es HASTA
             if (fechasEntre != null && fechasEntre.Count > 0)
             {
-                //Filtrar entre fechas. El primer item de la lista es DESDE, el segundo es HASTA
+                comando.CommandText += "AND rv_fecha_salida BETWEEN @desde AND @hasta ";
+                comando.CommandText += "AND rv_fecha_llegada_estimada BETWEEN @desde AND @hasta ";
+                comando.Parameters.AddWithValue("@desde", (DateTime)fechasEntre[0]);
+                comando.Parameters.AddWithValue("@hasta", (DateTime)fechasEntre[1]);
             }
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter()
