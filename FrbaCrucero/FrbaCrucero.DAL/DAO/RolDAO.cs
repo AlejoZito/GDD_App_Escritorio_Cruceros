@@ -188,16 +188,16 @@ namespace FrbaCrucero.DAL.DAO
         }
 
 
-        public static void Delete(Rol rol)
+        public static void Delete(int idRol)
         {
             var conn = Repository.GetConnection();
 
             try
             {
                 //Baja logica
-                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_activo = 0 WHERE pr_rol_codigo=@rol_id", conn);
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_activo = 0 WHERE rol_codigo=@rol_id", conn);
 
-                comando.Parameters.AddWithValue("@rol_id", rol.Cod_rol);
+                comando.Parameters.AddWithValue("@rol_id", idRol);
                 comando.ExecuteNonQuery();
 
                 comando.Dispose();

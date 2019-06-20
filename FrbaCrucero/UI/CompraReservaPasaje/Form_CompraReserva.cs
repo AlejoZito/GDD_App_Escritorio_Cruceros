@@ -68,7 +68,18 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
         {
             if (_ViewModel.IsValid())
             {
+                _ViewModel.CargarUsuario();
+                _ViewModel.ReservarPasaje();
 
+                string reservas = "";
+                foreach (Reserva reserva in _ViewModel.PasajesReservados)
+                {
+                    reservas += Environment.NewLine + "Cod. Reserva: " + reserva.Cod_Reserva + " - Cabina Tipo: " + reserva.Cabina.Tipo_Cabina.Detalle + " / Piso: " + reserva.Cabina.Piso + " / Num: " + reserva.Cabina.Numero;
+                }
+
+                string reservado = _ViewModel.PasajesReservados.Count.ToString() + " cabinas reservadas. " + Environment.NewLine;
+
+                MessageBox.Show(reservado + reservas, "¡Reservas realizadas!", MessageBoxButtons.OK);
             }
         }
 
