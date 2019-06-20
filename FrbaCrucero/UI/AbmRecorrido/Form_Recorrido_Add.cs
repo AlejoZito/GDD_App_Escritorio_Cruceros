@@ -53,11 +53,53 @@ namespace FrbaCrucero.UI.AbmRecorrido
             }
         }
 
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+            if (listTramos.SelectedItems == null || listTramos.SelectedItems.Count == 0)
+            {
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listTramos.SelectedItems)
+                {
+                    _ViewModel.SubirTramo(listItem.Text);
+                }
+            }
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+            if (listTramos.SelectedItems == null || listTramos.SelectedItems.Count == 0)
+            {
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listTramos.SelectedItems)
+                {
+                    _ViewModel.BajarTramo(listItem.Text);
+                }
+            }
+        }
+
         private void btnRecorridoAdd_Click(object sender, EventArgs e)
         {
-            RecorridoDAO.Add(_ViewModel.MapToDomainObject());
-            _OnAddSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                try
+                {
+                    _ViewModel.Add();
+                    _OnAddSuccess(_ViewModel);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
         }
     }
 }

@@ -13,8 +13,6 @@ namespace FrbaCrucero.DAL.DAO
     {
         public static void Add(Recorrido recorrido)
         {
-            ValidarTramos(recorrido.Tramos);
-
             try
             {
                 var conn = Repository.GetConnection();
@@ -36,14 +34,12 @@ namespace FrbaCrucero.DAL.DAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrió un error al intentar crear el puerto", ex);
+                throw new Exception("Ocurrió un error al intentar crear el recorrido", ex);
             }
         }
 
         public static void Edit(Recorrido recorridoModificado)
         {
-            ValidarTramos(recorridoModificado.Tramos);
-
             try
             {
                 TramoDAO.Edit(recorridoModificado.Tramos, recorridoModificado.Cod_Recorrido);
@@ -147,24 +143,6 @@ namespace FrbaCrucero.DAL.DAO
             catch (Exception ex) 
             {
                 throw new Exception("Ocurrió un error al intentar eliminar el recorrido", ex);
-            }
-        }
-
-        private static void ValidarTramos(IList<Tramo> tramos)
-        {
-            if (!tramos.Any())
-            {
-                throw new Exception("No se han seleccionado tramos");
-            }
-            else
-            {
-                foreach (Tramo tramo in tramos)
-                {
-                    if (tramo.Puerto_Desde.Cod_Puerto == tramo.Puerto_Hasta.Cod_Puerto)
-                    {
-                        throw new Exception("El puerto desde no puede ser el mismo que el puerto hasta");
-                    }
-                }
             }
         }
     }
