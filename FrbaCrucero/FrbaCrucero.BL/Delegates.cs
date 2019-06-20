@@ -12,4 +12,5 @@ namespace FrbaCrucero.BL
     public delegate void OnEditSuccessDelegate<T>(T t);
     public delegate void OnDeleteSuccessDelegate<T>(T t);
     public delegate void OnSuccessDelegate();
+    public delegate void OnSelectSemestreAnioDelegate(int semestre, int anio);
 }

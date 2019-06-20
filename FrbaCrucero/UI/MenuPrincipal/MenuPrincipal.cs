@@ -97,5 +97,10 @@ namespace FrbaCrucero
             GoToPage(new UI.AbmRol.Form_Rol_Index());
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GoToPage(new UI.ListadoEstadistico.ListadoEstadistico(), cachePage: false);
+        }
+
     }
 }

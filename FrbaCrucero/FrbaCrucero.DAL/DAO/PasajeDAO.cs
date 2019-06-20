@@ -123,22 +123,29 @@ namespace FrbaCrucero.DAL.DAO
         /// </summary>
         /// <returns></returns>
         public static string PagarReserva(
-            int idReserva,
+            string idReserva,
             int idMedioDePago)
         {
+            int codigoReserva;
+
+            if (!int.TryParse(idReserva, out codigoReserva))
+            {
+                throw new Exception("El código de reserva solo puede contener numeros");
+            }
+
             if (idMedioDePago == 0)
             {
                 throw new Exception("Falta seleccionar medio de pago");
             }
 
-            PasajeDAO.ValidarEstadoReserva(idReserva);
+            PasajeDAO.ValidarEstadoReserva(codigoReserva);
 
             try
             {
                 var conn = Repository.GetConnection();
                 SqlCommand cmd = new SqlCommand("TIRANDO_QUERIES.sp_pago_reserva", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@reserva_id", idReserva);
+                cmd.Parameters.AddWithValue("@reserva_id", codigoReserva);
                 cmd.Parameters.AddWithValue("@metodo_pago", idMedioDePago);
                 SqlParameter codigoPasaje = new SqlParameter();
                 codigoPasaje.Direction = ParameterDirection.ReturnValue;
@@ -160,8 +167,15 @@ namespace FrbaCrucero.DAL.DAO
         /// </summary>
         /// <returns></returns>
 
-        public static ReservaAPagar GetReservaAPagarByID(int idReserva)
+        public static ReservaAPagar GetReservaAPagarByID(string idReserva)
         {
+            int codigoReserva;
+
+            if (!int.TryParse(idReserva, out codigoReserva))
+            {
+                throw new Exception("El código de reserva solo puede contener numeros");
+            }
+
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT rese_precio AS precio, " +
                                                 "rv_fecha_salida AS fecha_salida, " +
@@ -185,13 +199,13 @@ namespace FrbaCrucero.DAL.DAO
                                            "JOIN [TIRANDO_QUERIES].Ruta_Viaje rv ON rese_ruta = rv.rv_codigo " +
                                            "JOIN [TIRANDO_QUERIES].Recorrido r ON rv.rv_recorrido = r.reco_codigo " +
                                            "JOIN [TIRANDO_QUERIES].Cliente c ON rese_cliente = c.clie_codigo " +
-                                           "WHERE rese_codigo = {0} AND reco_invalido <> 1", idReserva);
+                                           "WHERE rese_codigo = {0} AND reco_invalido <> 1", codigoReserva);
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
             try
             {
-                PasajeDAO.ValidarEstadoReserva(idReserva);
+                PasajeDAO.ValidarEstadoReserva(codigoReserva);
 
                 dataAdapter = new SqlDataAdapter(comando, conn);
                 dataTable = new DataTable();
