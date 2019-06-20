@@ -48,6 +48,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -185,6 +186,18 @@
     <Compile Include="UI\CompraReservaPasaje\Form_PasajeExitoso.Designer.cs">
       <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ListadoEstadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ListadoEstadistico\ListadoEstadistico_SemestreAnio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ListadoEstadistico\ListadoEstadistico_SemestreAnio.Designer.cs">
+      <DependentUpon>ListadoEstadistico_SemestreAnio.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\_Components\DatePickerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -246,12 +259,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\GeneracionViaje\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ListadoEstadistico\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Login\LoginAdministrador.cs">
@@ -333,6 +340,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CompraReservaPasaje\Form_PasajeExitoso.resx">
       <DependentUpon>Form_PasajeExitoso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ListadoEstadistico\ListadoEstadistico_SemestreAnio.resx">
+      <DependentUpon>ListadoEstadistico_SemestreAnio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\_Components\DatePickerControl.resx">
       <DependentUpon>DatePickerControl.cs</DependentUpon>
