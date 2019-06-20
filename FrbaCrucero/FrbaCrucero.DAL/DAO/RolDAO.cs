@@ -135,11 +135,10 @@ namespace FrbaCrucero.DAL.DAO
                 var conn = Repository.GetConnection();
 
                 //Inserto el rol y obtengo el ID
-                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Rol(rol_nombre) values(@nombre)", conn);
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Rol(rol_nombre) values(@nombre); " + "SELECT CAST(scope_identity() AS int)", conn);
 
                 rol.Nombre = rol.Nombre.Trim().ToUpper();
                 comando.Parameters.AddWithValue("@nombre", rol.Nombre);
-                comando.ExecuteNonQuery();
                 int idRol = Convert.ToInt32(comando.ExecuteScalar());
 
                 comando.Dispose();

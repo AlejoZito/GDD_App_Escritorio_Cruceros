@@ -33,7 +33,7 @@ namespace FrbaCrucero.UI.AbmRol
         }
         private void BindViewModel()
         {
-            tbNombre.DataBindings.Add("Text", _ViewModel, "IdRol", true, DataSourceUpdateMode.OnPropertyChanged);
+            tbNombre.DataBindings.Add("Text", _ViewModel, "Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
             listViewPermisos.SetDataBinding(_ViewModel.Permisos, "Nombre");
         }
 

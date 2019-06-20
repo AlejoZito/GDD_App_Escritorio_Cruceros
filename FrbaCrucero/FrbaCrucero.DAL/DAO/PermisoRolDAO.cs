@@ -21,7 +21,7 @@ namespace FrbaCrucero.DAL.DAO
                 foreach (var permiso in permisos)
                 {
                     comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Permiso_Rol(pr_rol_codigo,pr_perm_codigo) values(@idRol,@idPermiso)", conn);
-                    comando.Parameters.AddWithValue("@idPermiso",permiso);
+                    comando.Parameters.AddWithValue("@idPermiso",permiso.Cod_Permiso);
                     comando.Parameters.AddWithValue("@idRol", rol_id);
                     comando.ExecuteNonQuery();
                 }
