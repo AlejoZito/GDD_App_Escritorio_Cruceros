@@ -257,9 +257,9 @@ CREATE TABLE [TIRANDO_QUERIES].[Ruta_Viaje] (
 	[rv_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
 	[rv_recorrido] [NUMERIC] NOT NULL,
 	[rv_crucero] [NUMERIC] NOT NULL,
-	[rv_fecha_salida] DATETIME2(3),
-	[rv_fecha_llegada] DATETIME2(3),
-	[rv_fecha_llegada_estimada] DATETIME2(3),
+	[rv_fecha_salida] DATETIME2(3) NOT NULL,
+	[rv_fecha_llegada] DATETIME2(3) DEFAULT NULL,
+	[rv_fecha_llegada_estimada] DATETIME2(3) NOT NULL,
 	FOREIGN KEY (rv_recorrido) REFERENCES [TIRANDO_QUERIES].Recorrido(reco_codigo),
 	FOREIGN KEY (rv_crucero) REFERENCES [TIRANDO_QUERIES].Crucero(cruc_codigo)
 )

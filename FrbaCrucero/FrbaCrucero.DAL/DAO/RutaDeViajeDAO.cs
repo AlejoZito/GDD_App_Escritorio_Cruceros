@@ -242,17 +242,31 @@ namespace FrbaCrucero.DAL.DAO
         public void Add(RutaDeViaje t)
         {
 
+            try
+            {
+                var conn = Repository.GetConnection();
+
+                //Inserto la ruta de viaje
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Ruta_Viaje(rv_recorrido,rv_crucero,rv_fecha_salida,rv_fecha_llegada_estimada) 
+                values(@recorrido,@crucero,@desde,@hasta_estimado)", conn);
+
+                comando.Parameters.AddWithValue("@crucero", t.Crucero);
+                comando.Parameters.AddWithValue("@recorrido", t.Recorrido);
+                comando.Parameters.AddWithValue("@desde", t.Fecha_Inicio);
+                comando.Parameters.AddWithValue("@hasta_estimado", t.Fecha_Fin_Estimada);
+                comando.ExecuteNonQuery();
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear la ruta de viaje", ex);
+            }
         }
 
-        public void Edit(RutaDeViaje t)
-        {
-
-        }
-
-        public void Delete(RutaDeViaje t)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Metodo llamado desde la vista de compra de pasajes
