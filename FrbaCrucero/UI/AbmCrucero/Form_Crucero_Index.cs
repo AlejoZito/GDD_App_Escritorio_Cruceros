@@ -62,6 +62,8 @@ namespace FrbaCrucero.UI.AbmCrucero
                 }
             }
 
+            this.PopulateDataGridView();
+
         }
 
         public void OnAddOrEditSuccess()

@@ -67,6 +67,7 @@ IF OBJECT_ID('[TIRANDO_QUERIES].sp_esta_bloqueado_usuario') IS NOT NULL DROP PRO
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_actualizar_cliente;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_autenticar_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_pago_reserva') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo;
 GO
 
 --*************************************************************************************************************
@@ -84,6 +85,7 @@ GO
 
 IF OBJECT_ID('[TIRANDO_QUERIES].[trg_baja_recorrido_por_baja_puerto]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_bajaRecorridoPorBajaPuerto];
 IF OBJECT_ID('[TIRANDO_QUERIES].[trg_cancelar_pasajes_vigentes_por_baja_recorrido]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_cancelarPasajesVigentesPorBajaRecorrido];
+IF OBJECT_ID('[TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica]') IS NOT NULL DROP TRIGGER [TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica];
 GO
 
 
@@ -896,7 +898,28 @@ AS
 		END
 GO
 
-
+--*************************************************************************************************************
+-- CREACIÓN DE SP_ENCONTRAR_CRUCEROS_REEMPLAZO
+-- Devuelve todos los cruceros que son válidos para reemplazar a otro.
+--*************************************************************************************************************
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo(@crucero_a_reemplazar int)
+AS
+BEGIN
+	SELECT * FROM [TIRANDO_QUERIES].[Crucero] C
+	WHERE C.cruc_codigo NOT IN (
+		SELECT V2.rv_crucero
+		FROM [TIRANDO_QUERIES].[Ruta_Viaje] V1, [TIRANDO_QUERIES].[Ruta_Viaje] V2
+		WHERE
+			V1.rv_crucero = @crucero_a_reemplazar AND
+			V1.rv_fecha_llegada IS NULL AND
+			V2.rv_fecha_llegada IS NULL AND
+			(V1.[rv_fecha_salida] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada] OR
+			V1.[rv_fecha_llegada_estimada] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada])
+		) AND
+		C.cruc_activo = 1
+	ORDER BY C.cruc_codigo;
+END
+GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
@@ -974,6 +997,40 @@ DEALLOCATE cursor_puerto
 END
 GO
 
+
+--*************************************************************************************************************
+-- CREACION TRG_QUITAR_ROL_DE_USUARIO_POR_BAJA_LOGICA
+-- Cuando hacemos una baja lógica de un rol, elimino de la tabla Rol_Usuario todas las asignaciones existentes
+--*************************************************************************************************************
+
+CREATE TRIGGER [TIRANDO_QUERIES].[trg_quitar_rol_de_usuario_por_baja_logica] ON [TIRANDO_QUERIES].[Rol] AFTER UPDATE
+AS
+BEGIN
+	DECLARE cursor_rol CURSOR FOR
+	SELECT i.rol_codigo FROM inserted i
+	JOIN deleted d ON i.rol_codigo = d.rol_codigo
+	WHERE i.rol_activo = 0 AND d.rol_activo = 1
+	--Hago el JOIN para ver que cambio el estado y solo asi pegarle a la base solo cuando es necesario
+	
+	OPEN cursor_rol
+	DECLARE @rol_id NUMERIC
+	
+	FETCH cursor_recorrido INTO @rol_id
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM [TIRANDO_QUERIES].Rol_Usuario
+		WHERE ru_rol_codigo = @rol_id
+		
+		FETCH cursor_rol INTO @rol_id
+	END
+
+CLOSE cursor_rol
+DEALLOCATE cursor_rol
+END
+GO
+
+
 --*************************************************************************************************************
 --*************************************************************************************************************
 -- DATOS DUMMY PARA TEST
@@ -983,7 +1040,26 @@ GO
 INSERT INTO [TIRANDO_QUERIES].[Ruta_Viaje](rv_recorrido, rv_crucero, [rv_fecha_salida], [rv_fecha_llegada_estimada])
 VALUES(43820882, 23, '2019-07-25 09:00:00.000', '2019-08-25 09:00:00.000');
 GO
-
 INSERT INTO [TIRANDO_QUERIES].[Pasaje]([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta])
 VALUES(400, 4, 155985, 4, 5, 4957);
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 23, '2019-04-25 03:00:00.000', '2019-04-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-02-25 03:00:00.000', '2019-02-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 1, '2019-07-25 03:00:00.000', '2019-07-25 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 2, '2019-08-25 8:00:00.000', '2019-09-26 10:00:00.000')
+GO
+INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
+([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
+VALUES (43820882, 3, '2019-07-24 03:00:00.000', '2019-07-24 10:00:00.000')
 GO

@@ -121,5 +121,115 @@ namespace FrbaCrucero.DAL.DAO
                 throw new Exception("Ocurrió un error al listar los roles", ex);
             }
         }
+
+        public static void Add(Rol rol)
+        {
+
+            if (ValidarExistenciaRol(rol.Nombre))
+            {
+                throw new Exception("El nombre de rol ya existe");
+            }
+
+            try
+            {
+                var conn = Repository.GetConnection();
+
+                //Inserto el rol y obtengo el ID
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Rol(rol_nombre) values(@nombre)", conn);
+
+                rol.Nombre = rol.Nombre.Trim().ToUpper();
+                comando.Parameters.AddWithValue("@nombre", rol.Nombre);
+                comando.ExecuteNonQuery();
+                int idRol = Convert.ToInt32(comando.ExecuteScalar());
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                //Inserto los permisos en base al rol id
+                PermisoRolDAO.Add(rol.Permisos, idRol);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar crear el rol", ex);
+            }
+        }
+
+        private static bool ValidarExistenciaRol(string nombre)
+        {
+            try
+            {
+                string query = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Rol WHERE rol_nombre LIKE @nombre");
+                SqlConnection conn = Repository.GetConnection();
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nombre", nombre.Trim().ToUpper());
+                bool existeRol = cmd.ExecuteScalar() != null;
+                cmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+                return existeRol;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar validar el puerto", ex);
+            }
+        }
+
+        public static void Edit(Rol rol)
+        {
+            var conn = Repository.GetConnection();
+            rol.Nombre = rol.Nombre.Trim().ToUpper();
+
+            try
+            {
+                //Elimino los regitros de la tabla Permiso_Rol que tengan el rol_id a modificar
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_nombre = @nombre WHERE rol_codigo=@rol_id", conn);
+                SqlCommand comando2 = new SqlCommand(@"DELETE TIRANDO_QUERIES.Permiso_Rol WHERE pr_rol_codigo=@rol_id", conn);
+
+                //updateo el nombre
+                comando.Parameters.AddWithValue("@rol_id", rol.Cod_rol);
+                comando.Parameters.AddWithValue("@nombre", rol.Nombre);
+                comando.ExecuteNonQuery();
+                //elimino los registros existentes en Permiso_Rol
+                comando2.Parameters.AddWithValue("@rol_id", rol.Cod_rol);
+                comando2.ExecuteNonQuery();
+
+                comando2.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                //Inserto en la tabla los valores nuevos
+                PermisoRolDAO.Add(rol.Permisos, rol.Cod_rol);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar modificar el puerto", ex);
+            }
+        }
+
+
+        public static void Delete(Rol rol)
+        {
+            var conn = Repository.GetConnection();
+
+            try
+            {
+                //Baja logica
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Rol SET rol_activo = 0 WHERE pr_rol_codigo=@rol_id", conn);
+
+                comando.Parameters.AddWithValue("@rol_id", rol.Cod_rol);
+                comando.ExecuteNonQuery();
+
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar eliminar el puerto", ex);
+            }
+        }
     }
 }
