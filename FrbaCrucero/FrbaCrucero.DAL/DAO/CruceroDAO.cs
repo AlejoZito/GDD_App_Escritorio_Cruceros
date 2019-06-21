@@ -452,5 +452,46 @@ namespace FrbaCrucero.DAL.DAO
             }
 
         }
+
+        public static Crucero GetByIDSinCabinas(int id)
+        {
+            var conn = Repository.GetConnection();
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Crucero WHERE cruc_codigo = {0}", id);
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+
+                DataRow registroCrucero = dataTable.Rows[0];
+
+                var idCrucero = int.Parse(registroCrucero["cruc_codigo"].ToString());
+                var idModelo = int.Parse(registroCrucero["cruc_modelo"].ToString());
+                var idFabricante = int.Parse(registroCrucero["cruc_fabricante"].ToString());
+
+                var crucero = new Crucero
+                {
+                    Cod_Crucero = idCrucero,
+                    Activo = bool.Parse(registroCrucero["cruc_activo"].ToString()),
+                    Identificador = registroCrucero["cruc_identificador"].ToString(),
+                    Modelo_Crucero = ModeloCruceroDAO.GetByID(idModelo),
+                    Cabinas = new List<Cabina>(),//CabinaDAO.GetAllForId(idCrucero),
+                    Fabricante = FabricanteDAO.GetByID(idFabricante)
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return crucero;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener el crucero", ex);
+            }
+        }
     }
 }

@@ -55,7 +55,8 @@ namespace FrbaCrucero.BL.ViewModels
 
             return new Rol
             {
-                Activo = true,
+                Cod_rol = IdRol,
+                Activo = Activo == null ? true : Activo,
                 Nombre = this.Nombre,
                 Permisos = permisos
             };
@@ -110,6 +111,24 @@ namespace FrbaCrucero.BL.ViewModels
                 var permisoToAdd = this.Permisos.FirstOrDefault(x => x.Nombre == selectedValue);
                 this.IdsPermisosSeleccionados.Add(permisoToAdd.IDPermiso);
             }
+        }
+
+        public void Edit()
+        {
+            IdsPermisosSeleccionados = Permisos.Select(x => x.IDPermiso).ToList();
+            RolDAO.Edit(this.MapToDomainObject());
+        }
+
+        public bool IsValidEdit()
+        {
+            ErrorMessage = "";
+
+            if (string.IsNullOrWhiteSpace(Nombre))
+                ErrorMessage += "Debes agregar un nombre al rol. " + System.Environment.NewLine;
+            if (Permisos == null || Permisos.Count == 0)
+                ErrorMessage += "Debes seleccionar algún permiso. " + System.Environment.NewLine;
+            //If error message is empty, object is valid
+            return string.IsNullOrEmpty(ErrorMessage);
         }
     }
 }

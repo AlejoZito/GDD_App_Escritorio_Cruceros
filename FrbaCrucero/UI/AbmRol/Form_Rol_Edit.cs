@@ -32,6 +32,60 @@ namespace FrbaCrucero.UI.AbmRol
         }
         private void BindViewModel()
         {
+            tbNombreRol.DataBindings.Add("Text", _ViewModel, "Nombre", true, DataSourceUpdateMode.OnPropertyChanged);
+            checkbox_activo.DataBindings.Add("Checked", _ViewModel, "Activo", true, DataSourceUpdateMode.OnPropertyChanged);
+            listPermisos.SetDataBinding(_ViewModel.Permisos, "Nombre");
+        }
+
+        private void btn_permisoDelete_Click(object sender, EventArgs e)
+        {
+            if (listPermisos.SelectedItems == null || listPermisos.SelectedItems.Count == 0)
+            {
+            }
+            else
+            {
+                foreach (ListViewItem listItem in listPermisos.SelectedItems)
+                {
+                    var permisoToRemove = _ViewModel.Permisos.FirstOrDefault(x => x.Nombre == listItem.Text);
+                    _ViewModel.Permisos.Remove(permisoToRemove);
+                }
+            }
+        }
+
+        private void btn_permisoAdd_Click(object sender, EventArgs e)
+        {
+            Program.Navigation.PopUpPage(new Form_Permiso_Add(
+                    onAddSuccess: (rol) =>
+                    {
+                        foreach (var permiso in rol.Permisos)
+                        {
+                            if (_ViewModel.Permisos.FirstOrDefault(x => x.IDPermiso == permiso.IDPermiso) == null)
+                            {
+                                _ViewModel.Permisos.Add(permiso);
+                            }
+                        }
+                    }));
+        }
+
+        private void btnRolEdit_Click(object sender, EventArgs e)
+        {
+            if (_ViewModel.IsValidEdit())
+            {
+                try
+                {
+                    _ViewModel.Edit();
+                    _OnEditSuccess(_ViewModel);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage);
+            }
         }
     }
 }

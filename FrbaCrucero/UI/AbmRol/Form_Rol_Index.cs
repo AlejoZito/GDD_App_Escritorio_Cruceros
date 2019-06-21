@@ -26,9 +26,19 @@ namespace FrbaCrucero.UI.AbmRol
                     onEditSuccess: (c) => this.OnAddOrEditSuccess(),
                     idRol: id));
 
-            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+            _OnClickDelete = (id) => BajaRol(id);
 
             Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { });
+        }
+
+        private void BajaRol(int id)
+        {
+            DialogResult dialogResult = MessageBox.Show(String.Format("¿Estás seguro que querés borrar el rol con id: {0}.?", id), "Baja de Rol", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                RolDAO.Delete(id);
+                OnAddOrEditSuccess();
+            }
         }
 
         public void OnAddOrEditSuccess()
