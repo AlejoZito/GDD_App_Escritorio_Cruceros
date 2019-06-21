@@ -290,16 +290,23 @@ namespace FrbaCrucero.DAL.DAO
                                                 "    Tramo_DESTINO.tram_puerto_hasta, " +
                                                 "    Ruta.rv_crucero rv_crucero " +
                                                 "FROM [TIRANDO_QUERIES].Ruta_Viaje Ruta, [TIRANDO_QUERIES].Tramo Tramo_INICIAL, " +
-                                                " [TIRANDO_QUERIES].Tramo Tramo_DESTINO, [TIRANDO_QUERIES].Recorrido Recorridos " +
-                                                "WHERE  " +
+                                                " [TIRANDO_QUERIES].Tramo Tramo_DESTINO, [TIRANDO_QUERIES].Recorrido Recorridos, " +
+                                                " [TIRANDO_QUERIES].Crucero Crucero " +
+                                                "WHERE " +
                                                 "   CONVERT(VARCHAR(10), Ruta.rv_fecha_salida, 111) = CONVERT(VARCHAR(10), @fecha_salida, 111) AND " +
                                                 "   Ruta.rv_recorrido = Recorridos.reco_codigo AND " +
                                                 "   Recorridos.reco_activo = 1 AND " +
+                                                "   Crucero.cruc_codigo = Ruta.rv_crucero AND " +
+                                                "   Crucero.cruc_activo = 1 AND " +
                                                 "   Tramo_INICIAL.tram_recorrido = Ruta.rv_recorrido AND " +
                                                 "   Tramo_DESTINO.tram_recorrido = Ruta.rv_recorrido AND " +
                                                 "	Tramo_INICIAL.tram_orden = 1 AND " +
                                                 "	Tramo_INICIAL.tram_puerto_desde = @puerto_desde AND " +
-                                                "	Tramo_DESTINO.tram_puerto_hasta = @puerto_destino ", conn);
+                                                "	Tramo_DESTINO.tram_puerto_hasta = @puerto_destino AND " +
+                                                "   ruta.rv_codigo NOT IN (SELECT DISTINCT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] Ruta " +
+                                                "        LEFT JOIN  [TIRANDO_QUERIES].Crucero Crucero ON Ruta.rv_crucero = Crucero.cruc_codigo " +
+                                                "        JOIN [TIRANDO_QUERIES].Mantenimiento M ON M.mant_crucero = Crucero.cruc_codigo " +
+                                                "        WHERE M.mant_fecha_hasta > (SELECT getdate()) AND M.mant_fecha_hasta > Ruta.rv_fecha_salida)", conn);
 
             DataTable dataTable = new DataTable();
             comando.Parameters.AddWithValue("@fecha_salida", fechaPartida);
