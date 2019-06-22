@@ -56,7 +56,8 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static List<RutaDeViaje> GetAllByIDCrucero(int idCrucero) {
+        public static List<RutaDeViaje> GetAllByIDCrucero(int idCrucero)
+        {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje WHERE rv_crucero = {0} AND rv_fecha_llegada IS NULL", idCrucero);
             DataTable dataTable;
@@ -168,10 +169,35 @@ namespace FrbaCrucero.DAL.DAO
         public List<RutaDeViaje> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown, List<DateTime> fechasEntre)
         {
             var conn = Repository.GetConnection();
-            SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje " +
-                                                "join TIRANDO_QUERIES.Crucero on rv_crucero = cruc_codigo " +
-                                                "join TIRANDO_QUERIES.Modelo_Crucero on cruc_modelo = mc_codigo " +
-                                                "where 1=1 ", conn);
+            //SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje " +
+            //                                    "join TIRANDO_QUERIES.Crucero on rv_crucero = cruc_codigo " +
+            //                                    "join TIRANDO_QUERIES.Modelo_Crucero on cruc_modelo = mc_codigo " +
+            //                                    "where 1=1 ", conn);
+
+            SqlCommand comando = new SqlCommand(@"SELECT rv_codigo,rv_fecha_salida,rv_fecha_llegada,rv_fecha_llegada_estimada, " +
+                                                "rv_crucero,cruc_identificador,mc_detalle,rv_recorrido,  " +
+                //Traigo el puerto desde
+                                                "(SELECT p1.puer_nombre FROM [TIRANDO_QUERIES].Tramo t " +
+                                                "JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde " +
+                                                "JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta " +
+                                                "WHERE r.rv_recorrido = t.tram_recorrido " +
+                                                "AND t.tram_orden = 1 " +
+                                                ") AS puerto_inicial, " +
+                //Traigo el puerto hasta
+                                                "(SELECT p2.puer_nombre FROM [TIRANDO_QUERIES].Tramo t " +
+                                                "JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde " +
+                                                "JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta " +
+                                                "WHERE r.rv_recorrido = t.tram_recorrido " +
+                                                "AND t.tram_orden = (SELECT MAX(t2.tram_orden) FROM [TIRANDO_QUERIES].Tramo  " +
+                                                "t2 WHERE t.tram_recorrido = r.rv_recorrido) " +
+                                                ") AS puerto_final " +
+                                                " " +
+                                                "FROM [TIRANDO_QUERIES].Ruta_Viaje r " +
+                                                "JOIN [TIRANDO_QUERIES].Crucero c ON r.rv_crucero = c.cruc_codigo " +
+                                                "JOIN [TIRANDO_QUERIES].Recorrido e ON r.rv_recorrido = e.reco_codigo " +
+                                                "JOIN [TIRANDO_QUERIES].Modelo_Crucero mc ON mc.mc_codigo = c.cruc_modelo " +
+                                                "WHERE e.reco_invalido <> 1 ", conn);
+
             DataTable dataTable = new DataTable();
 
             if (!string.IsNullOrWhiteSpace(likeFilter))
@@ -219,11 +245,25 @@ namespace FrbaCrucero.DAL.DAO
                     var rutaDeViaje = new RutaDeViaje()
                     {
                         Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
-                        Crucero = CruceroDAO.GetByIDSinCabinas(int.Parse(fila["rv_crucero"].ToString())),
+                        Crucero = new Crucero()
+                        {
+                            Cod_Crucero = int.Parse(fila["rv_crucero"].ToString()),
+                            Identificador = fila["cruc_identificador"].ToString(),
+                        },
+                        //CruceroDAO.GetByIDSinCabinas(int.Parse(fila["rv_crucero"].ToString())),
                         Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
                         Fecha_Fin = fila["rv_fecha_llegada"] is DBNull ? null : (DateTime?)fila["rv_fecha_llegada"],
                         Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
-                        Recorrido = new Recorrido()//RecorridoDAO.GetByID(int.Parse(fila["rv_recorrido"].ToString()))
+                        Recorrido = new Recorrido()
+                        {
+                            Cod_Recorrido = int.Parse(fila["rv_recorrido"].ToString()),
+                            Tramos = new List<Tramo>(){
+                                new Tramo(){
+                                    Puerto_Desde = new Puerto(){Cod_Puerto = 0, Nombre = fila["puerto_inicial"].ToString()},
+                                    Puerto_Hasta = new Puerto(){Cod_Puerto = 0, Nombre = fila["puerto_final"].ToString()},
+                                    }
+                            }
+                        }
                     };
 
                     recorridos.Add(rutaDeViaje);
@@ -253,8 +293,8 @@ namespace FrbaCrucero.DAL.DAO
                 SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Ruta_Viaje(rv_recorrido,rv_crucero,rv_fecha_salida,rv_fecha_llegada_estimada) 
                 values(@recorrido,@crucero,@desde,@hasta_estimado)", conn);
 
-                comando.Parameters.AddWithValue("@crucero", t.Crucero);
-                comando.Parameters.AddWithValue("@recorrido", t.Recorrido);
+                comando.Parameters.AddWithValue("@crucero", t.Crucero.Cod_Crucero);
+                comando.Parameters.AddWithValue("@recorrido", t.Recorrido.Cod_Recorrido);
                 comando.Parameters.AddWithValue("@desde", t.Fecha_Inicio);
                 comando.Parameters.AddWithValue("@hasta_estimado", t.Fecha_Fin_Estimada);
                 comando.ExecuteNonQuery();

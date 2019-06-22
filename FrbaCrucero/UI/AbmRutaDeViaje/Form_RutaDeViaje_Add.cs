@@ -51,8 +51,16 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
         {
             if (_ViewModel.IsValid())
             {
-                _ViewModel.Add();
-                _OnAddSuccess(_ViewModel);
+                try
+                {
+                    _ViewModel.Add();
+                    _OnAddSuccess(_ViewModel);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                
                 this.Close();
             }
             else
