@@ -197,15 +197,15 @@ namespace FrbaCrucero.UI
             #region Action buttons
             DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
             btnColumn1.Name = "colEdit";
-            btnColumn1.HeaderText = "Edit";
-            btnColumn1.Text = "editing";
+            btnColumn1.HeaderText = "Editar";
+            btnColumn1.Text = "Editar";
             btnColumn1.UseColumnTextForButtonValue = true;
             btnColumn1.CellTemplate.Style.BackColor = Color.GreenYellow;
 
             DataGridViewButtonColumn btnColumn2 = new DataGridViewButtonColumn();
             btnColumn2.Name = "colDelete";
-            btnColumn2.HeaderText = "Delete";
-            btnColumn2.Text = "deleting";
+            btnColumn2.HeaderText = "Borrar";
+            btnColumn2.Text = "Borrar";
             btnColumn2.UseColumnTextForButtonValue = true;
             btnColumn2.CellTemplate.Style.BackColor = Color.Orange;
 
