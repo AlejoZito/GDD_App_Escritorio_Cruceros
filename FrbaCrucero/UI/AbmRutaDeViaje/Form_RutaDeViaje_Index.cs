@@ -13,19 +13,19 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
     class Form_RutaDeViaje_Index : Form_Base_Index<RutaDeViajeViewModel, RutaDeViaje>
     {
         public Form_RutaDeViaje_Index()
-            : base()
+            : base(showEditButton: false, showDeleteButton: false)
         {
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));
 
-            _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Edit(
-                    onEditSuccess: (c) => this.OnAddOrEditSuccess(),
-                    idRecorrido: id));
+            //_OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Edit(
+            //        onEditSuccess: (c) => this.OnAddOrEditSuccess(),
+            //        idRecorrido: id));
 
-            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+            //_OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
 
             Filters = new FiltersViewModel(
-                dropdownOptions: CruceroDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Crucero, x.Identificador)).ToList(),
+                dropdownOptions: CruceroDAO.GetAll().Select(x => new KeyValuePair<int, string>(x.Cod_Crucero, x.Identificador)).ToList(),
                 exactFilter: "Cód. de Ruta",
                 likeFilter: "*",
                 dropdownFilter: "Cruceros",

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmRecorrido
 {
@@ -22,12 +23,34 @@ namespace FrbaCrucero.UI.AbmRecorrido
                     onEditSuccess: (c) => this.OnAddOrEditSuccess(),
                     idRecorrido: id));
 
-            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+            _OnClickDelete = (id) => HandleDelete(id);
 
             Filters = new FiltersViewModel(
-                new List<KeyValuePair<int, string>>() { },
+                PuertoDAO.GetAll().Select(x=> new KeyValuePair<int, string>(x.Cod_Puerto, x.Nombre)).ToList(),
                 exactFilter: "Cód. de Recorrido",
-                likeFilter: "Puerto Desde/Hasta");
+                likeFilter: "Puerto Desde/Hasta *",
+                dropdownFilter: "Puerto Desde/Hasta");
+        }
+
+        private void HandleDelete(int id)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show("¿Desea eliminar el puerto?", "Eliminar", MessageBoxButtons.YesNo);
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    RecorridoDAO.Delete(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                this.PopulateDataGridView();
+            }
         }
 
         public void OnAddOrEditSuccess()

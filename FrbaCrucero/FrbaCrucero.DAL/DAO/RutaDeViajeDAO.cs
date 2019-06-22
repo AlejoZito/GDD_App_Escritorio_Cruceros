@@ -357,5 +357,54 @@ namespace FrbaCrucero.DAL.DAO
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// No incluye cruceros o recorridos en la busqueda retornada
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal static List<RutaDeViaje> GetAllByIDRecorrido(int id)
+        {
+            var conn = Repository.GetConnection();
+            string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Ruta_Viaje WHERE rv_recorrido = {0}", id);
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando, conn);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<RutaDeViaje> recorridos = new List<RutaDeViaje>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    var rutaDeViaje = new RutaDeViaje()
+                    {
+                        Cod_Ruta = int.Parse(fila["rv_codigo"].ToString()),
+                        Crucero = null,
+                        Fecha_Inicio = (DateTime)fila["rv_fecha_salida"],
+                        Fecha_Fin = default(DateTime),
+                        Fecha_Fin_Estimada = (DateTime)fila["rv_fecha_llegada_estimada"],
+                        Recorrido = null
+                    };
+
+                    recorridos.Add(rutaDeViaje);
+                };
+
+                return recorridos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los recorridos", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
     }
 }

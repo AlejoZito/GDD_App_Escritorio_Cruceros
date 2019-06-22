@@ -154,8 +154,10 @@ namespace FrbaCrucero.DAL.DAO
 
             if (idDropdown != null && idDropdown != 0)
             {
-                comando.CommandText += "AND puer_codigo = @codigoPuerto ";
-                comando.Parameters.AddWithValue("@codigoPuerto", idDropdown.Value);
+                //Si es activo, idDropdown viene con "2", si es inactivo con "1"
+
+                comando.CommandText += "AND puer_activo = @puertoActivo ";
+                comando.Parameters.AddWithValue("@puertoActivo", idDropdown.Value - 1);
             }
 
             try
@@ -190,7 +192,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static Puerto GetByID(int id) 
+        public static Puerto GetByID(int id)
         {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Puerto WHERE puer_codigo = {0}", id);
@@ -244,6 +246,56 @@ namespace FrbaCrucero.DAL.DAO
             {
                 throw new Exception("Ocurrió un error al intentar validar el puerto", ex);
             }
+        }
+
+        public static void Delete(int id)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = null;
+
+            try
+            {
+                if (PuertoEstaEnUso(id))
+                {
+                    //Baja logica
+                    comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Puerto SET puer_activo = 0 WHERE puer_codigo=@id", conn);
+
+                    comando.Parameters.AddWithValue("@id", id);
+                    comando.ExecuteNonQuery();
+
+                    throw new Exception("El puerto es parte de un recorrido, no puede ser eliminado. El mismo fue desactivado. ");
+                }
+                else
+                {
+                    try
+                    {
+                        comando = new SqlCommand(@"DELETE TIRANDO_QUERIES.Puerto WHERE puer_codigo=@id", conn);
+
+                        comando.Parameters.AddWithValue("@id", id);
+                        comando.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Ocurrió un error al intentar eliminar el puerto", ex);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                comando.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        private static bool PuertoEstaEnUso(int id)
+        {
+            List<Tramo> tramosUsandoElPuerto = TramoDAO.GetByIDPuerto(id);
+            return (tramosUsandoElPuerto != null && tramosUsandoElPuerto.Count > 0);
         }
     }
 }

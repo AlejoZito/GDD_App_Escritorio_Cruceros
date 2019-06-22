@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 namespace FrbaCrucero.UI.AbmPuerto
 {
     class Form_Puerto_Index : Form_Base_Index<PuertoViewModel, Puerto>
@@ -21,7 +21,37 @@ namespace FrbaCrucero.UI.AbmPuerto
                     onEditSuccess: () => this.OnAddOrEditSuccess(),
                     id: id));
 
-            _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
+            _OnClickDelete = (id) => HandleDelete(id);
+
+            Filters = new FiltersViewModel(
+                dropdownOptions: new List<KeyValuePair<int, string>>(){
+                    new KeyValuePair<int, string>(2, " Activo "),
+                    new KeyValuePair<int, string>(1, " Inactivo ")
+                },
+                exactFilter: "Cód. de Puerto",
+                likeFilter: "Cód o Nombre *",
+                dropdownFilter: "Estado");
+        }
+
+        private void HandleDelete(int id)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show("¿Desea eliminar el puerto?", "Eliminar", MessageBoxButtons.YesNo);
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    PuertoDAO.Delete(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                this.PopulateDataGridView();
+            }
         }
 
         public void OnAddOrEditSuccess()
@@ -31,7 +61,7 @@ namespace FrbaCrucero.UI.AbmPuerto
 
         protected override List<PuertoViewModel> GetData()
         {
-            return PuertoDAO.GetAllWithFilters(null, null, null).Select(x => new PuertoViewModel(x)).ToList();
+            return PuertoDAO.GetAllWithFilters(Filters.LikeFilter, Filters.ExactFilter, Filters.DropdownFilterSelectedOption).Select(x => new PuertoViewModel(x)).ToList();
         }
     }
 }

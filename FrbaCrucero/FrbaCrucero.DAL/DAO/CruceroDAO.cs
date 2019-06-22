@@ -493,5 +493,83 @@ namespace FrbaCrucero.DAL.DAO
                 throw new Exception("Ocurrió un error al intentar obtener el crucero", ex);
             }
         }
+
+        public static List<Crucero> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
+        {
+            DataTable dataTable = new DataTable();
+            SqlDataAdapter dataAdapter;
+
+            SqlConnection conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"select * from TIRANDO_QUERIES.Crucero " +
+                                                 "join TIRANDO_QUERIES.Modelo_Crucero on cruc_codigo = mc_codigo " +
+                                                 "join TIRANDO_QUERIES.Fabricante on cruc_fabricante = fabr_codigo " +
+                                                 "where cruc_activo = 1", conn);
+
+            if (!string.IsNullOrWhiteSpace(likeFilter))
+            {
+                //Nombre de fabricante, modelo o identificador de crucero
+                comando.CommandText += "AND (fabr_detalle like '%' + @likeParameter + '%' OR " +
+		                               "     mc_detalle like '%' + @likeParameter + '%' OR " +
+		                               "     cruc_identificador like '%' + @likeParameter + '%') ";
+                comando.Parameters.AddWithValue("@likeParameter", likeFilter);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exactFilter))
+            {
+                int codigoCrucero;
+                if (int.TryParse(exactFilter, out codigoCrucero))
+                {
+                    comando.CommandText += "AND (cruc_codigo = @exactFilter) ";
+                    comando.Parameters.AddWithValue("@exactFilter", codigoCrucero);
+                }
+                else
+                {
+                    throw new Exception("El filtro exacto solo admite codigos de crucero");
+                }
+            }
+
+            if (idDropdown != null && idDropdown != 0)
+            {
+                //Id de fabricante
+                comando.CommandText += "AND fabr_codigo = @idFabricante ";
+                comando.Parameters.AddWithValue("@idFabricante", idDropdown.Value);
+            }
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando);
+                dataAdapter.Fill(dataTable);
+                List<Crucero> cruceros = new List<Crucero>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idCrucero = int.Parse(fila["cruc_codigo"].ToString());
+                    var idFabricante = int.Parse(fila["cruc_fabricante"].ToString());
+                    var idModelo = int.Parse(fila["cruc_modelo"].ToString());
+
+                    var crucero = new Crucero
+                    {
+                        Cod_Crucero = idCrucero,
+                        Cabinas = CabinaDAO.GetAllForId(idCrucero),
+                        Identificador = fila["cruc_identificador"].ToString(),
+                        Fabricante = FabricanteDAO.GetByID(idFabricante),
+                        Modelo_Crucero = ModeloCruceroDAO.GetByID(idModelo),
+                        Activo = bool.Parse(fila["cruc_activo"].ToString())
+                    };
+
+                    cruceros.Add(crucero);
+                }
+
+                dataAdapter.Dispose();
+                conn.Dispose();
+                conn.Close();
+
+                return cruceros;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrio un error al intentar listar los puertos", ex);
+            }
+        }
     }
 }

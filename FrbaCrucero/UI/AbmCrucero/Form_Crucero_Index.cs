@@ -31,7 +31,11 @@ namespace FrbaCrucero.UI.AbmCrucero
 
             _OnTableItemSelected = SeleccionarCrucero;
 
-            Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { },
+            Filters = new FiltersViewModel(
+                FabricanteDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Fabricante, x.Detalle)).ToList(),
+                exactFilter: "Cód. Crucero", 
+                likeFilter: "Fab., Mod. o Identificador *",
+                dropdownFilter: "Fabricante",
                 buttonA: new FilterButton("Mantenimiento", AbrirMantenimiento));
         }
 
@@ -74,7 +78,7 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         protected override List<CruceroViewModel> GetData()
         {
-            return CruceroDAO.GetAll().Select(x=> new CruceroViewModel(x)).ToList();
+            return CruceroDAO.GetAllWithFilters(Filters.LikeFilter, Filters.ExactFilter, Filters.DropdownFilterSelectedOption).Select(x=> new CruceroViewModel(x)).ToList();
         }
 
         public void SeleccionarCrucero(int id)

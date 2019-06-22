@@ -144,5 +144,55 @@ namespace FrbaCrucero.DAL.DAO
         {
             throw new NotImplementedException();
         }
+
+        public static List<Tramo> GetByIDPuerto(int idPuerto)
+        {
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter = null;
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"SELECT * FROM TIRANDO_QUERIES.Tramo WHERE tram_puerto_desde = @idPuerto OR tram_puerto_hasta = @idPuerto", conn);
+
+            try
+            {
+                comando.Parameters.Add("@idPuerto", SqlDbType.Int);
+                comando.Parameters["@idPuerto"].Value = idPuerto;
+
+                dataAdapter = new SqlDataAdapter(comando);
+                dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+                List<Tramo> tramos = new List<Tramo>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var codigoPuertoDesde = int.Parse(fila["tram_puerto_desde"].ToString());
+                    var codigoPuertoHasta = int.Parse(fila["tram_puerto_hasta"].ToString());
+
+                    var tramo = new Tramo
+                    {
+                        Orden = int.Parse(fila["tram_orden"].ToString()),
+                        Precio = decimal.Parse(fila["tram_precio"].ToString()),
+                        Puerto_Desde = PuertoDAO.GetByID(codigoPuertoDesde),
+                        Puerto_Hasta = PuertoDAO.GetByID(codigoPuertoHasta),
+                        IdRecorrido = int.Parse(fila["tram_recorrido"].ToString())
+                    };
+
+                    tramos.Add(tramo);
+                }
+
+
+                return tramos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrio un error al intentar listar los tramos", ex);
+            }
+            finally
+            {
+                dataAdapter.Dispose();
+                conn.Dispose();
+                conn.Close();
+            }
+        }
     }
 }

@@ -22,6 +22,10 @@ namespace FrbaCrucero.UI
         public OnButtonClickWithIDDelegate _OnClickEdit;
         public OnButtonClickWithIDDelegate _OnClickDelete;
         public OnButtonClickWithIDDelegate _OnTableItemSelected;
+
+        bool _ShowEditButton;
+        bool _ShowDeleteButton;
+
         private FiltersViewModel _Filters;
         protected FiltersViewModel Filters
         {
@@ -36,10 +40,12 @@ namespace FrbaCrucero.UI
                 dropdownFilter.ValueMember = "Key";
                 dropdownFilter.DataBindings.Add("SelectedValue", _Filters, "DropdownFilterSelectedOption", true, DataSourceUpdateMode.OnPropertyChanged);
                 labelFiltroDropdown.DataBindings.Add("Text", _Filters, "DropdownFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
+                labelFiltroDropdown.DataBindings.Add("Visible", _Filters, "DropdownFilterVisible", true, DataSourceUpdateMode.OnPropertyChanged);
+                dropdownFilter.DataBindings.Add("Visible", _Filters, "DropdownFilterVisible", true, DataSourceUpdateMode.OnPropertyChanged);
 
                 likeFilter.DataBindings.Add("Text", _Filters, "LikeFilter", true, DataSourceUpdateMode.OnPropertyChanged);
                 label_filtroLibre.DataBindings.Add("Text", _Filters, "LikeFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
-                
+
                 exactFilter.DataBindings.Add("Text", _Filters, "ExactFilter", true, DataSourceUpdateMode.OnPropertyChanged);
                 label_FiltroExacto.DataBindings.Add("Text", _Filters, "ExactFilterLabel", true, DataSourceUpdateMode.OnPropertyChanged);
 
@@ -54,13 +60,16 @@ namespace FrbaCrucero.UI
                 buttonA.DataBindings.Add("Visible", _Filters, "Button_A.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
 
                 buttonB.DataBindings.Add("Text", _Filters, "Button_B.Text", true, DataSourceUpdateMode.OnPropertyChanged);
-                buttonB.DataBindings.Add("Visible", _Filters, "Button_B.Visible", true, DataSourceUpdateMode.OnPropertyChanged);      
+                buttonB.DataBindings.Add("Visible", _Filters, "Button_B.Visible", true, DataSourceUpdateMode.OnPropertyChanged);
             }
         }
 
-        public Form_Base_Index()
+        public Form_Base_Index(bool showEditButton = true, bool showDeleteButton = true)
         {
             InitializeComponent();
+
+            _ShowEditButton = showEditButton;
+            _ShowDeleteButton = showDeleteButton;
 
             SetupDataGridView();
             //PopulateDataGridView(); //NO POPULARLA INICIALMENTE, SOLO AL PRESIONAR "BUSCAR"
@@ -195,22 +204,30 @@ namespace FrbaCrucero.UI
             }
 
             #region Action buttons
-            DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
-            btnColumn1.Name = "colEdit";
-            btnColumn1.HeaderText = "Editar";
-            btnColumn1.Text = "Editar";
-            btnColumn1.UseColumnTextForButtonValue = true;
-            btnColumn1.CellTemplate.Style.BackColor = Color.GreenYellow;
+            if (_ShowEditButton)
+            {
 
-            DataGridViewButtonColumn btnColumn2 = new DataGridViewButtonColumn();
-            btnColumn2.Name = "colDelete";
-            btnColumn2.HeaderText = "Borrar";
-            btnColumn2.Text = "Borrar";
-            btnColumn2.UseColumnTextForButtonValue = true;
-            btnColumn2.CellTemplate.Style.BackColor = Color.Orange;
+                DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
+                btnColumn1.Name = "colEdit";
+                btnColumn1.HeaderText = "Editar";
+                btnColumn1.Text = "Editar";
+                btnColumn1.UseColumnTextForButtonValue = true;
+                btnColumn1.CellTemplate.Style.BackColor = Color.GreenYellow;
 
-            indexDataGridView.Columns.Add(btnColumn1);
-            indexDataGridView.Columns.Add(btnColumn2);
+                indexDataGridView.Columns.Add(btnColumn1);
+            }
+
+            if (_ShowDeleteButton)
+            {
+                DataGridViewButtonColumn btnColumn2 = new DataGridViewButtonColumn();
+                btnColumn2.Name = "colDelete";
+                btnColumn2.HeaderText = "Borrar";
+                btnColumn2.Text = "Borrar";
+                btnColumn2.UseColumnTextForButtonValue = true;
+                btnColumn2.CellTemplate.Style.BackColor = Color.Orange;
+
+                indexDataGridView.Columns.Add(btnColumn2);
+            }
             #endregion
 
             indexDataGridView.SelectionMode =

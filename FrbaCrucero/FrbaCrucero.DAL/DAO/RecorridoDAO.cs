@@ -19,7 +19,7 @@ namespace FrbaCrucero.DAL.DAO
             SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Recorrido(reco_activo) VALUES(@activo); " +
                                                  "SELECT CAST(scope_identity() AS int)", conn);
             try
-            {                
+            {
                 recorrido.Activo = true;
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = recorrido.Activo;
@@ -42,7 +42,7 @@ namespace FrbaCrucero.DAL.DAO
         }
 
         public static void Edit(Recorrido recorridoModificado)
-        {            
+        {
             var conn = Repository.GetConnection();
             try
             {
@@ -176,7 +176,7 @@ namespace FrbaCrucero.DAL.DAO
         }
 
         public static Recorrido GetByID(int id)
-        {            
+        {
             var conn = Repository.GetConnection();
             string comando = string.Format(@"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_codigo = {0}", id);
             DataTable dataTable;
@@ -211,24 +211,50 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static void Delete(Recorrido recorrido)
-        {
+        public static void Delete(int id)
+        {            
+            var conn = Repository.GetConnection();
+            SqlCommand comando = null;
+
             try
             {
-                var conn = Repository.GetConnection();
-                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Recorrido SET reco_activo = 0 WHERE reco_codigo = @idRecorrido");
-                comando.Parameters.Add("@idRecorrido");
-                comando.Parameters["@idRecorrido"].Value = recorrido.Cod_Recorrido;
-                comando.ExecuteNonQuery();
+                if (RecorridoEstaEnUso(id))
+                {
+                    //BAJA LOGICA
+                    comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Recorrido set reco_activo = 0 WHERE reco_codigo = @idRecorrido ", conn);
 
+                    comando.Parameters.Add("@idRecorrido", SqlDbType.Int);
+                    comando.Parameters["@idRecorrido"].Value = id;
+
+                    comando.ExecuteNonQuery();
+
+                    throw new Exception("El recorrido está en uso y no puede ser eliminado. El mismo fue desactivado.");
+                }
+                else
+                {
+                    comando = new SqlCommand(@"DELETE TIRANDO_QUERIES.Tramo WHERE tram_recorrido = @idRecorrido
+                                               DELETE TIRANDO_QUERIES.Recorrido WHERE reco_codigo = @idRecorrido", conn);
+                    comando.Parameters.Add("@idRecorrido", SqlDbType.Int);
+                    comando.Parameters["@idRecorrido"].Value = id;
+                    comando.ExecuteNonQuery();
+                }
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally
+            {
+                comando.Dispose();
                 conn.Close();
                 conn.Dispose();
-                comando.Dispose();
             }
-            catch (Exception ex) 
-            {
-                throw new Exception("Ocurrió un error al intentar eliminar el recorrido", ex);
-            }
+        }
+
+        private static bool RecorridoEstaEnUso(int id)
+        {
+            List<RutaDeViaje> rutasDeViaje = RutaDeViajeDAO.GetAllByIDRecorrido(id);
+            return rutasDeViaje != null && rutasDeViaje.Count > 0;
         }
     }
 }
