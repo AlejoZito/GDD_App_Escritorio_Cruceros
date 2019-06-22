@@ -74,7 +74,7 @@ namespace FrbaCrucero.DAL.DAO
         public static List<Recorrido> GetAll()
         {
             var conn = Repository.GetConnection();
-            string comando = @"SELECT * FROM TIRANDO_QUERIES.Recorrido WHERE reco_activo = 1";
+            string comando = @"SELECT * FROM TIRANDO_QUERIES.Recorrido";
             DataTable dataTable;
             SqlDataAdapter dataAdapter;
 
@@ -83,6 +83,68 @@ namespace FrbaCrucero.DAL.DAO
                 dataAdapter = new SqlDataAdapter(comando, conn);
                 dataTable = new DataTable();
 
+                dataAdapter.Fill(dataTable);
+                List<Recorrido> recorridos = new List<Recorrido>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+                    var idRecorrido = int.Parse(fila["reco_codigo"].ToString());
+
+                    var recorrido = new Recorrido
+                    {
+                        Cod_Recorrido = idRecorrido,
+                        Activo = bool.Parse(fila["reco_activo"].ToString()),
+                        Tramos = TramoDAO.GetAllForID(idRecorrido)
+                    };
+
+                    recorridos.Add(recorrido);
+                }
+
+                return recorridos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los recorridos", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        public static List<Recorrido> GetAllWithFilters(string likeFilter, string exactFilter)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"SELECT r.* FROM TIRANDO_QUERIES.Recorrido r " +
+                                                "join TIRANDO_QUERIES.Tramo on r.reco_codigo = tram_recorrido " +
+                                                "join TIRANDO_QUERIES.Puerto p1 on tram_puerto_desde = p1.puer_codigo " +
+                                                "join TIRANDO_QUERIES.Puerto p2 on tram_puerto_hasta = p2.puer_codigo " +
+                                                "where 1=1 ", conn);
+            DataTable dataTable = new DataTable();
+
+            if (!string.IsNullOrWhiteSpace(likeFilter))
+            {
+                comando.CommandText += "AND (p1.puer_nombre like '%' + @likeParameter + '%' OR " +
+                                            "p2.puer_nombre like '%' + @likeParameter + '%') ";
+                comando.Parameters.AddWithValue("@likeParameter", likeFilter);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exactFilter))
+            {
+                comando.CommandText += "AND r.reco_codigo = @exactFilter ";
+                comando.Parameters.AddWithValue("@exactFilter", exactFilter);
+            }
+
+            comando.CommandText += "group by r.reco_codigo, r.reco_activo, r.reco_invalido";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
+            };
+
+            try
+            {
                 dataAdapter.Fill(dataTable);
                 List<Recorrido> recorridos = new List<Recorrido>();
 

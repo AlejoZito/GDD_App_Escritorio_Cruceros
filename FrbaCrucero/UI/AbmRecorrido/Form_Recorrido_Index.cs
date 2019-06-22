@@ -24,7 +24,10 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
             _OnClickDelete = (id) => System.Windows.Forms.MessageBox.Show("Borrando el id: " + id);
 
-            Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { });
+            Filters = new FiltersViewModel(
+                new List<KeyValuePair<int, string>>() { },
+                exactFilter: "Cód. de Recorrido",
+                likeFilter: "Puerto Desde/Hasta");
         }
 
         public void OnAddOrEditSuccess()
@@ -34,7 +37,9 @@ namespace FrbaCrucero.UI.AbmRecorrido
 
         protected override List<RecorridoViewModel> GetData()
         {
-            return RecorridoDAO.GetAll().Select(x => new RecorridoViewModel(x)).ToList();
+            return RecorridoDAO.GetAllWithFilters(
+                this.Filters.LikeFilter,
+                this.Filters.ExactFilter).Select(x => new RecorridoViewModel(x)).ToList();
         }
     }
 }

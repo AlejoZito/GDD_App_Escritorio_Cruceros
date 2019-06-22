@@ -31,6 +31,7 @@ namespace FrbaCrucero
         {
             this.button_AbmPuerto = new System.Windows.Forms.Button();
             this.Nav_Panel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnAbmRol = new System.Windows.Forms.Button();
             this.btnPagarReserva = new System.Windows.Forms.Button();
             this.btnPasaje = new System.Windows.Forms.Button();
@@ -41,7 +42,6 @@ namespace FrbaCrucero
             this.button_CerrarSesion = new System.Windows.Forms.Button();
             this.button_AbmCruceros = new System.Windows.Forms.Button();
             this.Content = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.Nav_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,6 +76,16 @@ namespace FrbaCrucero
             this.Nav_Panel.Name = "Nav_Panel";
             this.Nav_Panel.Size = new System.Drawing.Size(961, 48);
             this.Nav_Panel.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(596, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(71, 32);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Estadisticas";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnAbmRol
             // 
@@ -136,7 +146,7 @@ namespace FrbaCrucero
             this.UsernameLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.UsernameLabel.Location = new System.Drawing.Point(780, 11);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(0, 24);
+            this.UsernameLabel.Size = new System.Drawing.Size(0, 18);
             this.UsernameLabel.TabIndex = 4;
             // 
             // welcomeLabel
@@ -146,7 +156,7 @@ namespace FrbaCrucero
             this.welcomeLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.welcomeLabel.Location = new System.Drawing.Point(701, 11);
             this.welcomeLabel.Name = "welcomeLabel";
-            this.welcomeLabel.Size = new System.Drawing.Size(105, 24);
+            this.welcomeLabel.Size = new System.Drawing.Size(80, 18);
             this.welcomeLabel.TabIndex = 3;
             this.welcomeLabel.Text = "Bienvenido";
             // 
@@ -180,16 +190,6 @@ namespace FrbaCrucero
             this.Content.Name = "Content";
             this.Content.Size = new System.Drawing.Size(961, 556);
             this.Content.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(596, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 32);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Estadisticas";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MenuPrincipal
             // 
