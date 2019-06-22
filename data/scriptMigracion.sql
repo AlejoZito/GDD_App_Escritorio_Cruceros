@@ -132,7 +132,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Fabricante] (
 	[fabr_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[fabr_detalle] [NVARCHAR](255) NOT NULL
+	[fabr_detalle] [NVARCHAR](255) NOT NULL UNIQUE
 )
 GO
 
@@ -142,7 +142,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Modelo_Crucero] (
 	[mc_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[mc_detalle] [NVARCHAR](50) NOT NULL
+	[mc_detalle] [NVARCHAR](50) NOT NULL UNIQUE
 )
 GO
 
@@ -216,7 +216,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Puerto] (
 	[puer_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[puer_nombre] [NVARCHAR](255) NOT NULL,
+	[puer_nombre] [NVARCHAR](255) NOT NULL UNIQUE,
 	[puer_activo] BIT NOT NULL DEFAULT 1
 )
 GO
@@ -333,7 +333,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Usuario] (
 	[usua_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[usua_username] [NVARCHAR](255) NOT NULL,
+	[usua_username] [NVARCHAR](255) NOT NULL UNIQUE,
 	[usua_password] [NVARCHAR](255) NOT NULL,
 	[usua_login_fallidos] INT NOT NULL DEFAULT 0,
 	[usua_fecha_inhabilitacion] DATETIME2(3)
@@ -357,7 +357,7 @@ GO
 
 CREATE TABLE [TIRANDO_QUERIES].[Permiso] (
 	[perm_codigo] [NUMERIC] IDENTITY(1,1) PRIMARY KEY,
-	[perm_nombre] [NVARCHAR](255) NOT NULL,
+	[perm_nombre] [NVARCHAR](255) NOT NULL UNIQUE
 )
 GO
 
