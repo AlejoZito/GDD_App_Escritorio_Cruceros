@@ -63,14 +63,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.indexDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.indexDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.indexDataGridView.Location = new System.Drawing.Point(40, 209);
+            this.indexDataGridView.Location = new System.Drawing.Point(30, 170);
+            this.indexDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.indexDataGridView.MultiSelect = false;
             this.indexDataGridView.Name = "indexDataGridView";
             this.indexDataGridView.RowTemplate.Height = 24;
-            this.indexDataGridView.Size = new System.Drawing.Size(1200, 477);
+            this.indexDataGridView.Size = new System.Drawing.Size(900, 388);
             this.indexDataGridView.TabIndex = 2;
-            this.indexDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.indexDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.indexDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox1
             // 
@@ -85,18 +86,21 @@
             this.groupBox1.Controls.Add(this.exactFilter);
             this.groupBox1.Controls.Add(this.label_filtroLibre);
             this.groupBox1.Controls.Add(this.likeFilter);
-            this.groupBox1.Location = new System.Drawing.Point(40, 26);
+            this.groupBox1.Location = new System.Drawing.Point(30, 21);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1035, 156);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(776, 127);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
             // 
             // btnFiltroComodin
             // 
-            this.btnFiltroComodin.Location = new System.Drawing.Point(828, 67);
+            this.btnFiltroComodin.Location = new System.Drawing.Point(621, 54);
+            this.btnFiltroComodin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFiltroComodin.Name = "btnFiltroComodin";
-            this.btnFiltroComodin.Size = new System.Drawing.Size(109, 23);
+            this.btnFiltroComodin.Size = new System.Drawing.Size(82, 19);
             this.btnFiltroComodin.TabIndex = 8;
             this.btnFiltroComodin.Text = "Seleccionar";
             this.btnFiltroComodin.UseVisualStyleBackColor = true;
@@ -104,9 +108,10 @@
             // 
             // cleanFilters
             // 
-            this.cleanFilters.Location = new System.Drawing.Point(706, 104);
+            this.cleanFilters.Location = new System.Drawing.Point(530, 84);
+            this.cleanFilters.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cleanFilters.Name = "cleanFilters";
-            this.cleanFilters.Size = new System.Drawing.Size(152, 35);
+            this.cleanFilters.Size = new System.Drawing.Size(114, 28);
             this.cleanFilters.TabIndex = 5;
             this.cleanFilters.Text = "Limpiar";
             this.cleanFilters.UseVisualStyleBackColor = true;
@@ -114,18 +119,20 @@
             // 
             // labelFiltroComodin
             // 
-            this.labelFiltroComodin.Location = new System.Drawing.Point(483, 71);
+            this.labelFiltroComodin.Location = new System.Drawing.Point(362, 58);
+            this.labelFiltroComodin.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelFiltroComodin.Name = "labelFiltroComodin";
-            this.labelFiltroComodin.Size = new System.Drawing.Size(86, 17);
+            this.labelFiltroComodin.Size = new System.Drawing.Size(64, 14);
             this.labelFiltroComodin.TabIndex = 7;
             this.labelFiltroComodin.Text = "Filtro Comodin";
             this.labelFiltroComodin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // search
             // 
-            this.search.Location = new System.Drawing.Point(864, 104);
+            this.search.Location = new System.Drawing.Point(648, 84);
+            this.search.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(152, 36);
+            this.search.Size = new System.Drawing.Size(114, 29);
             this.search.TabIndex = 4;
             this.search.Text = "Buscar";
             this.search.UseVisualStyleBackColor = true;
@@ -134,17 +141,19 @@
             // filtroComodinValue
             // 
             this.filtroComodinValue.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.filtroComodinValue.Location = new System.Drawing.Point(587, 66);
+            this.filtroComodinValue.Location = new System.Drawing.Point(440, 54);
+            this.filtroComodinValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.filtroComodinValue.Name = "filtroComodinValue";
             this.filtroComodinValue.ReadOnly = true;
-            this.filtroComodinValue.Size = new System.Drawing.Size(235, 22);
+            this.filtroComodinValue.Size = new System.Drawing.Size(177, 20);
             this.filtroComodinValue.TabIndex = 6;
             // 
             // labelFiltroDropdown
             // 
-            this.labelFiltroDropdown.Location = new System.Drawing.Point(476, 36);
+            this.labelFiltroDropdown.Location = new System.Drawing.Point(357, 29);
+            this.labelFiltroDropdown.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelFiltroDropdown.Name = "labelFiltroDropdown";
-            this.labelFiltroDropdown.Size = new System.Drawing.Size(105, 17);
+            this.labelFiltroDropdown.Size = new System.Drawing.Size(79, 14);
             this.labelFiltroDropdown.TabIndex = 5;
             this.labelFiltroDropdown.Text = "Filtro dropdown";
             this.labelFiltroDropdown.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -152,42 +161,47 @@
             // dropdownFilter
             // 
             this.dropdownFilter.FormattingEnabled = true;
-            this.dropdownFilter.Location = new System.Drawing.Point(587, 36);
+            this.dropdownFilter.Location = new System.Drawing.Point(440, 29);
+            this.dropdownFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dropdownFilter.Name = "dropdownFilter";
-            this.dropdownFilter.Size = new System.Drawing.Size(350, 24);
+            this.dropdownFilter.Size = new System.Drawing.Size(264, 21);
             this.dropdownFilter.TabIndex = 4;
             // 
             // label_FiltroExacto
             // 
-            this.label_FiltroExacto.Location = new System.Drawing.Point(107, 67);
+            this.label_FiltroExacto.Location = new System.Drawing.Point(7, 56);
+            this.label_FiltroExacto.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_FiltroExacto.Name = "label_FiltroExacto";
-            this.label_FiltroExacto.Size = new System.Drawing.Size(84, 17);
+            this.label_FiltroExacto.Size = new System.Drawing.Size(137, 16);
             this.label_FiltroExacto.TabIndex = 3;
             this.label_FiltroExacto.Text = "Filtro exacto";
             this.label_FiltroExacto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // exactFilter
             // 
-            this.exactFilter.Location = new System.Drawing.Point(197, 67);
+            this.exactFilter.Location = new System.Drawing.Point(148, 54);
+            this.exactFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.exactFilter.Name = "exactFilter";
-            this.exactFilter.Size = new System.Drawing.Size(259, 22);
+            this.exactFilter.Size = new System.Drawing.Size(195, 20);
             this.exactFilter.TabIndex = 2;
             this.exactFilter.Tag = "";
             // 
             // label_filtroLibre
             // 
-            this.label_filtroLibre.Location = new System.Drawing.Point(121, 36);
+            this.label_filtroLibre.Location = new System.Drawing.Point(4, 31);
+            this.label_filtroLibre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_filtroLibre.Name = "label_filtroLibre";
-            this.label_filtroLibre.Size = new System.Drawing.Size(70, 17);
+            this.label_filtroLibre.Size = new System.Drawing.Size(140, 18);
             this.label_filtroLibre.TabIndex = 1;
             this.label_filtroLibre.Text = "Filtro libre";
             this.label_filtroLibre.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // likeFilter
             // 
-            this.likeFilter.Location = new System.Drawing.Point(197, 36);
+            this.likeFilter.Location = new System.Drawing.Point(148, 29);
+            this.likeFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.likeFilter.Name = "likeFilter";
-            this.likeFilter.Size = new System.Drawing.Size(259, 22);
+            this.likeFilter.Size = new System.Drawing.Size(195, 20);
             this.likeFilter.TabIndex = 0;
             this.likeFilter.Tag = "";
             this.likeFilterTooltip.SetToolTip(this.likeFilter, "asd");
@@ -196,9 +210,10 @@
             // 
             this.Agregar.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.Agregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Agregar.Location = new System.Drawing.Point(1101, 152);
+            this.Agregar.Location = new System.Drawing.Point(826, 124);
+            this.Agregar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Agregar.Name = "Agregar";
-            this.Agregar.Size = new System.Drawing.Size(139, 43);
+            this.Agregar.Size = new System.Drawing.Size(104, 35);
             this.Agregar.TabIndex = 6;
             this.Agregar.Text = "Agregar";
             this.Agregar.UseVisualStyleBackColor = false;
@@ -208,9 +223,10 @@
             // 
             this.buttonB.BackColor = System.Drawing.Color.DarkOrange;
             this.buttonB.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonB.Location = new System.Drawing.Point(1101, 103);
+            this.buttonB.Location = new System.Drawing.Point(826, 84);
+            this.buttonB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonB.Name = "buttonB";
-            this.buttonB.Size = new System.Drawing.Size(139, 43);
+            this.buttonB.Size = new System.Drawing.Size(104, 35);
             this.buttonB.TabIndex = 7;
             this.buttonB.Text = "Button B";
             this.buttonB.UseVisualStyleBackColor = false;
@@ -220,9 +236,10 @@
             // 
             this.buttonA.BackColor = System.Drawing.Color.DodgerBlue;
             this.buttonA.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonA.Location = new System.Drawing.Point(1101, 54);
+            this.buttonA.Location = new System.Drawing.Point(826, 44);
+            this.buttonA.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonA.Name = "buttonA";
-            this.buttonA.Size = new System.Drawing.Size(139, 43);
+            this.buttonA.Size = new System.Drawing.Size(104, 35);
             this.buttonA.TabIndex = 8;
             this.buttonA.Text = "Button A";
             this.buttonA.UseVisualStyleBackColor = false;
@@ -230,15 +247,16 @@
             // 
             // Form_Base_Index
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.ClientSize = new System.Drawing.Size(960, 585);
             this.Controls.Add(this.buttonA);
             this.Controls.Add(this.buttonB);
             this.Controls.Add(this.Agregar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.indexDataGridView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Base_Index";
             this.Text = "    ";
             ((System.ComponentModel.ISupportInitialize)(this.indexDataGridView)).EndInit();

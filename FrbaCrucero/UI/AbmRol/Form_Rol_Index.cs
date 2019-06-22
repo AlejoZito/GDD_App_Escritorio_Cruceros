@@ -28,7 +28,11 @@ namespace FrbaCrucero.UI.AbmRol
 
             _OnClickDelete = (id) => BajaRol(id);
 
-            Filters = new FiltersViewModel(new List<KeyValuePair<int, string>>() { });
+            Filters = new FiltersViewModel(
+                dropdownOptions: PermisoDAO.GetAll().Select(x=> new KeyValuePair<int,string>(x.Cod_Permiso, x.Nombre)).ToList(),
+                exactFilter: "Cód. de Rol",
+                likeFilter: "Nombre de Rol",
+                dropdownFilter: "Permisos");
         }
 
         private void BajaRol(int id)
@@ -48,7 +52,10 @@ namespace FrbaCrucero.UI.AbmRol
 
         protected override List<RolViewModel> GetData()
         {
-            return RolDAO.GetAll().Select(x => new RolViewModel(x)).ToList();
+            return RolDAO.GetAllWithFilters(
+                this.Filters.LikeFilter,
+                this.Filters.ExactFilter,
+                this.Filters.DropdownFilterSelectedOption).Select(x => new RolViewModel(x)).ToList();
         }
     }
 }

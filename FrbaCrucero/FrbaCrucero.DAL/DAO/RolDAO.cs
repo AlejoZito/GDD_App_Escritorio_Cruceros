@@ -213,6 +213,75 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
+        public static List<Rol> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
+        {
+            var conn = Repository.GetConnection();
+            SqlCommand comando = new SqlCommand(@"SELECT r.* FROM TIRANDO_QUERIES.Rol r " +
+                                                "join TIRANDO_QUERIES.Permiso_Rol on rol_codigo = pr_rol_codigo " +
+                                                "join TIRANDO_QUERIES.Permiso on pr_perm_codigo = perm_codigo " +
+                                                "where 1=1 ", conn);
+            DataTable dataTable = new DataTable();
+
+            if (!string.IsNullOrWhiteSpace(likeFilter))
+            {
+                comando.CommandText += "AND (rol_nombre like '%' + @likeParameter + '%' OR " +
+                                            "perm_nombre like '%' + @likeParameter + '%') ";
+                comando.Parameters.AddWithValue("@likeParameter", likeFilter);
+            }
+
+            if (!string.IsNullOrWhiteSpace(exactFilter))
+            {
+                comando.CommandText += "AND rol_codigo = @exactFilter ";
+                comando.Parameters.AddWithValue("@exactFilter", exactFilter);
+            }
+
+            if (idDropdown != null && idDropdown != 0)
+            {
+                comando.CommandText += "AND perm_codigo = @codigoPermiso ";
+                comando.Parameters.AddWithValue("@codigoPermiso", idDropdown.Value);
+            }
+
+            comando.CommandText += "group by r.rol_nombre, r.rol_codigo, r.rol_activo";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter()
+            {
+                SelectCommand = comando
+            };
+
+            try
+            {
+                dataAdapter.Fill(dataTable);
+                List<Rol> roles = new List<Rol>();
+
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    int idRol = int.Parse(fila["rol_codigo"].ToString());
+
+                    Rol rol = new Rol
+                    {
+                        Cod_rol = idRol,
+                        Activo = bool.Parse(fila["rol_activo"].ToString()),
+                        Nombre = fila["rol_nombre"].ToString(),
+                        Permisos = PermisoDAO.GetAllForIDRol(idRol)
+                    };
+
+                    roles.Add(rol);
+                }
+
+                return roles;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error al intentar listar los roles", ex);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
         private static bool ValidarExistenciaRol(string nombre)
         {
             try
