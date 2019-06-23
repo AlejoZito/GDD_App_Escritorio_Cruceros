@@ -45,12 +45,13 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
 
         protected override List<RutaDeViajeViewModel> GetData()
         {
-            return (new RutaDeViajeDAO()).GetAllWithFilters(
+            var rutasDeViaje = (new RutaDeViajeDAO()).GetAllWithFilters(
                 this.Filters.LikeFilter,
                 this.Filters.ExactFilter,
                 this.Filters.DropdownFilterSelectedOption,
                 (List<DateTime>)this.Filters.Button_Filtro_Seleccion
-                ).Select(x => new RutaDeViajeViewModel(x)).ToList();
+                );
+            return rutasDeViaje.Select(x => new RutaDeViajeViewModel(x)).ToList();
         }
     }
 }
