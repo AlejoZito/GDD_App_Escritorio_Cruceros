@@ -215,6 +215,12 @@ namespace FrbaCrucero.DAL.DAO
 
         public static List<Rol> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
         {
+            int codigoRol;
+            if (!int.TryParse(exactFilter, out codigoRol) && !string.IsNullOrWhiteSpace(exactFilter))
+            {
+                throw new Exception("El código de rol solo puede contener numeros");
+            }
+
             var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT r.* FROM TIRANDO_QUERIES.Rol r " +
                                                 "join TIRANDO_QUERIES.Permiso_Rol on rol_codigo = pr_rol_codigo " +
@@ -226,7 +232,7 @@ namespace FrbaCrucero.DAL.DAO
             {
                 comando.CommandText += "AND (rol_nombre like '%' + @likeParameter + '%' OR " +
                                             "perm_nombre like '%' + @likeParameter + '%') ";
-                comando.Parameters.AddWithValue("@likeParameter", likeFilter);
+                comando.Parameters.AddWithValue("@likeParameter", likeFilter.Trim());
             }
 
             if (!string.IsNullOrWhiteSpace(exactFilter))
