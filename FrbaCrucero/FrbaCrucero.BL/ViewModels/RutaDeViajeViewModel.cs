@@ -24,7 +24,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             CrucerosDisponibles = new BindingList<CruceroViewModel>();
             MapFromDomainObject(r);
-            BuscarCruceros();
+            //BuscarCruceros();
 
             //Fecha_Inicio = DateTime.Now;
             //Fecha_Fin_Estimada = DateTime.Now.AddDays(10);
@@ -38,8 +38,12 @@ namespace FrbaCrucero.BL.ViewModels
         [Listable(description: "Crucero")]
         public string Crucero { get; set; }
 
-        [Listable(description: "Crucero")]
         public int IdRecorrido { get; set; }
+
+        [Listable(description: "Recorrido")]
+        public string RecorridoDescripcion { get { return (Recorrido != null) ? Recorrido.Descripcion : ""; } }
+
+        public RecorridoViewModel Recorrido { get; set; }
 
         DateTime? _FechaInicio;
         [Listable(description: "Fecha de inicio")]
@@ -82,8 +86,9 @@ namespace FrbaCrucero.BL.ViewModels
         {
             this.IdRutaDeViaje = o.Cod_Ruta;
             this.IdCrucero = o.Crucero.Cod_Crucero;
-            this.Crucero = o.Crucero.Modelo_Crucero.Detalle;
+            this.Crucero = new CruceroViewModel(o.Crucero).Descripcion;
             this.IdRecorrido = o.Recorrido.Cod_Recorrido;
+            this.Recorrido = new RecorridoViewModel(o.Recorrido);
             this.Fecha_Inicio = o.Fecha_Inicio;
             this.Fecha_Fin = o.Fecha_Fin;
             this.Fecha_Fin_Estimada = o.Fecha_Fin_Estimada;

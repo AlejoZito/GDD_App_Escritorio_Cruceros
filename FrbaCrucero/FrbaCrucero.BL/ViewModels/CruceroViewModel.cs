@@ -48,7 +48,7 @@ namespace FrbaCrucero.BL.ViewModels
 
         public string Descripcion
         {
-            get { return "[" + Identificador + "] " + Modelo ; }
+            get { return "[" + Identificador + "] " + Modelo; }
         }
 
         public bool IsValid()
@@ -91,18 +91,21 @@ namespace FrbaCrucero.BL.ViewModels
         public override void MapFromDomainObject(Crucero c)
         {
             this.IdCrucero = c.Cod_Crucero;
-            this.IdFabricante = c.Fabricante.Cod_Fabricante;
-            this.Fabricante = c.Fabricante.Detalle;
-            this.IdModelo = c.Modelo_Crucero.Cod_Modelo;
-            this.Modelo = c.Modelo_Crucero.Detalle;
+            this.IdFabricante = (c.Fabricante != null) ? c.Fabricante.Cod_Fabricante : 0;
+            this.Fabricante = (c.Fabricante != null) ? c.Fabricante.Detalle : "";
+            this.IdModelo = (c.Modelo_Crucero != null) ? c.Modelo_Crucero.Cod_Modelo : 0;
+            this.Modelo = (c.Modelo_Crucero != null) ? c.Modelo_Crucero.Detalle : "";
             this.Activo = c.Activo;
             this.Identificador = c.Identificador;
             this.Cabinas = new BindingList<CabinaViewModel>();
-            foreach (var cab in c.Cabinas)
+            if (c.Cabinas != null)
             {
-                CabinaViewModel cv = new CabinaViewModel();
-                cv.MapFromDomainObject(cab);
-                Cabinas.Add(cv);
+                foreach (var cab in c.Cabinas)
+                {
+                    CabinaViewModel cv = new CabinaViewModel();
+                    cv.MapFromDomainObject(cab);
+                    Cabinas.Add(cv);
+                }
             }
         }
 

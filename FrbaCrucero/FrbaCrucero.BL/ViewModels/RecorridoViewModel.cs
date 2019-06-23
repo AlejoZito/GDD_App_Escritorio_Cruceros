@@ -38,8 +38,27 @@ namespace FrbaCrucero.BL.ViewModels
         {
             get
             {
-                return "ID: " + IdRecorrido + " / Tramos: " + CantidadTramos;
+                return "ID: " + IdRecorrido + " / " + GetDescripcionPuertosInicialYFinal();
             }
+        }
+
+        private string GetDescripcionPuertosInicialYFinal()
+        {
+            string desc = "";
+
+            if (Tramos != null && Tramos.Count > 0)
+            {
+                if (Tramos.Count == 1)
+                {
+                    desc = Tramos.First().PuertoDesde.Nombre + " - " + Tramos.First().PuertoHasta.Nombre;
+                }
+                else
+                {
+                    desc = Tramos.First().PuertoDesde.Nombre + " - " + Tramos.Last().PuertoHasta.Nombre;
+                }
+            }
+
+            return desc;
         }
 
         public string ErrorMessage { get; set; }

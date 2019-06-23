@@ -99,6 +99,7 @@ namespace FrbaCrucero.BL.ViewModels
             ExactFilter = "";
             LikeFilter = "";
             Button_Filtro_Seleccion = null;
+            Button_Filtro_Seleccion_Descripcion = "";
             DropdownFilterSelectedOption = 0;
         }
 

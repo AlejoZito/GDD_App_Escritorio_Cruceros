@@ -910,17 +910,24 @@ CREATE PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo(@crucero_a_re
 AS
 BEGIN
 	SELECT * FROM [TIRANDO_QUERIES].[Crucero] C
-	WHERE C.cruc_codigo NOT IN (
-		SELECT V2.rv_crucero
-		FROM [TIRANDO_QUERIES].[Ruta_Viaje] V1, [TIRANDO_QUERIES].[Ruta_Viaje] V2
-		WHERE
-			V1.rv_crucero = @crucero_a_reemplazar AND
-			V1.rv_fecha_llegada IS NULL AND
-			V2.rv_fecha_llegada IS NULL AND
-			(V1.[rv_fecha_salida] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada] OR
-			V1.[rv_fecha_llegada_estimada] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada])
+	WHERE 
+		C.cruc_codigo NOT IN (
+			SELECT V2.rv_crucero
+			FROM [TIRANDO_QUERIES].[Ruta_Viaje] V1, [TIRANDO_QUERIES].[Ruta_Viaje] V2
+			WHERE
+				V1.rv_crucero = 1 AND
+				V1.rv_fecha_llegada IS NULL AND
+				V2.rv_fecha_llegada IS NULL AND
+				(V1.[rv_fecha_salida] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada] OR
+				V1.[rv_fecha_llegada_estimada] BETWEEN V2.[rv_fecha_salida] AND V2.[rv_fecha_llegada_estimada])
 		) AND
-		C.cruc_activo = 1
+		C.cruc_activo = 1 AND
+		(SELECT Count(*) Total FROM [TIRANDO_QUERIES].[Cabina] WHERE [cabi_crucero]=C.cruc_codigo) 
+			>= (SELECT TOP 1 COUNT([pasa_ruta]) AS max_pasajes
+			FROM [TIRANDO_QUERIES].[Pasaje] 
+			WHERE [pasa_ruta] IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_crucero] = 1 AND rv_fecha_llegada IS NULL)
+			GROUP BY [pasa_ruta]
+			ORDER BY max_pasajes DESC)
 	ORDER BY C.cruc_codigo;
 END
 GO
