@@ -501,7 +501,7 @@ namespace FrbaCrucero.DAL.DAO
 
             SqlConnection conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"select * from TIRANDO_QUERIES.Crucero " +
-                                                 "join TIRANDO_QUERIES.Modelo_Crucero on cruc_codigo = mc_codigo " +
+                                                 "join TIRANDO_QUERIES.Modelo_Crucero on cruc_modelo = mc_codigo " +
                                                  "join TIRANDO_QUERIES.Fabricante on cruc_fabricante = fabr_codigo " +
                                                  "where cruc_activo = 1", conn);
 
