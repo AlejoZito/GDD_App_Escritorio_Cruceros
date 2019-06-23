@@ -1026,7 +1026,7 @@ BEGIN
 	OPEN cursor_rol
 	DECLARE @rol_id NUMERIC
 	
-	FETCH cursor_recorrido INTO @rol_id
+	FETCH cursor_rol INTO @rol_id
 
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
