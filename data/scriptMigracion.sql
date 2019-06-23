@@ -409,7 +409,7 @@ GO
 -- DEFINO EL ROL ADMINISTRATIVO
 
 INSERT INTO [TIRANDO_QUERIES].Rol(rol_nombre)
-VALUES ('Administrativo')
+VALUES ('ADMINISTRATIVO')
 GO
 
 -- El rol de administrador tiene todos los permisos asignados
@@ -421,13 +421,13 @@ GO
 -- DEFINO EL ROL CLIENTE
 
 INSERT INTO [TIRANDO_QUERIES].Rol(rol_nombre)
-VALUES ('Cliente')
+VALUES ('CLIENTE')
 GO
 
 -- El rol de cliente tiene los siguientes permisos asignados: COMPRAR_PASAJE,RESERVA_PASAJE,PAGO_RESERVA,LISTADO_ESTADISTICO
 INSERT INTO [TIRANDO_QUERIES].Permiso_Rol(pr_rol_codigo,pr_perm_codigo)
 SELECT DISTINCT SCOPE_IDENTITY(), perm_codigo FROM [TIRANDO_QUERIES].Permiso
-WHERE perm_nombre IN ('COMPRAR_PASAJE','RESERVA_PASAJE','PAGO_RESERVA','LISTADO_ESTADISTICO')
+WHERE perm_nombre IN ('GESTIONAR_PASAJE','PAGO_RESERVA')
 GO
 
 --*************************************************************************************************************
@@ -1026,7 +1026,7 @@ BEGIN
 	OPEN cursor_rol
 	DECLARE @rol_id NUMERIC
 	
-	FETCH cursor_recorrido INTO @rol_id
+	FETCH cursor_rol INTO @rol_id
 
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
