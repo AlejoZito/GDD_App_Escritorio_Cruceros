@@ -111,6 +111,37 @@ namespace FrbaCrucero.DAL.DAO
                 comando.Parameters["@crucero_reemplazante"].Value = crucero_reemplazante;
                 comando.ExecuteNonQuery();
 
+                comando = new SqlCommand((string.Format(@"SELECT * FROM [TIRANDO_QUERIES].[Pasaje]
+                                           WHERE [pasa_ruta] IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_crucero] = 1 AND rv_fecha_llegada IS NULL) ",crucero_a_reemplazar), conn);
+
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter()
+                {
+                    SelectCommand = comando
+                };
+                DataTable dataTable = new DataTable();
+
+                dataAdapter.Fill(dataTable);
+
+                int contador = 0;
+                SqlCommand cmdCambiarCabina;
+                foreach (DataRow fila in dataTable.Rows)
+                {
+
+                    cmdCambiarCabina = new SqlCommand(string.Format(@"UPDATE [TIRANDO_QUERIES].[Pasaje]
+                                                                    SET [pasa_cabina] = (SELECT cabi_codigo FROM [TIRANDO_QUERIES].[Cabina]
+	                                                                    WHERE [cabi_crucero] = {0}
+	                                                                    ORDER BY cabi_codigo
+	                                                                    OFFSET {1} ROWS
+	                                                                    FETCH NEXT 1 ROWS ONLY)
+                                                                    WHERE [pasa_codigo] = {2}", crucero_reemplazante, contador, int.Parse(fila["pasa_codigo"].ToString())), conn);
+
+
+                    cmdCambiarCabina.ExecuteNonQuery();
+
+                    contador++;
+                };
+
                 conn.Close();
                 conn.Dispose();
                 comando.Dispose();
