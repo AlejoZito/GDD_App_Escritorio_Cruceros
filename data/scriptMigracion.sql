@@ -427,7 +427,7 @@ GO
 -- El rol de cliente tiene los siguientes permisos asignados: COMPRAR_PASAJE,RESERVA_PASAJE,PAGO_RESERVA,LISTADO_ESTADISTICO
 INSERT INTO [TIRANDO_QUERIES].Permiso_Rol(pr_rol_codigo,pr_perm_codigo)
 SELECT DISTINCT SCOPE_IDENTITY(), perm_codigo FROM [TIRANDO_QUERIES].Permiso
-WHERE perm_nombre IN ('COMPRAR_PASAJE','RESERVA_PASAJE','PAGO_RESERVA','LISTADO_ESTADISTICO')
+WHERE perm_nombre IN ('GESTIONAR_PASAJE','PAGO_RESERVA')
 GO
 
 --*************************************************************************************************************
