@@ -16,7 +16,7 @@ namespace FrbaCrucero.UI.AbmCrucero
         public int _IdCruceroSeleccionado;
 
         public Form_Crucero_Index()
-            : base()
+            : base(title: "Cruceros")
         {
             
 

@@ -11,7 +11,7 @@ namespace FrbaCrucero
     static class Program
     {
         public static Form_Main Navigation;
-        public static MenuPrincipal MainMenu;
+        //public static MenuPrincipal.Form_MenuPrincipal MainMenu;
         public static Usuario UsuarioLoggeado;
         /// <summary>
         /// Punto de entrada principal para la aplicación.

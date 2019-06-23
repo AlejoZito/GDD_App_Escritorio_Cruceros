@@ -32,6 +32,7 @@
             this.top5CruceroFueraDeServicio = new System.Windows.Forms.Button();
             this.top5CrucerosSinVentas = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.labelTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,11 +81,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(1238, 522);
             this.dataGridView1.TabIndex = 3;
             // 
+            // labelTitle
+            // 
+            this.labelTitle.AutoSize = true;
+            this.labelTitle.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitle.Location = new System.Drawing.Point(12, 25);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Size = new System.Drawing.Size(225, 24);
+            this.labelTitle.TabIndex = 10;
+            this.labelTitle.Text = "Reportes estadísticos";
+            // 
             // ListadoEstadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.top5CrucerosSinVentas);
             this.Controls.Add(this.top5CruceroFueraDeServicio);
@@ -94,6 +106,7 @@
             this.Text = "ListadoEstadistico";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -103,5 +116,6 @@
         private System.Windows.Forms.Button top5CruceroFueraDeServicio;
         private System.Windows.Forms.Button top5CrucerosSinVentas;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label labelTitle;
     }
 }

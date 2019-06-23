@@ -13,7 +13,7 @@ namespace FrbaCrucero.UI.AbmRutaDeViaje
     class Form_RutaDeViaje_Index : Form_Base_Index<RutaDeViajeViewModel, RutaDeViaje>
     {
         public Form_RutaDeViaje_Index()
-            : base(showEditButton: false, showDeleteButton: false)
+            : base(showEditButton: false, showDeleteButton: false, title: "Rutas de viaje")
         {
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_RutaDeViaje_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));

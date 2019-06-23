@@ -14,7 +14,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
     public class Form_Recorrido_Index : FrbaCrucero.UI.Form_Base_Index<RecorridoViewModel, Recorrido>
     {
         public Form_Recorrido_Index()
-            : base()
+            : base(title: "Recorridos")
         {
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Recorrido_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));

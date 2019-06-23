@@ -17,7 +17,7 @@ namespace FrbaCrucero.UI.AbmRol
     public partial class Form_Rol_Index : FrbaCrucero.UI.Form_Base_Index<RolViewModel, Rol>
     {
         public Form_Rol_Index()
-            : base()
+            : base(title: "Roles")
         {
             _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Rol_Add(
                     onAddSuccess: (c) => this.OnAddOrEditSuccess()));

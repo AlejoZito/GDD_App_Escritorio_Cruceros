@@ -26,6 +26,7 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            Program.Navigation.GoToPage(new UI.MenuPrincipal.Home(), cachePage: false);
         }
     }
 }

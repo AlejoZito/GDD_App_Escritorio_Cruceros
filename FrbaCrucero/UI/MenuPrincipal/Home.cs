@@ -1,6 +1,5 @@
 ﻿using FrbaCrucero.DAL.Domain;
 using FrbaCrucero.DAL.Enums;
-using FrbaCrucero.UI.Login;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,15 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaCrucero
+namespace FrbaCrucero.UI.MenuPrincipal
 {
-    public partial class MenuPrincipal : Form
+    public partial class Home : Form
     {
-        private readonly List<KeyValuePair<string, Form>> _PageCache;
-
-        public MenuPrincipal()
+        public Home()
         {
-            _PageCache = new List<KeyValuePair<string, Form>>();
             InitializeComponent();
             LoadPermisos();
         }
@@ -70,89 +66,49 @@ namespace FrbaCrucero
                 case (int)CodigoPermiso.LISTADO_ESTADISTICO:
                     btnEstadisticas.Visible = true;
                     break;
+                default:
+                    break;
             }
-        }
-
-        public void GoToPage(Form page, bool cachePage = true)
-        {
-            KeyValuePair<string, Form> newPage = new KeyValuePair<string, Form>(page.GetType().Name, page);
-
-            //Si cachePage == true, revisar las paginas abiertas y usarla si existe.
-            //Si no existe en el cache, almacenarla.
-            if (cachePage == true)
-            {
-                if (_PageCache.Any(x => x.Key == newPage.Key))
-                {
-                    //La página ya fue abierta, utilizar la que ya está en memoria
-                    newPage = _PageCache.FirstOrDefault(x => x.Key == newPage.Key);
-                }
-                else
-                {
-                    _PageCache.Add(newPage);
-                }
-            }
-
-            newPage.Value.TopLevel = false;
-            Content.Controls.Clear();
-            Content.Controls.Add(newPage.Value);
-            newPage.Value.Show();
-        }
-
-        public void PopUpPage(Form page)
-        {
-            page.ShowDialog();
         }
 
         private void button_AbmPuerto_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.AbmPuerto.Form_Puerto_Index());
+            Program.Navigation.GoToPage(new UI.AbmPuerto.Form_Puerto_Index());
         }
 
         private void button_AbmCruceros_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.AbmCrucero.Form_Crucero_Index());
+            Program.Navigation.GoToPage(new UI.AbmCrucero.Form_Crucero_Index());
         }
 
         private void button_AbmRecorridos_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.AbmRecorrido.Form_Recorrido_Index());
+            Program.Navigation.GoToPage(new UI.AbmRecorrido.Form_Recorrido_Index());
         }
 
         private void button_RutasDeViaje_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.AbmRutaDeViaje.Form_RutaDeViaje_Index());
+            Program.Navigation.GoToPage(new UI.AbmRutaDeViaje.Form_RutaDeViaje_Index());
         }
 
         private void btnPasaje_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.CompraReservaPasaje.Form_CompraReserva(), cachePage: false);
-        }
-
-        private void button_CerrarSesion_Click(object sender, EventArgs e)
-        {
-            Program.UsuarioLoggeado = new DAL.Domain.Usuario();
-            Program.Navigation.GoToPage(new LoginGeneral());
-        }
-
-        private void MenuPrincipal_Shown(object sender, EventArgs e)
-        {
-            this.UsernameLabel.Text = String.IsNullOrEmpty(Program.UsuarioLoggeado.Username) ? "Cliente" : Program.UsuarioLoggeado.Username;
+            Program.Navigation.GoToPage(new UI.CompraReservaPasaje.Form_CompraReserva(), cachePage: false);
         }
 
         private void btnPagarReserva_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.CompraReservaPasaje.Form_PagoReserva(), cachePage: false);
+            Program.Navigation.GoToPage(new UI.CompraReservaPasaje.Form_PagoReserva(), cachePage: false);
         }
 
         private void btnAbmRol_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.AbmRol.Form_Rol_Index());
+            Program.Navigation.GoToPage(new UI.AbmRol.Form_Rol_Index());
         }
 
         private void btnEstadisticas_Click(object sender, EventArgs e)
         {
-            GoToPage(new UI.ListadoEstadistico.ListadoEstadistico(), cachePage: false);
+            Program.Navigation.GoToPage(new UI.ListadoEstadistico.ListadoEstadistico(), cachePage: false);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FrbaCrucero.DAL.DAO;
 using FrbaCrucero.DAL.Domain;
+using FrbaCrucero.MenuPrincipal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace FrbaCrucero.UI.Login
         public LoginGeneral()
         {
             InitializeComponent();
+            Program.Navigation.HideNavigationBar();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -50,7 +52,8 @@ namespace FrbaCrucero.UI.Login
             Rol rolCliente = RolDAO.GetAllWithFilters("Cliente", null, null).FirstOrDefault();
             Program.UsuarioLoggeado.Roles = new List<Rol>();
             Program.UsuarioLoggeado.Roles.Add(rolCliente);
-            Program.Navigation.GoToPage(new MenuPrincipal());
+            Program.Navigation.GoToPage(new MenuPrincipal.Home());
+            Program.Navigation.ShowNavigationBar();
         }
     }
 }

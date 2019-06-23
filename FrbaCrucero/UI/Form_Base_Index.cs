@@ -26,6 +26,8 @@ namespace FrbaCrucero.UI
         bool _ShowEditButton;
         bool _ShowDeleteButton;
 
+        string _Title;
+
         private FiltersViewModel _Filters;
         protected FiltersViewModel Filters
         {
@@ -64,13 +66,14 @@ namespace FrbaCrucero.UI
             }
         }
 
-        public Form_Base_Index(bool showEditButton = true, bool showDeleteButton = true)
+        public Form_Base_Index(bool showEditButton = true, bool showDeleteButton = true, string title = "")
         {
             InitializeComponent();
 
             _ShowEditButton = showEditButton;
             _ShowDeleteButton = showDeleteButton;
 
+            labelTitle.Text = title;
             SetupDataGridView();
             //PopulateDataGridView(); //NO POPULARLA INICIALMENTE, SOLO AL PRESIONAR "BUSCAR"
         }

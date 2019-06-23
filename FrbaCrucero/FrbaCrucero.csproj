@@ -210,6 +210,12 @@
     <Compile Include="UI\ListadoEstadistico\ListadoEstadistico_SemestreAnio.Designer.cs">
       <DependentUpon>ListadoEstadistico_SemestreAnio.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\MenuPrincipal\Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MenuPrincipal\Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\_Components\DatePickerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -255,11 +261,11 @@
     <Compile Include="UI\AbmRol\Form_Rol_Index.Designer.cs">
       <DependentUpon>Form_Rol_Index.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MenuPrincipal\MenuPrincipal.cs">
+    <Compile Include="UI\MenuPrincipal\Form_MenuPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MenuPrincipal\MenuPrincipal.Designer.cs">
-      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    <Compile Include="UI\MenuPrincipal\Form_MenuPrincipal.Designer.cs">
+      <DependentUpon>Form_MenuPrincipal.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\GeneracionViaje\Form1.cs">
       <SubType>Form</SubType>
@@ -362,6 +368,9 @@
     <EmbeddedResource Include="UI\ListadoEstadistico\ListadoEstadistico_SemestreAnio.resx">
       <DependentUpon>ListadoEstadistico_SemestreAnio.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\MenuPrincipal\Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\_Components\DatePickerControl.resx">
       <DependentUpon>DatePickerControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -380,8 +389,8 @@
     <EmbeddedResource Include="UI\Form_Base_Index.resx">
       <DependentUpon>Form_Base_Index.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MenuPrincipal\MenuPrincipal.resx">
-      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    <EmbeddedResource Include="UI\MenuPrincipal\Form_MenuPrincipal.resx">
+      <DependentUpon>Form_MenuPrincipal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -442,9 +451,39 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\21352699.jpg" />
     <Content Include="Resources\appIcon.ico" />
+    <None Include="Resources\set-clouds-sky_74855-188.jpg" />
+    <None Include="Resources\pexels-photo-2058333.jpeg" />
     <None Include="Resources\icons8-slide-up-24.png" />
     <None Include="Resources\icons8-down-button-24.png" />
+    <None Include="Resources\icons8-passport-and-tickets-100.png" />
+    <None Include="Resources\icons8-money-100.png" />
+    <None Include="Resources\icons8-world-map-100.png" />
+    <None Include="Resources\icons8-signpost-100.png" />
+    <None Include="Resources\icons8-location-100.png" />
+    <None Include="Resources\icons8-people-100.png" />
+    <None Include="Resources\icons8-float-100.png" />
+    <None Include="Resources\icons8-combo-chart-100.png" />
+    <None Include="Resources\bg1.png" />
+    <None Include="Resources\icons8-home-32.png" />
+    <None Include="Resources\icons8-money-1001.png" />
+    <None Include="Resources\icons8-travel-book-100.png" />
+    <None Include="Resources\icons8-world-map-100_sm.png" />
+    <None Include="Resources\icons8-world-map-100_sm2.png" />
+    <None Include="Resources\icons8-location-100_sm.png" />
+    <None Include="Resources\icons8-world-map-100_sm21.png" />
+    <None Include="Resources\icons8-float-100_sm.png" />
+    <None Include="Resources\icons8-signpost-100_sm.png" />
+    <None Include="Resources\icons8-people-100_sm.png" />
+    <None Include="Resources\icons8-combo-chart-100_50.png" />
+    <None Include="Resources\icons8-name-tag-100.png" />
+    <None Include="Resources\icons8-standing-man-100.png" />
+    <None Include="Resources\icons8-worker-100.png" />
+    <None Include="Resources\bg_2.jpg" />
+    <None Include="Resources\icons8-money-100_sm.png" />
+    <None Include="Resources\icons8-travel-book-100_sm.png" />
+    <None Include="Resources\icons8-work-50.png" />
     <Content Include="Resources\Logo_Crucero.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

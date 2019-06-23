@@ -12,7 +12,7 @@ namespace FrbaCrucero.UI.AbmPuerto
     class Form_Puerto_Index : Form_Base_Index<PuertoViewModel, Puerto>
     {
         public Form_Puerto_Index()
-            : base()
+            : base(title: "Puertos")
         {
             _OnClickAdd = () => Program.Navigation.PopUpPage(new AltaPuerto(
                 onSuccess: OnAddOrEditSuccess));
