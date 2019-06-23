@@ -409,7 +409,7 @@ GO
 -- DEFINO EL ROL ADMINISTRATIVO
 
 INSERT INTO [TIRANDO_QUERIES].Rol(rol_nombre)
-VALUES ('Administrativo')
+VALUES ('ADMINISTRATIVO')
 GO
 
 -- El rol de administrador tiene todos los permisos asignados
@@ -421,7 +421,7 @@ GO
 -- DEFINO EL ROL CLIENTE
 
 INSERT INTO [TIRANDO_QUERIES].Rol(rol_nombre)
-VALUES ('Cliente')
+VALUES ('CLIENTE')
 GO
 
 -- El rol de cliente tiene los siguientes permisos asignados: COMPRAR_PASAJE,RESERVA_PASAJE,PAGO_RESERVA,LISTADO_ESTADISTICO
