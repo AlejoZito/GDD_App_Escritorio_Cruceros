@@ -62,6 +62,8 @@ namespace FrbaCrucero.BL.ViewModels
 
         public List<Reserva> PasajesReservados { get; set; }
 
+        public string ErrorMessage { get; set; }
+
         decimal _Monto;
         public decimal Monto { 
             get { return _Monto; } 
@@ -138,10 +140,39 @@ namespace FrbaCrucero.BL.ViewModels
 
         public bool IsValid()
         {
-            return _RutaDeViajeSeleccionada.HasValue &&
-                IdsCabinasSeleccionadas != null && IdsCabinasSeleccionadas.Count > 0 &&
-                //MedioDePago != null && MedioDePago.IDMedioDePago != 0 &&
-                Cliente != null && Cliente.IsValid();
+            ErrorMessage = "";
+
+            if (_RutaDeViajeSeleccionada.HasValue)
+            {
+                if (IdsCabinasSeleccionadas != null && IdsCabinasSeleccionadas.Count == 0)
+                {
+                    ErrorMessage += "Faltan seleccionar cabinas. " + System.Environment.NewLine;
+                }
+            }
+            else
+            {
+                ErrorMessage += "No se ha seleccionado ruta de viaje. " + System.Environment.NewLine;
+            }
+
+            if (Cliente.IsValid())
+            {
+                int validarInt;
+                if (!int.TryParse(this.Cliente.DNI, out validarInt))
+                {
+                    ErrorMessage += "El dni debe ser numérico " + System.Environment.NewLine;
+                }
+
+                if (!int.TryParse(this.Cliente.Telefono, out validarInt))
+                {
+                    ErrorMessage += "El teléfono debe ser numérico " + System.Environment.NewLine;
+                }
+            }
+            else
+            {
+                ErrorMessage += "Faltan completar campos del Cliente " + System.Environment.NewLine;
+            }
+
+            return string.IsNullOrEmpty(ErrorMessage);
         }
 
         public void CargarUsuario()

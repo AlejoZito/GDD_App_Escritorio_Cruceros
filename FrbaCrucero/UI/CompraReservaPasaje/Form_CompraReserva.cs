@@ -84,6 +84,10 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
                     MessageBox.Show(reservado + reservas, "¡Reservas realizadas!", MessageBoxButtons.OK);
                     Program.Navigation.GoToPage(new UI.MenuPrincipal.Home(), cachePage: false);
                 }
+                else
+                {
+                    MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incompletos", MessageBoxButtons.OK);
+                }
             }
             catch (Exception ex)
             {
@@ -120,7 +124,7 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
                 }
                 else
                 {
-                    MessageBox.Show("Faltan datos. Por favor, seleccione ruta, cabinas, y complete todos los datos del cliente.", "Baja de crucero", MessageBoxButtons.OK);
+                    MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incompletos", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)

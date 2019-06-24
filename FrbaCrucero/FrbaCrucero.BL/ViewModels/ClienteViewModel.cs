@@ -76,7 +76,7 @@ namespace FrbaCrucero.BL.ViewModels
                 Direccion = this.Direccion,
                 Telefono = int.Parse(this.Telefono),
                 Mail = this.Mail,
-                Fecha_Nac = this.FechaNacimiento
+                Fecha_Nac = DateTime.Equals(this.FechaNacimiento, new DateTime()) ? DateTime.Now : this.FechaNacimiento
             };
         }
 
