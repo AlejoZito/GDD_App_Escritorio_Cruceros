@@ -66,50 +66,66 @@ namespace FrbaCrucero.UI.CompraReservaPasaje
 
         private void btnReservar_Click(object sender, EventArgs e)
         {
-            if (_ViewModel.IsValid())
+            try
             {
-                _ViewModel.CargarUsuario();
-                _ViewModel.ReservarPasaje();
-
-                string reservas = "";
-                foreach (Reserva reserva in _ViewModel.PasajesReservados)
+                if (_ViewModel.IsValid())
                 {
-                    reservas += Environment.NewLine + "Cod. Reserva: " + reserva.Cod_Reserva + " - Cabina Tipo: " + reserva.Cabina.Tipo_Cabina.Detalle + " / Piso: " + reserva.Cabina.Piso + " / Num: " + reserva.Cabina.Numero;
+                    _ViewModel.CargarUsuario();
+                    _ViewModel.ReservarPasaje();
+
+                    string reservas = "";
+                    foreach (Reserva reserva in _ViewModel.PasajesReservados)
+                    {
+                        reservas += Environment.NewLine + "Cod. Reserva: " + reserva.Cod_Reserva + " - Cabina Tipo: " + reserva.Cabina.Tipo_Cabina.Detalle + " / Piso: " + reserva.Cabina.Piso + " / Num: " + reserva.Cabina.Numero;
+                    }
+
+                    string reservado = _ViewModel.PasajesReservados.Count.ToString() + " cabinas reservadas. " + Environment.NewLine;
+
+                    MessageBox.Show(reservado + reservas, "¡Reservas realizadas!", MessageBoxButtons.OK);
+                    Program.Navigation.GoToPage(new UI.MenuPrincipal.Home(), cachePage: false);
                 }
-
-                string reservado = _ViewModel.PasajesReservados.Count.ToString() + " cabinas reservadas. " + Environment.NewLine;
-
-                MessageBox.Show(reservado + reservas, "¡Reservas realizadas!", MessageBoxButtons.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error inesperado", MessageBoxButtons.OK);
             }
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
         {
-            if (_ViewModel.IsValid())
+            try
             {
-
-                _ViewModel.CargarUsuario();
-
-                Program.Navigation.PopUpPage(new Form_Pago(
-                    onSuccess: (pago) => _ViewModel.MedioDePago = pago));
-
-                _ViewModel.ComprarPasaje();
-
-                string compras = "";
-                foreach (Pasaje pasaje in _ViewModel.PasajesComprados)
+                if (_ViewModel.IsValid())
                 {
-                    compras += Environment.NewLine + "Voucher: " + pasaje.Cod_Pasaje + " - Tipo: " + pasaje.Cabina.Tipo_Cabina.Detalle + " / Piso: " + pasaje.Cabina.Piso + " / Num: " + pasaje.Cabina.Numero;
+
+                    _ViewModel.CargarUsuario();
+
+                    Program.Navigation.PopUpPage(new Form_Pago(
+                        onSuccess: (pago) => _ViewModel.MedioDePago = pago));
+
+                    _ViewModel.ComprarPasaje();
+
+                    string compras = "";
+                    foreach (Pasaje pasaje in _ViewModel.PasajesComprados)
+                    {
+                        compras += Environment.NewLine + "Voucher: " + pasaje.Cod_Pasaje + " - Tipo: " + pasaje.Cabina.Tipo_Cabina.Detalle + " / Piso: " + pasaje.Cabina.Piso + " / Num: " + pasaje.Cabina.Numero;
+                    }
+
+                    string compra = _ViewModel.PasajesComprados.Count.ToString() + " pasajes comprados. " + Environment.NewLine;
+
+                    MessageBox.Show(compra + compras, "Pasajes comprados!", MessageBoxButtons.OK);
+                    _ViewModel.IdsCabinasSeleccionadas.Clear();
+                    _ViewModel.PasajesComprados.Clear();
+                    Program.Navigation.GoToPage(new UI.MenuPrincipal.Home(), cachePage: false);
                 }
-
-                string compra = _ViewModel.PasajesComprados.Count.ToString() + " pasajes comprados. " + Environment.NewLine;
-
-                MessageBox.Show(compra+compras, "Pasajes comprados!", MessageBoxButtons.OK);
-                _ViewModel.IdsCabinasSeleccionadas.Clear();
-                _ViewModel.PasajesComprados.Clear();
+                else
+                {
+                    MessageBox.Show("Faltan datos. Por favor, seleccione ruta, cabinas, y complete todos los datos del cliente.", "Baja de crucero", MessageBoxButtons.OK);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Faltan datos. Por favor, seleccione ruta, cabinas, y complete todos los datos del cliente.", "Baja de crucero", MessageBoxButtons.OK);
+                MessageBox.Show("Ocurrió un error al intentar procesar tu pago, por favor intenta nuevamente.", "Error Inesperado", MessageBoxButtons.OK);
             }
         }
 
