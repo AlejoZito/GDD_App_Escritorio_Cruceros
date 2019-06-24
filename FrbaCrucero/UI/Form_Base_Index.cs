@@ -120,6 +120,11 @@ namespace FrbaCrucero.UI
 
                 indexDataGridView.AutoResizeColumns();
                 indexDataGridView.Refresh();
+
+                foreach (DataGridViewColumn column in indexDataGridView.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
             catch (Exception ex)
             {
