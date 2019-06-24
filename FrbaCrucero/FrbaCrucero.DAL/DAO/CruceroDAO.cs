@@ -508,8 +508,7 @@ namespace FrbaCrucero.DAL.DAO
             if (!string.IsNullOrWhiteSpace(likeFilter))
             {
                 //Nombre de fabricante, modelo o identificador de crucero
-                comando.CommandText += "AND (fabr_detalle like '%' + @likeParameter + '%' OR " +
-		                               "     mc_detalle like '%' + @likeParameter + '%' OR " +
+                comando.CommandText += "AND (mc_detalle like '%' + @likeParameter + '%' OR " +
 		                               "     cruc_identificador like '%' + @likeParameter + '%') ";
                 comando.Parameters.AddWithValue("@likeParameter", likeFilter);
             }
@@ -524,7 +523,7 @@ namespace FrbaCrucero.DAL.DAO
                 }
                 else
                 {
-                    throw new Exception("El filtro exacto solo admite codigos de crucero");
+                    throw new Exception("El campo código de crucero sólo admite datos numéricos");
                 }
             }
 
