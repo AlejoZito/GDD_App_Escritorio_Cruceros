@@ -42,7 +42,7 @@ namespace FrbaCrucero.UI.Login
                     };
 
                     Program.UsuarioLoggeado = UsuarioDAO.AuthenticateUser(usuario);
-
+                    Program.Navigation.ShowUsername();
                     this.Close();
                     //FrbaCrucero.MenuPrincipal.Form_MenuPrincipal menu = new FrbaCrucero.MenuPrincipal.Form_MenuPrincipal();
                     PasajeDAO.ActualizarReservasVencidas();

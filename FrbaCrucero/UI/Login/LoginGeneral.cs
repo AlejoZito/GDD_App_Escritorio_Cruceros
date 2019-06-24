@@ -52,6 +52,8 @@ namespace FrbaCrucero.UI.Login
             Rol rolCliente = RolDAO.GetAllWithFilters("Cliente", null, null).FirstOrDefault();
             Program.UsuarioLoggeado.Roles = new List<Rol>();
             Program.UsuarioLoggeado.Roles.Add(rolCliente);
+            Program.UsuarioLoggeado.Username = "Cliente";
+            Program.Navigation.ShowUsername();
             Program.Navigation.GoToPage(new MenuPrincipal.Home());
             Program.Navigation.ShowNavigationBar();
         }

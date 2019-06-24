@@ -28,6 +28,11 @@ namespace FrbaCrucero
             this.labelUsername.DataBindings.Add("Text", Program.UsuarioLoggeado, "Username", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
+        public void ShowUsername()
+        {
+            this.labelUsername.Text = Program.UsuarioLoggeado.Username;
+        }
+
         public void LoadPermisos()
         {
             if (Program.UsuarioLoggeado != null && Program.UsuarioLoggeado.Roles != null)
