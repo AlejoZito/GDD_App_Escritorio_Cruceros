@@ -157,6 +157,7 @@ namespace FrbaCrucero.UI
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1) return;
             DataGridView dgv = sender as DataGridView;
             if (dgv == null)
                 return;

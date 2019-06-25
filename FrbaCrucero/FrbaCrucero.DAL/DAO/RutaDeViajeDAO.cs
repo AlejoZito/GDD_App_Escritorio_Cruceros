@@ -113,7 +113,7 @@ namespace FrbaCrucero.DAL.DAO
                 comando.ExecuteNonQuery();
 
                 comando = new SqlCommand(string.Format(@"SELECT * FROM [TIRANDO_QUERIES].[Pasaje]
-                                           WHERE [pasa_ruta] IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_crucero] = {0} AND rv_fecha_llegada IS NULL) ",crucero_a_reemplazar), conn);
+                                           WHERE [pasa_ruta] IN (SELECT rv_codigo FROM [TIRANDO_QUERIES].[Ruta_Viaje] WHERE [rv_crucero] = {0} AND rv_fecha_llegada IS NULL) ", crucero_reemplazante), conn);
 
 
                 SqlDataAdapter dataAdapter = new SqlDataAdapter()
