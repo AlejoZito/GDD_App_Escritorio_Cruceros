@@ -145,6 +145,8 @@ namespace FrbaCrucero.UI
             //        _OnTableItemSelected(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
             //}
 
+            if (e.RowIndex == -1) return;
+
             if (e.ColumnIndex == indexDataGridView.Columns["colEdit"].Index)
             {
                 _OnClickEdit(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
