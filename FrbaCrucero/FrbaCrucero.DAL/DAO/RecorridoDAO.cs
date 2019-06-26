@@ -113,7 +113,7 @@ namespace FrbaCrucero.DAL.DAO
             }
         }
 
-        public static List<Recorrido> GetAllWithFilters(string likeFilter, string exactFilter)
+        public static List<Recorrido> GetAllWithFilters(string likeFilter, string exactFilter, int? idDropdown)
         {
             var conn = Repository.GetConnection();
             SqlCommand comando = new SqlCommand(@"SELECT r.* FROM TIRANDO_QUERIES.Recorrido r " +
@@ -136,6 +136,13 @@ namespace FrbaCrucero.DAL.DAO
                 comando.Parameters.AddWithValue("@exactFilter", exactFilter);
             }
 
+             if (idDropdown != null && idDropdown != 0)
+            {
+                comando.CommandText += "AND (p1.puer_codigo  = @codigoPuerto OR " +
+                                            "p2.puer_codigo  = @codigoPuerto) ";
+                comando.Parameters.AddWithValue("@codigoPuerto", idDropdown.Value);
+            }
+            
             comando.CommandText += "group by r.reco_codigo, r.reco_activo, r.reco_invalido";
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter()
