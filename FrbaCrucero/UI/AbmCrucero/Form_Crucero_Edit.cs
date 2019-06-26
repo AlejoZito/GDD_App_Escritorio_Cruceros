@@ -37,6 +37,7 @@ namespace FrbaCrucero.UI.AbmCrucero
             dropdownFabricante.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdFabricante", true, DataSourceUpdateMode.OnPropertyChanged);
             dropdownModelo.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdModelo", true, DataSourceUpdateMode.OnPropertyChanged);
             listviewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
+            tbIdentificador.DataBindings.Add("Text", _ViewModel, "Identificador", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadDropdowns()
@@ -61,27 +62,6 @@ namespace FrbaCrucero.UI.AbmCrucero
             else
             {
                 MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incorrectos");
-            }
-        }
-
-        private void btn_add_cabina_Click(object sender, EventArgs e)
-        {
-            Program.Navigation.PopUpPage(new Form_Cabina_Add(
-                onAddSuccess: (cabina) => _ViewModel.Cabinas.Add(cabina)));
-        }
-
-        private void btn_delete_cabina_Click(object sender, EventArgs e)
-        {
-            if (listviewCabinas.SelectedItems == null || listviewCabinas.SelectedItems.Count == 0)
-            {
-            }
-            else
-            {
-                foreach (ListViewItem listItem in listviewCabinas.SelectedItems)
-                {
-                    var cabinaToRemove = _ViewModel.Cabinas.FirstOrDefault(x => x.Descripcion == listItem.Text);
-                    _ViewModel.Cabinas.Remove(cabinaToRemove);
-                }
             }
         }
     }
