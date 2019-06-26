@@ -106,7 +106,8 @@ namespace FrbaCrucero.DAL.DAO
                 var conn = Repository.GetConnection();
 
                 //Inserto la cabina y obtengo el id
-                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Crucero(cruc_identificador, cruc_fabricante, cruc_modelo, cruc_activo) VALUES(@identificador, @fabricante, @modelo, @activo)", conn);
+                SqlCommand comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Crucero(cruc_identificador, cruc_fabricante, cruc_modelo, cruc_activo) VALUES(@identificador, @fabricante, @modelo, @activo) "
+                                                    + "SELECT CAST(scope_identity() AS int)", conn);
                 comando.Parameters.AddWithValue("@identificador", crucero.Identificador);
                 comando.Parameters.Add("@fabricante", SqlDbType.Int);
                 comando.Parameters["@fabricante"].Value = crucero.Fabricante.Cod_Fabricante;
@@ -115,7 +116,7 @@ namespace FrbaCrucero.DAL.DAO
                 crucero.Activo = true;
                 comando.Parameters.Add("@activo", SqlDbType.Bit);
                 comando.Parameters["@activo"].Value = crucero.Activo;
-                int idCrucero = Convert.ToInt32(comando.ExecuteScalar());
+                int idCrucero = (Int32)comando.ExecuteScalar();
 
                 comando.Dispose();
                 conn.Close();

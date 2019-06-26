@@ -42,8 +42,15 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            _OnAddSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                _OnAddSuccess(_ViewModel);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incorrectos");
+            }
         }
     }
 }

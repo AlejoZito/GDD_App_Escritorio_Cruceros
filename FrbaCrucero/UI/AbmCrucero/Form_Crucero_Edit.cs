@@ -60,7 +60,7 @@ namespace FrbaCrucero.UI.AbmCrucero
             }
             else
             {
-                MessageBox.Show(_ViewModel.ErrorMessage);
+                MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incorrectos");
             }
         }
 

@@ -36,6 +36,8 @@
             this.btnCruceroAdd = new System.Windows.Forms.Button();
             this.dropdownModelo = new FrbaCrucero.UI.Components.DropdownControl();
             this.dropdownFabricante = new FrbaCrucero.UI.Components.DropdownControl();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbIdentificador = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,11 +130,29 @@
             this.dropdownFabricante.Size = new System.Drawing.Size(289, 67);
             this.dropdownFabricante.TabIndex = 0;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(62, 135);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Identificador";
+            // 
+            // tbIdentificador
+            // 
+            this.tbIdentificador.Location = new System.Drawing.Point(133, 132);
+            this.tbIdentificador.Name = "tbIdentificador";
+            this.tbIdentificador.Size = new System.Drawing.Size(188, 20);
+            this.tbIdentificador.TabIndex = 8;
+            // 
             // Form_Crucero_Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 398);
+            this.Controls.Add(this.tbIdentificador);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_delete_cabina);
             this.Controls.Add(this.btnCruceroAdd);
             this.Controls.Add(this.btn_add_cabina);
@@ -160,6 +180,8 @@
         private System.Windows.Forms.Button btnCruceroAdd;
         private _Components.DataListViewControl listviewCabinas;
         private System.Windows.Forms.Button btn_delete_cabina;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbIdentificador;
 
     }
 }

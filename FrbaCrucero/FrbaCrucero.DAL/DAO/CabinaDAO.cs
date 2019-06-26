@@ -170,14 +170,14 @@ namespace FrbaCrucero.DAL.DAO
             foreach (var cabina in cabinas)
             {
                 comando = new SqlCommand(@"INSERT INTO TIRANDO_QUERIES.Cabina(cabi_numero, cabi_piso, cabi_cod_tipo, cabi_crucero) VALUES(@numero, @piso, @tipoCabina, @idCrucero)", conn);
-                comando.Parameters.Add("@cabi_numero", SqlDbType.Int);
-                comando.Parameters["@cabi_numero"].Value = cabina.Numero;
-                comando.Parameters.Add("@cabi_piso", SqlDbType.Int);
-                comando.Parameters["@cabi_piso"].Value = cabina.Piso;
-                comando.Parameters.Add("@cabi_cod_tipo", SqlDbType.Int);
-                comando.Parameters["@cabi_cod_tipo"].Value = cabina.Tipo_Cabina.Cod_Tipo;
-                comando.Parameters.Add("@cabi_crucero", SqlDbType.Int);
-                comando.Parameters["@cabi_crucero"].Value = idCrucero;
+                comando.Parameters.Add("@numero", SqlDbType.Int);
+                comando.Parameters["@numero"].Value = cabina.Numero;
+                comando.Parameters.Add("@piso", SqlDbType.Int);
+                comando.Parameters["@piso"].Value = cabina.Piso;
+                comando.Parameters.Add("@tipoCabina", SqlDbType.Int);
+                comando.Parameters["@tipoCabina"].Value = cabina.Tipo_Cabina.Cod_Tipo;
+                comando.Parameters.Add("@idCrucero", SqlDbType.Int);
+                comando.Parameters["@idCrucero"].Value = idCrucero;
 
                 comando.ExecuteNonQuery();
             }

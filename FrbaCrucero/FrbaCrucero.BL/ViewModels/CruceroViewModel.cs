@@ -70,8 +70,18 @@ namespace FrbaCrucero.BL.ViewModels
                 errors.Add("Ya existe un crucero con ese identificador");
             }
 
+            if (this.IdFabricante == 0 || this.IdFabricante == null)
+            {
+                errors.Add("Debe seleccionar un fabricante");
+            }
+
+            if (this.IdModelo == 0 || this.IdModelo == null)
+            {
+                errors.Add("Debe seleccionar un modelo de crucero");
+            }
+
             foreach (var error in errors)
-                ErrorMessage += error + " / ";
+                ErrorMessage += error + System.Environment.NewLine;
 
             return errors.Count == 0;
         }
@@ -83,7 +93,7 @@ namespace FrbaCrucero.BL.ViewModels
                 Cod_Crucero = this.IdCrucero,
                 Fabricante = new Fabricante() { Cod_Fabricante = this.IdFabricante },
                 Modelo_Crucero = new ModeloCrucero() { Cod_Modelo = this.IdModelo },
-                Identificador = this.IdCrucero.ToString(), //ToDo: revisar si identificador no es el cod crucero
+                Identificador = this.Identificador,
                 Activo = this.Activo,
                 Cabinas = this.Cabinas.Select(x => (Cabina)x.MapToDomainObject()).ToList()
             };

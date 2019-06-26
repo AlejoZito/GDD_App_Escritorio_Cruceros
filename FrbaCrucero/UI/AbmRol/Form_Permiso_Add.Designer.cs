@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnAgregarPermisos = new System.Windows.Forms.Button();
             this.listPermisos = new FrbaCrucero.UI._Components.DataListViewControl();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -44,7 +45,7 @@
             // 
             // btnAgregarPermisos
             // 
-            this.btnAgregarPermisos.Location = new System.Drawing.Point(170, 224);
+            this.btnAgregarPermisos.Location = new System.Drawing.Point(222, 223);
             this.btnAgregarPermisos.Name = "btnAgregarPermisos";
             this.btnAgregarPermisos.Size = new System.Drawing.Size(90, 25);
             this.btnAgregarPermisos.TabIndex = 2;
@@ -58,16 +59,27 @@
             this.listPermisos.Location = new System.Drawing.Point(25, 39);
             this.listPermisos.Margin = new System.Windows.Forms.Padding(2);
             this.listPermisos.Name = "listPermisos";
-            this.listPermisos.Size = new System.Drawing.Size(226, 165);
+            this.listPermisos.Size = new System.Drawing.Size(291, 165);
             this.listPermisos.TabIndex = 3;
             this.listPermisos.UseCompatibleStateImageBehavior = false;
             this.listPermisos.View = System.Windows.Forms.View.Details;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(76, 24);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(240, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Seleccione más de 1 permiso utilizando ctrl o shift";
             // 
             // Form_Permiso_Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 271);
+            this.ClientSize = new System.Drawing.Size(324, 271);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.listPermisos);
             this.Controls.Add(this.btnAgregarPermisos);
             this.Controls.Add(this.label1);
@@ -84,5 +96,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAgregarPermisos;
         private _Components.DataListViewControl listPermisos;
+        private System.Windows.Forms.Label label4;
     }
 }

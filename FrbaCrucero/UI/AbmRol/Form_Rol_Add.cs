@@ -47,7 +47,7 @@ namespace FrbaCrucero.UI.AbmRol
             }
             else
             {
-                MessageBox.Show(_ViewModel.ErrorMessage);
+                MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incompletos");
             }
         }
 

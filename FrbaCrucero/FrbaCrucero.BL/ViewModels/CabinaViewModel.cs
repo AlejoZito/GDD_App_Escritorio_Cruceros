@@ -17,8 +17,8 @@ namespace FrbaCrucero.BL.ViewModels
         }
 
         public int IdCabina { get; set; }
-        public int Numero { get; set; }
-        public int Piso { get; set; }
+        public string Numero { get; set; }
+        public string Piso { get; set; }
         public int IdTipo { get; set; }
         public string Tipo { get; set; }
         public int IdCrucero { get; set; }
@@ -36,13 +36,15 @@ namespace FrbaCrucero.BL.ViewModels
             }
         }
 
+        public string ErrorMessage { get; set; }
+
         public override Cabina MapToDomainObject()
         {
             return new Cabina()
             {
                 Cod_Cabina = this.IdCabina,
-                Numero = this.Numero,
-                Piso = this.Piso,
+                Numero = int.Parse(this.Numero),
+                Piso = int.Parse(this.Piso),
                 Tipo_Cabina = new TipoCabina() { Cod_Tipo = this.IdTipo },
                 IdCrucero = 2,
             };
@@ -51,12 +53,42 @@ namespace FrbaCrucero.BL.ViewModels
         public override void MapFromDomainObject(Cabina c)
         {
             this.IdCabina = c.Cod_Cabina;
-            this.Numero = c.Numero;
-            this.Piso = c.Piso;
+            this.Numero = c.Numero.ToString();
+            this.Piso = c.Piso.ToString();
             this.IdTipo = c.Tipo_Cabina.Cod_Tipo;
             this.Tipo = c.Tipo_Cabina.Detalle;
             this.PorcentajeRecargo = c.Tipo_Cabina.Porc_Recargo;
             //this.IdCrucero = c.Crucero.Cod_Crucero;
+        }
+
+        public bool IsValid()
+        {
+            ErrorMessage = "";
+            int validarNumero;
+
+            if (string.IsNullOrWhiteSpace(this.Numero))
+                ErrorMessage += "Debe ingresar un número de cabina" + System.Environment.NewLine;
+            else
+            {
+                if (!int.TryParse(this.Numero, out validarNumero))
+                {
+                    ErrorMessage += "No se pueden ingresar letras en el campo número de la cabina" + System.Environment.NewLine;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(this.Piso))
+                ErrorMessage += "Debe ingresar un número de piso" + System.Environment.NewLine;
+            else
+            {
+                if (!int.TryParse(this.Piso, out validarNumero))
+                {
+                    ErrorMessage += "No se pueden ingresar letras en el campo piso de la cabina" + System.Environment.NewLine;
+                }
+            }
+
+            if (this.IdTipo == 0 || this.IdTipo == null)
+                ErrorMessage += "Debe ingresar un tipo de cabina" + System.Environment.NewLine;
+            return string.IsNullOrEmpty(ErrorMessage);
         }
     }
 }

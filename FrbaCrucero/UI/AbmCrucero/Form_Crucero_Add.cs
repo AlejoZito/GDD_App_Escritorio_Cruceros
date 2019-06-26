@@ -33,7 +33,7 @@ namespace FrbaCrucero.UI.AbmCrucero
             dropdownFabricante.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdFabricante", true, DataSourceUpdateMode.OnPropertyChanged);
             dropdownModelo.Input.DataBindings.Add("SelectedValue", _ViewModel, "IdModelo", true, DataSourceUpdateMode.OnPropertyChanged);
             listviewCabinas.SetDataBinding(_ViewModel.Cabinas, "Descripcion");
-            
+            tbIdentificador.DataBindings.Add("Text", _ViewModel, "Identificador", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadDropdowns()
@@ -49,9 +49,16 @@ namespace FrbaCrucero.UI.AbmCrucero
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CruceroDAO.Add(_ViewModel.MapToDomainObject());
-            _OnAddSuccess(_ViewModel);
-            this.Close();
+            if (_ViewModel.IsValid())
+            {
+                CruceroDAO.Add(_ViewModel.MapToDomainObject());
+                _OnAddSuccess(_ViewModel);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incorrectos");
+            }
         }
 
         private void btn_add_cabina_Click(object sender, EventArgs e)

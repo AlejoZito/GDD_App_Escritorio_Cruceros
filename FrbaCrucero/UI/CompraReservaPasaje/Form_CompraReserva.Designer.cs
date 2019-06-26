@@ -83,7 +83,7 @@
             this.groupBox1.Size = new System.Drawing.Size(874, 88);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Selección de Fechas y Puertos";
             // 
             // btnBuscarViajes
             // 
@@ -102,7 +102,7 @@
             this.datePickerDeparture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.datePickerDeparture.LabelText = "Fecha de Partida";
             this.datePickerDeparture.Location = new System.Drawing.Point(0, 20);
-            this.datePickerDeparture.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.datePickerDeparture.Margin = new System.Windows.Forms.Padding(2);
             this.datePickerDeparture.Name = "datePickerDeparture";
             this.datePickerDeparture.Size = new System.Drawing.Size(289, 43);
             this.datePickerDeparture.TabIndex = 0;
@@ -143,7 +143,7 @@
             this.groupBox2.Size = new System.Drawing.Size(880, 182);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.groupBox2.Text = "Viajes y Cabinas disponibles";
             // 
             // label4
             // 
@@ -313,7 +313,7 @@
             this.inputFechaNacimiento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.inputFechaNacimiento.LabelText = "Fecha nacimiento";
             this.inputFechaNacimiento.Location = new System.Drawing.Point(4, 113);
-            this.inputFechaNacimiento.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inputFechaNacimiento.Margin = new System.Windows.Forms.Padding(2);
             this.inputFechaNacimiento.Name = "inputFechaNacimiento";
             this.inputFechaNacimiento.Size = new System.Drawing.Size(289, 43);
             this.inputFechaNacimiento.TabIndex = 6;
