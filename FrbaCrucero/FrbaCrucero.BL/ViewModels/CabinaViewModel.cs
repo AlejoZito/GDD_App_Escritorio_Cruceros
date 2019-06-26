@@ -86,7 +86,7 @@ namespace FrbaCrucero.BL.ViewModels
                 }
             }
 
-            if (this.IdTipo == 0 || this.IdTipo == null)
+            if (this.IdTipo == null || this.IdTipo == 0)
                 ErrorMessage += "Debe ingresar un tipo de cabina" + System.Environment.NewLine;
             return string.IsNullOrEmpty(ErrorMessage);
         }

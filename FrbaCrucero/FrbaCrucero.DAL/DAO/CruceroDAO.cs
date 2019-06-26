@@ -136,8 +136,26 @@ namespace FrbaCrucero.DAL.DAO
         {
             crucero.Identificador = crucero.Identificador.ToUpper().Trim();
 
+            if (CruceroDAO.ExisteCrucero(crucero))
+            {
+                throw new Exception("Ya existe un crucero con ese identificador");
+            }
+
             try
             {
+                var conn = Repository.GetConnection();
+                SqlCommand comando = new SqlCommand(@"UPDATE TIRANDO_QUERIES.Crucero SET cruc_identificador = @identificador, cruc_modelo = @idModelo, cruc_fabricante = @idFabricante " +
+                                                    "WHERE cruc_codigo = @idCrucero", conn);
+                comando.Parameters.Add("@idCrucero", SqlDbType.Int);
+                comando.Parameters["@idCrucero"].Value = crucero.Cod_Crucero;
+                comando.Parameters.AddWithValue("@identificador", crucero.Identificador);
+                comando.Parameters.AddWithValue("@idModelo", crucero.Modelo_Crucero.Cod_Modelo);
+                comando.Parameters.AddWithValue("@idFabricante", crucero.Fabricante.Cod_Fabricante);
+                comando.ExecuteNonQuery();
+
+                conn.Close();
+                conn.Dispose();
+                comando.Dispose();
             }
             catch (Exception ex)
             {

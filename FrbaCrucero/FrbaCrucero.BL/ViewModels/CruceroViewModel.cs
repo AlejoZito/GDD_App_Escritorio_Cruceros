@@ -70,12 +70,12 @@ namespace FrbaCrucero.BL.ViewModels
                 errors.Add("Ya existe un crucero con ese identificador");
             }
 
-            if (this.IdFabricante == 0 || this.IdFabricante == null)
+            if (this.IdFabricante == null || this.IdFabricante == 0)
             {
                 errors.Add("Debe seleccionar un fabricante");
             }
 
-            if (this.IdModelo == 0 || this.IdModelo == null)
+            if (this.IdModelo == null || this.IdModelo == 0)
             {
                 errors.Add("Debe seleccionar un modelo de crucero");
             }
