@@ -24,19 +24,19 @@ namespace FrbaCrucero.DAL.DAO
             SqlDataAdapter dataAdapter;
 
             //Inserto la cabina y obtengo el id
-            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 r.reco_codigo, " +
+            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 r.reco_codigo AS RECORRIDO, " +
                                                 " (SELECT p1.puer_nombre FROM [TIRANDO_QUERIES].Tramo t " +
                                                 " JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde " +
                                                 " JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta " +
                                                 " WHERE r.reco_codigo = t.tram_recorrido " +
                                                 " AND t.tram_orden = 1 " +
-                                                " ) AS puerto_inicial, " +
+                                                " ) AS ORIGEN, " +
                                                 " (SELECT p2.puer_nombre FROM [TIRANDO_QUERIES].Tramo t " +
                                                 " JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde " +
                                                 " JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta " +
                                                 " WHERE r.reco_codigo = t.tram_recorrido " +
                                                 " AND t.tram_orden = (SELECT MAX(t2.tram_orden) FROM [TIRANDO_QUERIES].Tramo t2 WHERE t.tram_recorrido = r.reco_codigo) " +
-                                                " ) AS puerto_final " +
+                                                " ) AS DESTINO " +
                                                 " FROM [TIRANDO_QUERIES].Recorrido r " +
                                                 " JOIN [TIRANDO_QUERIES].Ruta_Viaje rv ON rv_recorrido = r.reco_codigo " +
                                                 " JOIN [TIRANDO_QUERIES].Pasaje p ON p.pasa_ruta = rv.rv_codigo " +
@@ -81,8 +81,8 @@ namespace FrbaCrucero.DAL.DAO
             SqlDataAdapter dataAdapter;
 
             //Inserto la cabina y obtengo el id
-            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 c.cruc_codigo,c.cruc_identificador,c.cruc_fabricante, " +
-                                                "SUM(DATEDIFF(day,m.mant_fecha_desde,m.mant_fecha_hasta)) AS diasFueraDeServicio " +
+            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 c.cruc_codigo AS CRUCERO,c.cruc_identificador AS IDENTIFICADOR,c.cruc_fabricante AS FABRICANTE, " +
+                                                "SUM(DATEDIFF(day,m.mant_fecha_desde,m.mant_fecha_hasta)) AS DIAS_FUERA_DE_SERVICIO " +
                                                 "FROM [TIRANDO_QUERIES].Crucero c " +
                                                 "JOIN [TIRANDO_QUERIES].Mantenimiento m ON c.cruc_codigo = m.mant_crucero " +
                                                 "GROUP BY c.cruc_codigo,c.cruc_identificador,c.cruc_fabricante " +
@@ -118,11 +118,11 @@ namespace FrbaCrucero.DAL.DAO
             SqlDataAdapter dataAdapter;
 
             //Inserto la cabina y obtengo el id
-            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 r.reco_codigo, " +
+            SqlCommand comando = new SqlCommand(@"SELECT TOP 5 r.reco_codigo AS RECORRIDO, " +
                                                 "(SELECT COUNT(cabi_codigo) FROM [TIRANDO_QUERIES].Cabina ca " +
                                                 "JOIN [TIRANDO_QUERIES].Crucero cr ON ca.cabi_crucero = cr.cruc_codigo " +
                                                 "JOIN [TIRANDO_QUERIES].Ruta_Viaje rv2 ON rv2.rv_crucero = cr.cruc_codigo " +
-                                                "WHERE rv2.rv_recorrido = r.reco_codigo) - COUNT(pasa_cabina) " +
+                                                "WHERE rv2.rv_recorrido = r.reco_codigo) - COUNT(pasa_cabina) AS CABINAS_LIBRES " +
                                                 "FROM [TIRANDO_QUERIES].Recorrido r " +
                                                 "JOIN [TIRANDO_QUERIES].Ruta_Viaje rv ON rv_recorrido = r.reco_codigo " +
                                                 "JOIN [TIRANDO_QUERIES].Pasaje p ON p.pasa_ruta = rv.rv_codigo " +

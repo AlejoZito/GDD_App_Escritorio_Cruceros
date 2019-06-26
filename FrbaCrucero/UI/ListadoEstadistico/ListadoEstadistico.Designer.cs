@@ -40,9 +40,9 @@
             // 
             this.top5Recorridos.Location = new System.Drawing.Point(160, 65);
             this.top5Recorridos.Name = "top5Recorridos";
-            this.top5Recorridos.Size = new System.Drawing.Size(188, 48);
+            this.top5Recorridos.Size = new System.Drawing.Size(300, 48);
             this.top5Recorridos.TabIndex = 0;
-            this.top5Recorridos.Text = "Top 5 Recorridos";
+            this.top5Recorridos.Text = "TOP 5\r\nRECORRIDOS MAS COMPRADOS";
             this.top5Recorridos.UseVisualStyleBackColor = true;
             this.top5Recorridos.Click += new System.EventHandler(this.top5Recorridos_Click);
             // 
@@ -50,9 +50,10 @@
             // 
             this.top5CruceroFueraDeServicio.Location = new System.Drawing.Point(492, 65);
             this.top5CruceroFueraDeServicio.Name = "top5CruceroFueraDeServicio";
-            this.top5CruceroFueraDeServicio.Size = new System.Drawing.Size(188, 48);
+            this.top5CruceroFueraDeServicio.Size = new System.Drawing.Size(300, 48);
             this.top5CruceroFueraDeServicio.TabIndex = 1;
-            this.top5CruceroFueraDeServicio.Text = "Top 5 Cruceros Fuera de servicio";
+            this.top5CruceroFueraDeServicio.Text = "TOP 5\r\nCRUCEROS EN FUERA DE SERVICIO";
+//TOP 5\r\nRECORRIDOS CON - CAB VENDIDA
             this.top5CruceroFueraDeServicio.UseVisualStyleBackColor = true;
             this.top5CruceroFueraDeServicio.Click += new System.EventHandler(this.top5CruceroFueraDeServicio_Click);
             // 
@@ -60,9 +61,9 @@
             // 
             this.top5CrucerosSinVentas.Location = new System.Drawing.Point(824, 65);
             this.top5CrucerosSinVentas.Name = "top5CrucerosSinVentas";
-            this.top5CrucerosSinVentas.Size = new System.Drawing.Size(188, 48);
+            this.top5CrucerosSinVentas.Size = new System.Drawing.Size(300, 48);
             this.top5CrucerosSinVentas.TabIndex = 2;
-            this.top5CrucerosSinVentas.Text = "Top 5 Cruceros sin ventas";
+            this.top5CrucerosSinVentas.Text = "TOP 5\r\nRECORRIDOS CON MENOS VENTAS";
             this.top5CrucerosSinVentas.UseVisualStyleBackColor = true;
             this.top5CrucerosSinVentas.Click += new System.EventHandler(this.top5CrucerosSinVentas_Click);
             // 
