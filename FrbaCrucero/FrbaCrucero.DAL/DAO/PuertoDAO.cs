@@ -160,6 +160,8 @@ namespace FrbaCrucero.DAL.DAO
                 comando.Parameters.AddWithValue("@puertoActivo", idDropdown.Value - 1);
             }
 
+            comando.CommandText += "ORDER BY puer_nombre ASC";
+
             try
             {
                 dataAdapter = new SqlDataAdapter(comando);

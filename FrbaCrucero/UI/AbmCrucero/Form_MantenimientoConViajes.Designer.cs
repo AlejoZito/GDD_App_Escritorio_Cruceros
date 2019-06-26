@@ -35,18 +35,20 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 35);
+            this.label1.Location = new System.Drawing.Point(9, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(418, 52);
+            this.label1.Size = new System.Drawing.Size(314, 42);
             this.label1.TabIndex = 0;
             this.label1.Text = "El crucero tiene viajes programados. ¿Desea cancelarlos o demorarlos?";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonDemorar
             // 
-            this.buttonDemorar.Location = new System.Drawing.Point(241, 122);
+            this.buttonDemorar.Location = new System.Drawing.Point(181, 99);
+            this.buttonDemorar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonDemorar.Name = "buttonDemorar";
-            this.buttonDemorar.Size = new System.Drawing.Size(146, 38);
+            this.buttonDemorar.Size = new System.Drawing.Size(110, 31);
             this.buttonDemorar.TabIndex = 1;
             this.buttonDemorar.Text = "Demorarlos";
             this.buttonDemorar.UseVisualStyleBackColor = true;
@@ -54,9 +56,10 @@
             // 
             // buttonCancelar
             // 
-            this.buttonCancelar.Location = new System.Drawing.Point(65, 122);
+            this.buttonCancelar.Location = new System.Drawing.Point(49, 99);
+            this.buttonCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonCancelar.Name = "buttonCancelar";
-            this.buttonCancelar.Size = new System.Drawing.Size(146, 38);
+            this.buttonCancelar.Size = new System.Drawing.Size(110, 31);
             this.buttonCancelar.TabIndex = 2;
             this.buttonCancelar.Text = "Cancelarlos";
             this.buttonCancelar.UseVisualStyleBackColor = true;
@@ -64,14 +67,16 @@
             // 
             // Form_MantenimientoConViajes
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 197);
+            this.ClientSize = new System.Drawing.Size(332, 160);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonDemorar);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_MantenimientoConViajes";
-            this.Text = "Form_MantenimientoConViajes";
+            this.ShowIcon = false;
+            this.Text = "Viajes Programados";
             this.ResumeLayout(false);
 
         }

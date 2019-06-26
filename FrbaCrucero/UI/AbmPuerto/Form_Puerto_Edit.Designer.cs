@@ -37,10 +37,9 @@
             // GuardarButton
             // 
             this.GuardarButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.GuardarButton.Location = new System.Drawing.Point(276, 115);
-            this.GuardarButton.Margin = new System.Windows.Forms.Padding(4);
+            this.GuardarButton.Location = new System.Drawing.Point(207, 93);
             this.GuardarButton.Name = "GuardarButton";
-            this.GuardarButton.Size = new System.Drawing.Size(113, 34);
+            this.GuardarButton.Size = new System.Drawing.Size(85, 28);
             this.GuardarButton.TabIndex = 7;
             this.GuardarButton.Text = "Guardar";
             this.GuardarButton.UseVisualStyleBackColor = true;
@@ -49,10 +48,9 @@
             // NombreTextBox
             // 
             this.NombreTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NombreTextBox.Location = new System.Drawing.Point(148, 36);
-            this.NombreTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.NombreTextBox.Location = new System.Drawing.Point(111, 29);
             this.NombreTextBox.Name = "NombreTextBox";
-            this.NombreTextBox.Size = new System.Drawing.Size(241, 22);
+            this.NombreTextBox.Size = new System.Drawing.Size(182, 20);
             this.NombreTextBox.TabIndex = 5;
             // 
             // NombreLabel
@@ -60,34 +58,36 @@
             this.NombreLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NombreLabel.AutoSize = true;
             this.NombreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NombreLabel.Location = new System.Drawing.Point(16, 41);
-            this.NombreLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.NombreLabel.Location = new System.Drawing.Point(12, 33);
             this.NombreLabel.Name = "NombreLabel";
-            this.NombreLabel.Size = new System.Drawing.Size(73, 20);
+            this.NombreLabel.Size = new System.Drawing.Size(60, 16);
             this.NombreLabel.TabIndex = 4;
             this.NombreLabel.Text = "Nombre:";
             // 
             // checkbox_activo
             // 
             this.checkbox_activo.AutoSize = true;
-            this.checkbox_activo.Location = new System.Drawing.Point(321, 65);
+            this.checkbox_activo.Location = new System.Drawing.Point(241, 53);
+            this.checkbox_activo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkbox_activo.Name = "checkbox_activo";
-            this.checkbox_activo.Size = new System.Drawing.Size(68, 21);
+            this.checkbox_activo.Size = new System.Drawing.Size(56, 17);
             this.checkbox_activo.TabIndex = 8;
             this.checkbox_activo.Text = "Activo";
             this.checkbox_activo.UseVisualStyleBackColor = true;
             // 
             // Form_Puerto_Edit
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 185);
+            this.ClientSize = new System.Drawing.Size(304, 150);
             this.Controls.Add(this.checkbox_activo);
             this.Controls.Add(this.GuardarButton);
             this.Controls.Add(this.NombreTextBox);
             this.Controls.Add(this.NombreLabel);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Puerto_Edit";
-            this.Text = "Form_Puerto_Edit";
+            this.ShowIcon = false;
+            this.Text = "Editar Puerto";
             this.ResumeLayout(false);
             this.PerformLayout();
 

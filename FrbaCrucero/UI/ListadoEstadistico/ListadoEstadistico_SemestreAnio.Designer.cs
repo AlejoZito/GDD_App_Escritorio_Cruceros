@@ -40,9 +40,11 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.semestre);
-            this.groupBox1.Location = new System.Drawing.Point(62, 48);
+            this.groupBox1.Location = new System.Drawing.Point(46, 39);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(292, 52);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(219, 42);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Semestre";
@@ -52,18 +54,21 @@
             this.semestre.DisplayMember = "Value";
             this.semestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.semestre.FormattingEnabled = true;
-            this.semestre.Location = new System.Drawing.Point(108, 21);
+            this.semestre.Location = new System.Drawing.Point(81, 17);
+            this.semestre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.semestre.Name = "semestre";
-            this.semestre.Size = new System.Drawing.Size(178, 24);
+            this.semestre.Size = new System.Drawing.Size(134, 21);
             this.semestre.TabIndex = 0;
             this.semestre.ValueMember = "Key";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.anio);
-            this.groupBox2.Location = new System.Drawing.Point(62, 129);
+            this.groupBox2.Location = new System.Drawing.Point(46, 105);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 52);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(219, 42);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Año";
@@ -73,17 +78,19 @@
             this.anio.DisplayMember = "Value";
             this.anio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.anio.FormattingEnabled = true;
-            this.anio.Location = new System.Drawing.Point(108, 21);
+            this.anio.Location = new System.Drawing.Point(81, 17);
+            this.anio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.anio.Name = "anio";
-            this.anio.Size = new System.Drawing.Size(178, 24);
+            this.anio.Size = new System.Drawing.Size(134, 21);
             this.anio.TabIndex = 0;
             this.anio.ValueMember = "Key";
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(224, 222);
+            this.btnAceptar.Location = new System.Drawing.Point(168, 180);
+            this.btnAceptar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(130, 31);
+            this.btnAceptar.Size = new System.Drawing.Size(98, 25);
             this.btnAceptar.TabIndex = 2;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
@@ -91,14 +98,16 @@
             // 
             // ListadoEstadistico_SemestreAnio
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 293);
+            this.ClientSize = new System.Drawing.Size(284, 238);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ListadoEstadistico_SemestreAnio";
-            this.Text = "ListadoEstadistico_SemestreAnio";
+            this.ShowIcon = false;
+            this.Text = "Selección de semestre y año";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

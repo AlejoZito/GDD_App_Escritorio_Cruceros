@@ -14,7 +14,7 @@ namespace FrbaCrucero.UI.AbmPuerto
         public Form_Puerto_Index()
             : base(title: "Puertos")
         {
-            _OnClickAdd = () => Program.Navigation.PopUpPage(new AltaPuerto(
+            _OnClickAdd = () => Program.Navigation.PopUpPage(new Form_Puerto_Add(
                 onSuccess: OnAddOrEditSuccess));
 
             _OnClickEdit = (id) => Program.Navigation.PopUpPage(new Form_Puerto_Edit(

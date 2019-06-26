@@ -106,6 +106,7 @@
             this.Controls.Add(this.tbNombre);
             this.Controls.Add(this.label1);
             this.Name = "Form_Rol_Add";
+            this.ShowIcon = false;
             this.Text = "Agregar Rol";
             this.ResumeLayout(false);
             this.PerformLayout();

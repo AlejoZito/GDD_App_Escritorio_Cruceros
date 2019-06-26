@@ -37,17 +37,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 30);
+            this.label1.Location = new System.Drawing.Point(28, 24);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(281, 17);
+            this.label1.Size = new System.Drawing.Size(208, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "¿Cuantos dias desea demorar los pasajes?";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(126, 121);
+            this.button1.Location = new System.Drawing.Point(94, 98);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(92, 33);
+            this.button1.Size = new System.Drawing.Size(69, 27);
             this.button1.TabIndex = 2;
             this.button1.Text = "Demorar";
             this.button1.UseVisualStyleBackColor = true;
@@ -55,21 +57,24 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(113, 67);
+            this.numericUpDown1.Location = new System.Drawing.Point(85, 54);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDown1.Size = new System.Drawing.Size(90, 20);
             this.numericUpDown1.TabIndex = 3;
             // 
             // Form_DemorarViaje
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 176);
+            this.ClientSize = new System.Drawing.Size(275, 143);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_DemorarViaje";
-            this.Text = "Form_DemorarViaje";
+            this.ShowIcon = false;
+            this.Text = "Demorar Viaje";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

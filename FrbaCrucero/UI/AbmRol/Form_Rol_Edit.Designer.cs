@@ -137,6 +137,7 @@
             this.Controls.Add(this.btn_permisoAdd);
             this.Controls.Add(this.label1);
             this.Name = "Form_Rol_Edit";
+            this.ShowIcon = false;
             this.Text = "Editar Recorrido";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

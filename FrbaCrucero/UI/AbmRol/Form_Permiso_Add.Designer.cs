@@ -72,6 +72,7 @@
             this.Controls.Add(this.btnAgregarPermisos);
             this.Controls.Add(this.label1);
             this.Name = "Form_Permiso_Add";
+            this.ShowIcon = false;
             this.Text = "Agregar Permisos";
             this.ResumeLayout(false);
             this.PerformLayout();

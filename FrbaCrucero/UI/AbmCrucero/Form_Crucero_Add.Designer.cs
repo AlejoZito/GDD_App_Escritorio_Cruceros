@@ -142,7 +142,8 @@
             this.Controls.Add(this.dropdownFabricante);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form_Crucero_Add";
-            this.Text = "Form_Crucero_Add";
+            this.ShowIcon = false;
+            this.Text = "Agregar Crucero";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

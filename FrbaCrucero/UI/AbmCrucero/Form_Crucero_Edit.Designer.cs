@@ -31,9 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_delete_cabina = new System.Windows.Forms.Button();
+            this.listviewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
             this.btn_add_cabina = new System.Windows.Forms.Button();
             this.btnCruceroEdit = new System.Windows.Forms.Button();
-            this.listviewCabinas = new FrbaCrucero.UI._Components.DataListViewControl();
             this.dropdownModelo = new FrbaCrucero.UI.Components.DropdownControl();
             this.dropdownFabricante = new FrbaCrucero.UI.Components.DropdownControl();
             this.groupBox1.SuspendLayout();
@@ -42,38 +42,54 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(81, 17);
+            this.label1.Location = new System.Drawing.Point(61, 14);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 17);
+            this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Agregar crucero";
+            this.label1.Text = "Editar Crucero";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btn_delete_cabina);
             this.groupBox1.Controls.Add(this.listviewCabinas);
-            this.groupBox1.Location = new System.Drawing.Point(78, 262);
+            this.groupBox1.Location = new System.Drawing.Point(58, 213);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(384, 152);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(288, 124);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabinas";
             // 
             // btn_delete_cabina
             // 
-            this.btn_delete_cabina.Location = new System.Drawing.Point(204, 0);
+            this.btn_delete_cabina.Location = new System.Drawing.Point(153, 0);
+            this.btn_delete_cabina.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_delete_cabina.Name = "btn_delete_cabina";
-            this.btn_delete_cabina.Size = new System.Drawing.Size(80, 30);
+            this.btn_delete_cabina.Size = new System.Drawing.Size(60, 24);
             this.btn_delete_cabina.TabIndex = 6;
             this.btn_delete_cabina.Text = "Eliminar";
             this.btn_delete_cabina.UseVisualStyleBackColor = true;
             this.btn_delete_cabina.Click += new System.EventHandler(this.btn_delete_cabina_Click);
             // 
+            // listviewCabinas
+            // 
+            this.listviewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listviewCabinas.Location = new System.Drawing.Point(9, 19);
+            this.listviewCabinas.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listviewCabinas.Name = "listviewCabinas";
+            this.listviewCabinas.Size = new System.Drawing.Size(269, 97);
+            this.listviewCabinas.TabIndex = 0;
+            this.listviewCabinas.UseCompatibleStateImageBehavior = false;
+            this.listviewCabinas.View = System.Windows.Forms.View.Details;
+            // 
             // btn_add_cabina
             // 
-            this.btn_add_cabina.Location = new System.Drawing.Point(368, 262);
+            this.btn_add_cabina.Location = new System.Drawing.Point(276, 213);
+            this.btn_add_cabina.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_add_cabina.Name = "btn_add_cabina";
-            this.btn_add_cabina.Size = new System.Drawing.Size(80, 30);
+            this.btn_add_cabina.Size = new System.Drawing.Size(60, 24);
             this.btn_add_cabina.TabIndex = 4;
             this.btn_add_cabina.Text = "Agregar";
             this.btn_add_cabina.UseVisualStyleBackColor = true;
@@ -81,32 +97,24 @@
             // 
             // btnCruceroEdit
             // 
-            this.btnCruceroEdit.Location = new System.Drawing.Point(340, 447);
+            this.btnCruceroEdit.Location = new System.Drawing.Point(255, 363);
+            this.btnCruceroEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCruceroEdit.Name = "btnCruceroEdit";
-            this.btnCruceroEdit.Size = new System.Drawing.Size(122, 27);
+            this.btnCruceroEdit.Size = new System.Drawing.Size(92, 22);
             this.btnCruceroEdit.TabIndex = 5;
             this.btnCruceroEdit.Text = "Actualizar";
             this.btnCruceroEdit.UseVisualStyleBackColor = true;
             this.btnCruceroEdit.Click += new System.EventHandler(this.btnCrucerEdit_Click);
-            // 
-            // listviewCabinas
-            // 
-            this.listviewCabinas.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listviewCabinas.Location = new System.Drawing.Point(12, 23);
-            this.listviewCabinas.Name = "listviewCabinas";
-            this.listviewCabinas.Size = new System.Drawing.Size(357, 118);
-            this.listviewCabinas.TabIndex = 0;
-            this.listviewCabinas.UseCompatibleStateImageBehavior = false;
-            this.listviewCabinas.View = System.Windows.Forms.View.Details;
             // 
             // dropdownModelo
             // 
             this.dropdownModelo.BackColor = System.Drawing.Color.Transparent;
             this.dropdownModelo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.dropdownModelo.LabelText = "Modelo";
-            this.dropdownModelo.Location = new System.Drawing.Point(78, 153);
+            this.dropdownModelo.Location = new System.Drawing.Point(58, 124);
+            this.dropdownModelo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dropdownModelo.Name = "dropdownModelo";
-            this.dropdownModelo.Size = new System.Drawing.Size(385, 83);
+            this.dropdownModelo.Size = new System.Drawing.Size(289, 67);
             this.dropdownModelo.TabIndex = 1;
             // 
             // dropdownFabricante
@@ -114,24 +122,27 @@
             this.dropdownFabricante.BackColor = System.Drawing.Color.Transparent;
             this.dropdownFabricante.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.dropdownFabricante.LabelText = "Fabricante";
-            this.dropdownFabricante.Location = new System.Drawing.Point(78, 64);
+            this.dropdownFabricante.Location = new System.Drawing.Point(58, 52);
+            this.dropdownFabricante.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dropdownFabricante.Name = "dropdownFabricante";
-            this.dropdownFabricante.Size = new System.Drawing.Size(385, 83);
+            this.dropdownFabricante.Size = new System.Drawing.Size(289, 67);
             this.dropdownFabricante.TabIndex = 0;
             // 
             // Form_Crucero_Edit
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 490);
+            this.ClientSize = new System.Drawing.Size(382, 398);
             this.Controls.Add(this.btnCruceroEdit);
             this.Controls.Add(this.btn_add_cabina);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dropdownModelo);
             this.Controls.Add(this.dropdownFabricante);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Crucero_Edit";
-            this.Text = "Form_Crucero_Add";
+            this.ShowIcon = false;
+            this.Text = "Editar Crucero";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

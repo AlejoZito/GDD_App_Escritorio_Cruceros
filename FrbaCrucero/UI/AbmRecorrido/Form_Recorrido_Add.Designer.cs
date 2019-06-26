@@ -44,9 +44,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(9, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 17);
+            this.label1.Size = new System.Drawing.Size(88, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Agregar recorrido";
             // 
@@ -56,9 +57,11 @@
             this.groupBox1.Controls.Add(this.buttonDown);
             this.groupBox1.Controls.Add(this.buttonUp);
             this.groupBox1.Controls.Add(this.listTramos);
-            this.groupBox1.Location = new System.Drawing.Point(15, 43);
+            this.groupBox1.Location = new System.Drawing.Point(11, 35);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(364, 300);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(273, 244);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tramos";
@@ -68,7 +71,8 @@
             this.buttonDown.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonDown.Image = global::FrbaCrucero.Properties.Resources.icons8_down_button_24;
             this.buttonDown.InitialImage = null;
-            this.buttonDown.Location = new System.Drawing.Point(9, 140);
+            this.buttonDown.Location = new System.Drawing.Point(7, 114);
+            this.buttonDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(24, 24);
             this.buttonDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -81,7 +85,8 @@
             this.buttonUp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonUp.Image = global::FrbaCrucero.Properties.Resources.icons8_slide_up_24;
             this.buttonUp.InitialImage = null;
-            this.buttonUp.Location = new System.Drawing.Point(9, 110);
+            this.buttonUp.Location = new System.Drawing.Point(7, 89);
+            this.buttonUp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(24, 24);
             this.buttonUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -92,18 +97,20 @@
             // listTramos
             // 
             this.listTramos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listTramos.Location = new System.Drawing.Point(49, 33);
+            this.listTramos.Location = new System.Drawing.Point(37, 27);
+            this.listTramos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listTramos.Name = "listTramos";
-            this.listTramos.Size = new System.Drawing.Size(295, 245);
+            this.listTramos.Size = new System.Drawing.Size(222, 200);
             this.listTramos.TabIndex = 0;
             this.listTramos.UseCompatibleStateImageBehavior = false;
             this.listTramos.View = System.Windows.Forms.View.Details;
             // 
             // btn_tramoAdd
             // 
-            this.btn_tramoAdd.Location = new System.Drawing.Point(276, 12);
+            this.btn_tramoAdd.Location = new System.Drawing.Point(207, 10);
+            this.btn_tramoAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_tramoAdd.Name = "btn_tramoAdd";
-            this.btn_tramoAdd.Size = new System.Drawing.Size(94, 32);
+            this.btn_tramoAdd.Size = new System.Drawing.Size(70, 26);
             this.btn_tramoAdd.TabIndex = 3;
             this.btn_tramoAdd.Text = "Agregar";
             this.btn_tramoAdd.UseVisualStyleBackColor = true;
@@ -111,9 +118,10 @@
             // 
             // btn_TramoDelete
             // 
-            this.btn_TramoDelete.Location = new System.Drawing.Point(176, 12);
+            this.btn_TramoDelete.Location = new System.Drawing.Point(132, 10);
+            this.btn_TramoDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_TramoDelete.Name = "btn_TramoDelete";
-            this.btn_TramoDelete.Size = new System.Drawing.Size(94, 32);
+            this.btn_TramoDelete.Size = new System.Drawing.Size(70, 26);
             this.btn_TramoDelete.TabIndex = 4;
             this.btn_TramoDelete.Text = "Eliminar";
             this.btn_TramoDelete.UseVisualStyleBackColor = true;
@@ -121,9 +129,10 @@
             // 
             // btnRecorridoAdd
             // 
-            this.btnRecorridoAdd.Location = new System.Drawing.Point(276, 356);
+            this.btnRecorridoAdd.Location = new System.Drawing.Point(207, 289);
+            this.btnRecorridoAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRecorridoAdd.Name = "btnRecorridoAdd";
-            this.btnRecorridoAdd.Size = new System.Drawing.Size(94, 32);
+            this.btnRecorridoAdd.Size = new System.Drawing.Size(70, 26);
             this.btnRecorridoAdd.TabIndex = 5;
             this.btnRecorridoAdd.Text = "Agregar";
             this.btnRecorridoAdd.UseVisualStyleBackColor = true;
@@ -131,16 +140,18 @@
             // 
             // Form_Recorrido_Add
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 400);
+            this.ClientSize = new System.Drawing.Size(301, 325);
             this.Controls.Add(this.btnRecorridoAdd);
             this.Controls.Add(this.btn_TramoDelete);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_tramoAdd);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Recorrido_Add";
-            this.Text = "Form_Recorrido_Add";
+            this.ShowIcon = false;
+            this.Text = "Agregar Recorrido";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonDown)).EndInit();

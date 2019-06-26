@@ -39,26 +39,29 @@
             this.dropdownMediosDePago.BackColor = System.Drawing.Color.Transparent;
             this.dropdownMediosDePago.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.dropdownMediosDePago.LabelText = "Medio de pago";
-            this.dropdownMediosDePago.Location = new System.Drawing.Point(73, 71);
+            this.dropdownMediosDePago.Location = new System.Drawing.Point(55, 58);
+            this.dropdownMediosDePago.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dropdownMediosDePago.Name = "dropdownMediosDePago";
-            this.dropdownMediosDePago.Size = new System.Drawing.Size(385, 83);
+            this.dropdownMediosDePago.Size = new System.Drawing.Size(289, 67);
             this.dropdownMediosDePago.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(9, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 17);
+            this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Elija su forma de pago";
             // 
             // btnPagar
             // 
             this.btnPagar.BackColor = System.Drawing.Color.Green;
-            this.btnPagar.Location = new System.Drawing.Point(395, 225);
+            this.btnPagar.Location = new System.Drawing.Point(296, 183);
+            this.btnPagar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPagar.Name = "btnPagar";
-            this.btnPagar.Size = new System.Drawing.Size(95, 41);
+            this.btnPagar.Size = new System.Drawing.Size(71, 33);
             this.btnPagar.TabIndex = 2;
             this.btnPagar.Text = "Pagar";
             this.btnPagar.UseVisualStyleBackColor = false;
@@ -66,9 +69,10 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(296, 225);
+            this.btnCancelar.Location = new System.Drawing.Point(222, 183);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(93, 41);
+            this.btnCancelar.Size = new System.Drawing.Size(70, 33);
             this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -76,14 +80,16 @@
             // 
             // Form_Pago
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 287);
+            this.ClientSize = new System.Drawing.Size(409, 233);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnPagar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dropdownMediosDePago);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Pago";
+            this.ShowIcon = false;
             this.Text = "Pago";
             this.ResumeLayout(false);
             this.PerformLayout();

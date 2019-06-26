@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace FrbaCrucero.UI.AbmPuerto
 {
-    public partial class AltaPuerto : Form
+    public partial class Form_Puerto_Add : Form
     {
         PuertoViewModel _ViewModel;
         OnSuccessDelegate _OnAddSuccess;
 
-        public AltaPuerto(OnSuccessDelegate onSuccess)
+        public Form_Puerto_Add(OnSuccessDelegate onSuccess)
         {
             InitializeComponent();
             _ViewModel = new PuertoViewModel();

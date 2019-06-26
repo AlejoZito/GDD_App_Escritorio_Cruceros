@@ -41,9 +41,11 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.listMantenimientos);
-            this.groupBox1.Location = new System.Drawing.Point(32, 161);
+            this.groupBox1.Location = new System.Drawing.Point(24, 131);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(441, 300);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(331, 244);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Listado de mantenimientos";
@@ -51,18 +53,20 @@
             // listMantenimientos
             // 
             this.listMantenimientos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listMantenimientos.Location = new System.Drawing.Point(13, 30);
+            this.listMantenimientos.Location = new System.Drawing.Point(10, 24);
+            this.listMantenimientos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listMantenimientos.Name = "listMantenimientos";
-            this.listMantenimientos.Size = new System.Drawing.Size(412, 254);
+            this.listMantenimientos.Size = new System.Drawing.Size(310, 207);
             this.listMantenimientos.TabIndex = 0;
             this.listMantenimientos.UseCompatibleStateImageBehavior = false;
             this.listMantenimientos.View = System.Windows.Forms.View.Details;
             // 
             // buttonVolver
             // 
-            this.buttonVolver.Location = new System.Drawing.Point(386, 467);
+            this.buttonVolver.Location = new System.Drawing.Point(290, 379);
+            this.buttonVolver.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonVolver.Name = "buttonVolver";
-            this.buttonVolver.Size = new System.Drawing.Size(87, 31);
+            this.buttonVolver.Size = new System.Drawing.Size(65, 25);
             this.buttonVolver.TabIndex = 1;
             this.buttonVolver.Text = "Volver";
             this.buttonVolver.UseVisualStyleBackColor = true;
@@ -72,18 +76,21 @@
             // 
             this.groupBox2.Controls.Add(this.btnAceptar);
             this.groupBox2.Controls.Add(this.datePickerHasta);
-            this.groupBox2.Location = new System.Drawing.Point(32, 15);
+            this.groupBox2.Location = new System.Drawing.Point(24, 12);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(436, 140);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(327, 114);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Programar mantenimiento";
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(309, 88);
+            this.btnAceptar.Location = new System.Drawing.Point(232, 72);
+            this.btnAceptar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(113, 36);
+            this.btnAceptar.Size = new System.Drawing.Size(85, 29);
             this.btnAceptar.TabIndex = 2;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
@@ -94,21 +101,24 @@
             this.datePickerHasta.BackColor = System.Drawing.Color.Transparent;
             this.datePickerHasta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.datePickerHasta.LabelText = "Hasta";
-            this.datePickerHasta.Location = new System.Drawing.Point(37, 39);
+            this.datePickerHasta.Location = new System.Drawing.Point(28, 32);
+            this.datePickerHasta.Margin = new System.Windows.Forms.Padding(2);
             this.datePickerHasta.Name = "datePickerHasta";
-            this.datePickerHasta.Size = new System.Drawing.Size(385, 43);
+            this.datePickerHasta.Size = new System.Drawing.Size(289, 35);
             this.datePickerHasta.TabIndex = 1;
             // 
             // Form_Mantenimiento
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 508);
+            this.ClientSize = new System.Drawing.Size(376, 413);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_Mantenimiento";
-            this.Text = "Form_Mantenimiento";
+            this.ShowIcon = false;
+            this.Text = "Mantenimiento de Crucero";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

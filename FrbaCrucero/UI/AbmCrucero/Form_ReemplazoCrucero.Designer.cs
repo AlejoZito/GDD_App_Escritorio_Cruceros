@@ -73,7 +73,8 @@
             this.Controls.Add(this.btnAceptarReemplazo);
             this.Controls.Add(this.labelHint);
             this.Name = "Form_ReemplazoCrucero";
-            this.Text = "reemplazarCrucero";
+            this.ShowIcon = false;
+            this.Text = "Reemplazo de Crucero";
             this.Load += new System.EventHandler(this.Form_ReemplazoCrucero_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
