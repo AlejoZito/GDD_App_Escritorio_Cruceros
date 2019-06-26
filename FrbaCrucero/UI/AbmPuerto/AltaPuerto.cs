@@ -52,7 +52,7 @@ namespace FrbaCrucero.UI.AbmPuerto
             }
             else
             {
-                MessageBox.Show(_ViewModel.ErrorMessage);
+                MessageBox.Show(_ViewModel.ErrorMessage, "Nombre Incorrecto");
             }
         }
     }

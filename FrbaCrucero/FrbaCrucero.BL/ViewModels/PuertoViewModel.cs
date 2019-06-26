@@ -79,7 +79,7 @@ namespace FrbaCrucero.BL.ViewModels
         {
             ErrorMessage = "";
 
-            if (string.IsNullOrEmpty(Nombre))
+            if (string.IsNullOrWhiteSpace(Nombre))
                 ErrorMessage += "Debe ingresar un nombre" + System.Environment.NewLine;
 
             return string.IsNullOrEmpty(ErrorMessage);
