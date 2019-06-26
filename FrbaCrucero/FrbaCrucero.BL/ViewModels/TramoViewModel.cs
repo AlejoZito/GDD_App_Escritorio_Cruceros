@@ -76,7 +76,7 @@ namespace FrbaCrucero.BL.ViewModels
             }
 
             if (Precio <= 0)
-                ErrorMessage += "Debe indicar un precio, mantener una empresa de cruceros no es gratis. " + System.Environment.NewLine;
+                ErrorMessage += "Debe indicar un precio para el tramo. " + System.Environment.NewLine;
 
             return ErrorMessage == "";
         }

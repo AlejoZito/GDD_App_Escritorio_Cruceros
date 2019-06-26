@@ -63,7 +63,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
             }
             else
             {
-                MessageBox.Show(_ViewModel.ErrorMessage);
+                MessageBox.Show(_ViewModel.ErrorMessage, "Datos Incorrectos");
             }
         }
 

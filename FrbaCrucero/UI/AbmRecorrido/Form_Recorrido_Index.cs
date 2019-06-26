@@ -62,8 +62,9 @@ namespace FrbaCrucero.UI.AbmRecorrido
         {
             return RecorridoDAO.GetAllWithFilters(
                 this.Filters.LikeFilter,
-                this.Filters.ExactFilter).Select(x => new RecorridoViewModel(x),                
-                this.Filters.DropdownFilterSelectedOption).ToList();
+                this.Filters.ExactFilter,                
+                this.Filters.DropdownFilterSelectedOption)
+                .Select(x => new RecorridoViewModel(x)).ToList();
         }
     }
 }
