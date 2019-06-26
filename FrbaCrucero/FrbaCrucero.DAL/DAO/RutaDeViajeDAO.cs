@@ -255,7 +255,7 @@ namespace FrbaCrucero.DAL.DAO
             if (fechasEntre != null && fechasEntre.Count > 0)
             {
                 comando.CommandText += "AND rv_fecha_salida BETWEEN @desde AND @hasta ";
-                comando.CommandText += "AND rv_fecha_llegada_estimada BETWEEN @desde AND @hasta ";
+                comando.CommandText += "AND CAST(rv_fecha_llegada_estimada AS DATE) BETWEEN CAST(@desde AS DATE) AND CAST(@hasta AS DATE)";
                 comando.Parameters.AddWithValue("@desde", (DateTime)fechasEntre[0]);
                 comando.Parameters.AddWithValue("@hasta", (DateTime)fechasEntre[1]);
             }
