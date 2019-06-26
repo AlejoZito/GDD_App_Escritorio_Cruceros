@@ -92,7 +92,7 @@ namespace FrbaCrucero
             }
         }
 
-        public void GoToPage(Form page, bool cachePage = true)
+        public void GoToPage(Form page, bool cachePage = false)
         {
             KeyValuePair<string, Form> newPage = new KeyValuePair<string, Form>(page.GetType().Name, page);
 
