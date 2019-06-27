@@ -632,7 +632,7 @@ GO
 SET IDENTITY_INSERT [TIRANDO_QUERIES].[Pasaje] ON
 
 --Creo un índice para performar la migraicón de la tabla pasaje
-CREATE INDEX index_clientes ON TIRANDO_QUERIES.Cliente(clie_dni,clie_nombre,clie_apellido)
+CREATE INDEX index_clientes ON TIRANDO_QUERIES.Cliente(clie_dni)
 
 DECLARE @cod_estado_desconocido NUMERIC
 DECLARE @cod_pago_desconocido NUMERIC
