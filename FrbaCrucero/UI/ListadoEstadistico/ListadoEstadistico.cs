@@ -35,12 +35,36 @@ namespace FrbaCrucero.UI.ListadoEstadistico
 
         private void top5CruceroFueraDeServicio_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasDiasFueraDeServicio();
+
+            int semestreSeleccionado = 0;
+            int anioSeleccionado = 0;
+
+            Program.Navigation.PopUpPage(
+                new ListadoEstadistico_SemestreAnio(
+                (semestre, anio) =>
+                {
+                    semestreSeleccionado = semestre;
+                    anioSeleccionado = anio;
+                }));
+
+            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasDiasFueraDeServicio(semestreSeleccionado, anioSeleccionado);
         }
 
         private void top5CrucerosSinVentas_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasCabinasLibresEnCadaViaje();
+
+            int semestreSeleccionado = 0;
+            int anioSeleccionado = 0;
+
+            Program.Navigation.PopUpPage(
+                new ListadoEstadistico_SemestreAnio(
+                (semestre, anio) =>
+                {
+                    semestreSeleccionado = semestre;
+                    anioSeleccionado = anio;
+                }));
+
+            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasCabinasLibresEnCadaViaje(semestreSeleccionado, anioSeleccionado);
         }
     }
 }

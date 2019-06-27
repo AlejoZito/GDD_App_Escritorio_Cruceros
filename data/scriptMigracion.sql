@@ -68,6 +68,9 @@ IF OBJECT_ID('[TIRANDO_QUERIES].sp_actualizar_cliente') IS NOT NULL DROP PROCEDU
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_autenticar_usuario') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_autenticar_usuario;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_pago_reserva') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_pago_reserva;
 IF OBJECT_ID('[TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_encontrar_cruceros_reemplazo;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_rep_estadistico_recorridos_mas_comprados') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_recorridos_mas_comprados;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_rep_estadistico_crucero_mas_fuera_servicio') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_crucero_mas_fuera_servicio;
+IF OBJECT_ID('[TIRANDO_QUERIES].sp_rep_estadistico_reco_mas_cabinas_libres') IS NOT NULL DROP PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_reco_mas_cabinas_libres;
 GO
 
 --*************************************************************************************************************
@@ -932,6 +935,115 @@ BEGIN
 END
 GO
 
+
+--*************************************************************************************************************
+-- CREACIÓN DE SP_REP_ESTADISTICO_RECORRIDOS_MAS_COMPRADOS
+-- Devuelve el TOP 5 de los recorridos con más pasajes comprados
+--*************************************************************************************************************
+
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_recorridos_mas_comprados(@semestre NUMERIC, @anio NUMERIC)
+AS
+BEGIN
+	SELECT TOP 5 r.reco_codigo AS RECORRIDO,
+	
+	(SELECT p1.puer_nombre FROM [TIRANDO_QUERIES].Tramo t
+	JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde
+	JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta
+	WHERE r.reco_codigo = t.tram_recorrido
+	AND t.tram_orden = 1
+	) AS "PUERTO ORIGEN",
+	
+	(SELECT p2.puer_nombre FROM [TIRANDO_QUERIES].Tramo t
+	JOIN [TIRANDO_QUERIES].Puerto p1 ON p1.puer_codigo = t.tram_puerto_desde
+	JOIN [TIRANDO_QUERIES].Puerto p2 ON p2.puer_codigo = t.tram_puerto_hasta
+	WHERE r.reco_codigo = t.tram_recorrido
+	AND t.tram_orden = (SELECT MAX(t2.tram_orden) FROM [TIRANDO_QUERIES].Tramo t2 WHERE t.tram_recorrido = r.reco_codigo)
+	) AS "PUERTO FINAL"
+	
+	FROM [TIRANDO_QUERIES].Recorrido r
+	JOIN [TIRANDO_QUERIES].Ruta_Viaje rv ON rv_recorrido = r.reco_codigo
+	JOIN [TIRANDO_QUERIES].Pasaje p ON p.pasa_ruta = rv.rv_codigo
+	WHERE @anio = YEAR(p.pasa_fecha_pago)
+	AND MONTH(p.pasa_fecha_pago) BETWEEN (SELECT CASE WHEN @semestre = 1 THEN 1 ELSE 7 END) AND (SELECT CASE WHEN @semestre = 1 THEN 6 ELSE 12 END)
+	AND r.reco_invalido <> 1
+	GROUP BY r.reco_codigo
+	ORDER BY COUNT(DISTINCT p.pasa_codigo) DESC
+END
+GO
+
+--*************************************************************************************************************
+-- CREACIÓN DE SP_REP_ESTADISTICO_CRUCERO_MAS_FUERA_SERVICIO
+-- Devuelve el TOP 5 de los cruceros con más cantidad de días en fuera de servicio
+--*************************************************************************************************************
+
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_crucero_mas_fuera_servicio(@semestre NUMERIC, @anio NUMERIC)
+AS
+BEGIN
+
+DECLARE @mesInicial NUMERIC
+SET @mesInicial = (SELECT CASE WHEN @semestre = 1 THEN 1 ELSE 7 END)
+DECLARE @mesFinal NUMERIC
+SET @mesFinal = (SELECT CASE WHEN @semestre = 1 THEN 6 ELSE 12 END)
+--DECLARE @ultimoDiaPrimerSemestre DATETIME
+--SET @ultimoDiaPrimerSemestre = DATEFROMPARTS(@anio,@mesFinal+1,1).AddDays(-1)
+
+	SELECT TOP 5 c.cruc_codigo AS CRUCERO,c.cruc_identificador AS IDENTIFICADOR,c.cruc_fabricante AS FABRICANTE,SUM(
+	CASE
+		--mantenimiento dentro del mismo semestre
+		WHEN MONTH(m.mant_fecha_desde) BETWEEN @mesInicial AND @mesFinal 
+		AND MONTH(m.mant_fecha_hasta) BETWEEN @mesInicial AND @mesFinal
+		AND YEAR(m.mant_fecha_desde) = @anio
+		AND YEAR(m.mant_fecha_hasta) = @anio
+			THEN DATEDIFF(day,m.mant_fecha_desde,m.mant_fecha_hasta)
+		
+		--mantenimiento empieza en un semestre y termina en otro en el mismo anio
+		WHEN MONTH(m.mant_fecha_desde) BETWEEN @mesInicial AND @mesFinal 
+		AND MONTH(m.mant_fecha_hasta) NOT BETWEEN @mesInicial AND @mesFinal
+		AND YEAR(m.mant_fecha_desde) = @anio
+		AND YEAR(m.mant_fecha_hasta) = @anio
+			THEN 0
+			--THEN DATEDIFF(day,m.mant_fecha_desde,DATEFROMPARTS(@anio,@mesFinal+1,1).AddDays(-1))
+		
+		ELSE 0
+		END) AS "DIFERENCIA DIAS"
+		
+	FROM [TIRANDO_QUERIES].Crucero c
+	JOIN [TIRANDO_QUERIES].Mantenimiento m ON c.cruc_codigo = m.mant_crucero
+	GROUP BY c.cruc_codigo,c.cruc_identificador,c.cruc_fabricante
+	ORDER BY 4 DESC
+
+END
+GO
+
+
+--*************************************************************************************************************
+-- CREACIÓN DE SP_REP_ESTADISTICO_RECO_MAS_CABINAS_LIBRES
+-- Devuelve el TOP 5 de los cruceros con más cantidad de días en fuera de servicio
+--*************************************************************************************************************
+
+CREATE PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_reco_mas_cabinas_libres(@semestre NUMERIC, @anio NUMERIC)
+AS
+BEGIN
+
+	SELECT TOP 5 r.reco_codigo AS RECORRIDO,
+
+	((SELECT COUNT(cabi_codigo) FROM [TIRANDO_QUERIES].Cabina ca
+	JOIN [TIRANDO_QUERIES].Crucero cr ON ca.cabi_crucero = cr.cruc_codigo
+	JOIN [TIRANDO_QUERIES].Ruta_Viaje rv2 ON rv2.rv_crucero = cr.cruc_codigo
+	WHERE rv2.rv_recorrido = r.reco_codigo) - COUNT(pasa_cabina)) AS "CABINAS LIBRES"
+
+	FROM [TIRANDO_QUERIES].Recorrido r
+	JOIN [TIRANDO_QUERIES].Ruta_Viaje rv ON rv_recorrido = r.reco_codigo
+	JOIN [TIRANDO_QUERIES].Pasaje p ON p.pasa_ruta = rv.rv_codigo
+	WHERE r.reco_invalido <> 1
+	AND MONTH(p.pasa_fecha_pago) BETWEEN (SELECT CASE WHEN @semestre = 1 THEN 1 ELSE 7 END) AND (SELECT CASE WHEN @semestre = 1 THEN 6 ELSE 12 END)
+	AND YEAR(p.pasa_fecha_pago) = @anio
+	GROUP BY r.reco_codigo
+	ORDER BY 2 DESC
+
+END
+GO
+
 --*************************************************************************************************************
 --*************************************************************************************************************
 -- CREACION TRIGGERS
@@ -1044,33 +1156,6 @@ GO
 
 --*************************************************************************************************************
 --*************************************************************************************************************
--- DATOS DUMMY PARA TEST
+-- FIN DEL SCRIPT
 --*************************************************************************************************************
 --*************************************************************************************************************
-
-INSERT INTO [TIRANDO_QUERIES].[Ruta_Viaje](rv_recorrido, rv_crucero, [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES(43820882, 23, '2019-07-25 09:00:00.000', '2019-08-25 09:00:00.000');
-GO
-INSERT INTO [TIRANDO_QUERIES].[Pasaje]([pasa_precio], [pasa_cabina], [pasa_cliente], [pasa_estado], [pasa_pago], [pasa_ruta])
-VALUES(400, 4, 155985, 4, 5, 4957);
-GO
-INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
-([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES (43820882, 23, '2019-04-25 03:00:00.000', '2019-04-25 10:00:00.000')
-GO
-INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
-([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES (43820882, 1, '2019-02-25 03:00:00.000', '2019-02-25 10:00:00.000')
-GO
-INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
-([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES (43820882, 1, '2019-07-25 03:00:00.000', '2019-07-25 10:00:00.000')
-GO
-INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
-([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES (43820882, 2, '2019-08-25 8:00:00.000', '2019-09-26 10:00:00.000')
-GO
-INSERT [TIRANDO_QUERIES].[Ruta_Viaje]
-([rv_recorrido], [rv_crucero], [rv_fecha_salida], [rv_fecha_llegada_estimada])
-VALUES (43820882, 3, '2019-07-24 03:00:00.000', '2019-07-24 10:00:00.000')
-GO
