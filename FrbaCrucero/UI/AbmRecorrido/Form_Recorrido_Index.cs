@@ -36,7 +36,7 @@ namespace FrbaCrucero.UI.AbmRecorrido
         {
             try
             {
-                DialogResult result = MessageBox.Show("¿Desea eliminar el puerto?", "Eliminar", MessageBoxButtons.YesNo);
+                DialogResult result = MessageBox.Show("¿Desea eliminar el recorrido?", "Eliminar", MessageBoxButtons.YesNo);
 
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {

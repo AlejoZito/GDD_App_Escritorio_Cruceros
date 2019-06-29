@@ -120,7 +120,7 @@ namespace FrbaCrucero.DAL.DAO
                                                 "join TIRANDO_QUERIES.Tramo on r.reco_codigo = tram_recorrido " +
                                                 "join TIRANDO_QUERIES.Puerto p1 on tram_puerto_desde = p1.puer_codigo " +
                                                 "join TIRANDO_QUERIES.Puerto p2 on tram_puerto_hasta = p2.puer_codigo " +
-                                                "where 1=1 ", conn);
+                                                "where reco_invalido=0 ", conn);
             DataTable dataTable = new DataTable();
 
             if (!string.IsNullOrWhiteSpace(likeFilter))

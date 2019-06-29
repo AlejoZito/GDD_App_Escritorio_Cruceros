@@ -189,18 +189,18 @@ namespace FrbaCrucero.BL.ViewModels
         {
             if (IsValid())
             {
-                foreach (var cabina in IdsCabinasSeleccionadas)
+                foreach (var cabina in Cabinas.Where(x => IdsCabinasSeleccionadas.Contains(x.IdCabina)))
                 {
                     int cod_pasaje = PasajeDAO.ComprarPasaje(
-                        _Monto,
-                        cabina,
+                        cabina.PorcentajeRecargo * Viajes.FirstOrDefault(x => x.IdRutaDeViaje == _RutaDeViajeSeleccionada).CalcularCostoDeRuta(),
+                        cabina.IdCabina,
                         MedioDePago.IDMedioDePago,
                         RutaDeViajeSeleccionada.Value,
                         Cliente.DNI
                         );
                     Pasaje pasaje = new Pasaje()
                     {
-                        Cabina = CabinaDAO.GetByID(cabina),
+                        Cabina = cabina.MapToDomainObject(),
                         Cliente = null,
                         Cod_Pasaje = cod_pasaje,
                         Estado = null,
@@ -220,17 +220,18 @@ namespace FrbaCrucero.BL.ViewModels
         {
             if (IsValid())
             {
-                foreach (var cabina in IdsCabinasSeleccionadas)
+
+                foreach (var cabina in Cabinas.Where(x => IdsCabinasSeleccionadas.Contains(x.IdCabina)))
                 {
                     int cod_reserva = PasajeDAO.ReservarPasaje(
-                        _Monto,
-                        cabina,
+                        cabina.PorcentajeRecargo * Viajes.FirstOrDefault(x => x.IdRutaDeViaje == _RutaDeViajeSeleccionada).CalcularCostoDeRuta(),
+                        cabina.IdCabina,
                         RutaDeViajeSeleccionada.Value,
                         Cliente.DNI
                         );
                     Reserva reserva = new Reserva()
                     {
-                        Cabina = CabinaDAO.GetByID(cabina),
+                        Cabina = cabina.MapToDomainObject(),
                         Cliente = null,
                         Cod_Reserva = cod_reserva,
                         Estado = null,
