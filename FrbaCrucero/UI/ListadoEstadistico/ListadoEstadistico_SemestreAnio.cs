@@ -31,9 +31,9 @@ namespace FrbaCrucero.UI.ListadoEstadistico
             //semestre.ValueMember = "Key";
 
             int anioMinimo = int.Parse(ConfigurationManager.AppSettings.Get("QueryEstadisticaAnioMinimo"));
-            int anioMaximo = DateTime.Now.Year;
+            int anioMaximo = DateTime.Now.Year + 10;
 
-            for (int i = anioMinimo; i < anioMaximo; i++)
+            for (int i = anioMinimo; i <= anioMaximo; i++)
             {
                 anio.Items.Add(new KeyValuePair<int, string>(i, i.ToString()));
             }
