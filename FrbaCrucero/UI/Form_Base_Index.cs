@@ -147,6 +147,8 @@ namespace FrbaCrucero.UI
 
             if (e.RowIndex == -1) return;
 
+            if (indexDataGridView.Columns["colEdit"] == null|| indexDataGridView.Columns["colDelete"] == null) return;
+
             if (e.ColumnIndex == indexDataGridView.Columns["colEdit"].Index)
             {
                 _OnClickEdit(int.Parse(indexDataGridView["ID", e.RowIndex].Value.ToString()));
