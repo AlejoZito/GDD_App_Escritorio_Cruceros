@@ -24,8 +24,10 @@ namespace FrbaCrucero.UI.AbmRol
 
             _OnEditSuccess = onEditSuccess;
             
-            //obtengo el recorrido de la base y lo mapeo a un viewmodel
+            //obtengo el rol de la base y lo mapeo a un viewmodel
             _ViewModel = new RolViewModel(RolDAO.GetByID(idRol));
+            //inicializo la lista de seleccionados con sus respectivos ids
+            _ViewModel.IdsPermisosSeleccionados = _ViewModel.Permisos.Select(p => p.IDPermiso).ToList();
 
             //bindeo las propiedades del viewmodel a los controles
             BindViewModel();
@@ -57,11 +59,16 @@ namespace FrbaCrucero.UI.AbmRol
             Program.Navigation.PopUpPage(new Form_Permiso_Add(
                     onAddSuccess: (rol) =>
                     {
-                        foreach (var permiso in rol.Permisos)
+                        var permisos = PermisoDAO.GetAll();
+
+                        foreach (var idPermiso in rol.IdsPermisosSeleccionados)
                         {
-                            if (_ViewModel.Permisos.FirstOrDefault(x => x.IDPermiso == permiso.IDPermiso) == null)
+                            if (_ViewModel.Permisos.FirstOrDefault(x => x.IDPermiso == idPermiso) == null)
                             {
-                                _ViewModel.Permisos.Add(permiso);
+                                _ViewModel.IdsPermisosSeleccionados.Add(idPermiso);
+                                var permiso = permisos.FirstOrDefault(x => x.Cod_Permiso == idPermiso);
+                                var permisoNuevo = new PermisoViewModel(permiso);
+                                _ViewModel.Permisos.Add(permisoNuevo);
                             }
                         }
                     }));

@@ -31,7 +31,18 @@ namespace FrbaCrucero.UI.AbmRol
             _ViewModel.LoadPermisos();
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnAgregarPermisos_Click(object sender, EventArgs e)
+        {
+            _OnAddSuccess(_ViewModel);
+            this.Close();
+        }
+
+        private void BindViewModel()
+        {
+            listPermisos.SetDataBinding(_ViewModel.Permisos, "Nombre");
+        }
+
+        private void listPermisos_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listPermisos.SelectedItems == null || listPermisos.SelectedItems.Count == 0)
             {
@@ -44,19 +55,9 @@ namespace FrbaCrucero.UI.AbmRol
                 {
                     selectedValues.Add(listItem.Text);
                 }
+
                 _ViewModel.SeleccionarPermisos(selectedValues);
             }
-        }
-
-        private void btnAgregarPermisos_Click(object sender, EventArgs e)
-        {
-            _OnAddSuccess(_ViewModel);
-            this.Close();
-        }
-
-        private void BindViewModel()
-        {
-            listPermisos.SetDataBinding(_ViewModel.Permisos, "Nombre");
         }
     }
 }

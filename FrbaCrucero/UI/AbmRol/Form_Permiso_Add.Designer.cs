@@ -63,6 +63,7 @@
             this.listPermisos.TabIndex = 3;
             this.listPermisos.UseCompatibleStateImageBehavior = false;
             this.listPermisos.View = System.Windows.Forms.View.Details;
+            this.listPermisos.SelectedIndexChanged += new System.EventHandler(this.listPermisos_SelectedIndexChanged);
             // 
             // label4
             // 
