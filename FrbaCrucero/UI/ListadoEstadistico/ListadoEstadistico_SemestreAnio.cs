@@ -25,7 +25,7 @@ namespace FrbaCrucero.UI.ListadoEstadistico
         private void LoadDropDowns()
         {
             semestre.Items.Add(new KeyValuePair<int, string>(1, "1° semestre"));
-            semestre.Items.Add(new KeyValuePair<int, string>(1, "2° semestre"));
+            semestre.Items.Add(new KeyValuePair<int, string>(2, "2° semestre"));
 
             //semestre.DisplayMember = "Value";
             //semestre.ValueMember = "Key";
