@@ -980,55 +980,46 @@ CREATE PROCEDURE [TIRANDO_QUERIES].sp_rep_estadistico_crucero_mas_fuera_servicio
 AS
 BEGIN
 
-DECLARE @mesInicial NUMERIC
-DECLARE @mesFinal NUMERIC
-DECLARE @primerDiaSemestre SMALLDATETIME
-DECLARE @ultimoDiaSemestre SMALLDATETIME
+	DECLARE @mesInicial NUMERIC
+	DECLARE @mesFinal NUMERIC
+	DECLARE @primerDiaSemestre SMALLDATETIME
+	DECLARE @ultimoDiaSemestre SMALLDATETIME
 
-SET @mesInicial = (SELECT CASE WHEN @semestre = 1 THEN 1 ELSE 7 END)
-SET @mesFinal = (SELECT CASE WHEN @semestre = 1 THEN 6 ELSE 12 END)
-SET @primerDiaSemestre = DATEFROMPARTS(@anio,@mesInicial,1)
-SET @ultimoDiaSemestre = DATEFROMPARTS(@anio,@mesFinal,DAY(EOMONTH(DATEFROMPARTS(@anio,@mesFinal,1))))
+	SET @mesInicial = (SELECT CASE WHEN @semestre = 1 THEN 1 ELSE 7 END)
+	SET @mesFinal = (SELECT CASE WHEN @semestre = 1 THEN 6 ELSE 12 END)
+	SET @primerDiaSemestre = DATEFROMPARTS(@anio,@mesInicial,1)
+	SET @ultimoDiaSemestre = DATEFROMPARTS(@anio,@mesFinal,DAY(EOMONTH(DATEFROMPARTS(@anio,@mesFinal,1))))
 
 	SELECT TOP 5 c.cruc_codigo AS CRUCERO,c.cruc_identificador AS IDENTIFICADOR,c.cruc_fabricante AS FABRICANTE,SUM(
-	CASE /*
+	CASE 
 		--mantenimiento dentro del mismo semestre
 		WHEN MONTH(m.mant_fecha_desde) BETWEEN @mesInicial AND @mesFinal 
 		AND MONTH(m.mant_fecha_hasta) BETWEEN @mesInicial AND @mesFinal
 		AND YEAR(m.mant_fecha_desde) = @anio
 		AND YEAR(m.mant_fecha_hasta) = @anio
 			THEN DATEDIFF(day,m.mant_fecha_desde,m.mant_fecha_hasta)
-		
+
 		--mantenimiento empieza antes y termina dentro del semestre
-		WHEN MONTH(m.mant_fecha_desde) NOT BETWEEN @mesInicial AND @mesFinal 
+		WHEN DATEDIFF(day,@primerDiaSemestre,m.mant_fecha_desde) < 0
 		AND MONTH(m.mant_fecha_hasta) BETWEEN @mesInicial AND @mesFinal
-		AND YEAR(m.mant_fecha_desde) = @anio
-		AND YEAR(m.mant_fecha_hasta) <= @anio
+		AND YEAR(m.mant_fecha_hasta) = @anio
 		--menor si es primer semestre e igual si es 2do semestre
 			THEN DATEDIFF(day,@primerDiaSemestre,m.mant_fecha_hasta)
 
-		--mantenimiento empieza en el semestre y termina despues
+		--mantenimiento empieza dentro del semestre y termina despues
 		WHEN MONTH(m.mant_fecha_desde) BETWEEN @mesInicial AND @mesFinal 
-		AND MONTH(m.mant_fecha_hasta) NOT BETWEEN @mesInicial AND @mesFinal
+		AND DATEDIFF(day,@ultimoDiaSemestre,m.mant_fecha_hasta) > 0
 		AND YEAR(m.mant_fecha_desde) = @anio
-		AND YEAR(m.mant_fecha_hasta) >= @anio
 		--mayor si es segundo semestre e igual si es 1er semestre
-			THEN DATEDIFF(day,m.mant_fecha_desde,@ultimoDiaSemestre)*/
+			THEN DATEDIFF(day,m.mant_fecha_desde,@ultimoDiaSemestre)
 
 		--mantenimiento involucra el semestre entero
-			--el semestre esta en un año adentro de un periodo
-		WHEN ((YEAR(m.mant_fecha_desde) < @anio AND YEAR(m.mant_fecha_hasta) > @anio)
-			--evaluo en el 1er semestre
-			--el mant va desde el año anterior hasta pasado el primer semestre
-			OR (YEAR(m.mant_fecha_desde) < @anio AND YEAR(m.mant_fecha_hasta) = @anio AND @semestre = 1 AND @ultimoDiaSemestre < m.mant_fecha_hasta)
-			--evaluo en el 2do semestre
-			--el mant va desde el semestre anterior al año proximo
-			OR (YEAR(m.mant_fecha_desde) = @anio AND YEAR(m.mant_fecha_hasta) > @anio AND @semestre = 2 AND @primerDiaSemestre > m.mant_fecha_desde))
+		WHEN (DATEDIFF(day,@primerDiaSemestre,m.mant_fecha_desde) < 0 AND DATEDIFF(day,@ultimoDiaSemestre,m.mant_fecha_hasta) > 0 )
 			THEN DATEDIFF(day,@primerDiaSemestre,@ultimoDiaSemestre)
-		
+
 		ELSE 0
 		END) AS "DIFERENCIA DIAS"
-	
+
 	FROM [TIRANDO_QUERIES].Crucero c
 	JOIN [TIRANDO_QUERIES].Mantenimiento m ON c.cruc_codigo = m.mant_crucero
 	GROUP BY c.cruc_codigo,c.cruc_identificador,c.cruc_fabricante
