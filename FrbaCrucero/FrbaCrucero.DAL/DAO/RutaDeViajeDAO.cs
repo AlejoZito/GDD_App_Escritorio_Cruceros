@@ -367,6 +367,7 @@ namespace FrbaCrucero.DAL.DAO
                                                 "   CONVERT(VARCHAR(10), Ruta.rv_fecha_salida, 111) = CONVERT(VARCHAR(10), @fecha_salida, 111) AND " +
                                                 "   Ruta.rv_recorrido = Recorridos.reco_codigo AND " +
                                                 "   Recorridos.reco_activo = 1 AND " +
+                                                "   Recorridos.reco_invalido <> 1 AND " +
                                                 "   Crucero.cruc_codigo = Ruta.rv_crucero AND " +
                                                 "   Crucero.cruc_activo = 1 AND " +
                                                 "   Tramo_INICIAL.tram_recorrido = Ruta.rv_recorrido AND " +
