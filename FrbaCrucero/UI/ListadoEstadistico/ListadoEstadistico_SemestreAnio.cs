@@ -60,5 +60,10 @@ namespace FrbaCrucero.UI.ListadoEstadistico
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -30,7 +30,21 @@ namespace FrbaCrucero.UI.ListadoEstadistico
                     anioSeleccionado = anio;
                 }));
 
-            dataGridView1.DataSource = ReportesDAO.GetRecorridosConPasajesMasComprados(semestreSeleccionado, anioSeleccionado);
+            if (DatosValidos(semestreSeleccionado, anioSeleccionado))
+            {
+                dataGridView1.DataSource = ReportesDAO.GetRecorridosConPasajesMasComprados(semestreSeleccionado, anioSeleccionado);
+            }
+
+        }
+
+        private bool DatosValidos(int semestreSeleccionado, int anioSeleccionado)
+        {
+            if (semestreSeleccionado == 0 || anioSeleccionado == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void top5CruceroFueraDeServicio_Click(object sender, EventArgs e)
@@ -47,7 +61,11 @@ namespace FrbaCrucero.UI.ListadoEstadistico
                     anioSeleccionado = anio;
                 }));
 
-            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasDiasFueraDeServicio(semestreSeleccionado, anioSeleccionado);
+
+            if (DatosValidos(semestreSeleccionado, anioSeleccionado))
+            {
+                dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasDiasFueraDeServicio(semestreSeleccionado, anioSeleccionado);
+            }
         }
 
         private void top5CrucerosSinVentas_Click(object sender, EventArgs e)
@@ -64,7 +82,11 @@ namespace FrbaCrucero.UI.ListadoEstadistico
                     anioSeleccionado = anio;
                 }));
 
-            dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasCabinasLibresEnCadaViaje(semestreSeleccionado, anioSeleccionado);
+
+            if (DatosValidos(semestreSeleccionado, anioSeleccionado))
+            {
+                dataGridView1.DataSource = ReportesDAO.GetCrucerosConMasCabinasLibresEnCadaViaje(semestreSeleccionado, anioSeleccionado);
+            }
         }
     }
 }
